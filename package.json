@@ -1,0 +1,48 @@
+{
+  "name": "@machinerd/js-module",
+  "version": "0.0.10",
+  "type": "module",
+  "description": "",
+  "main": "dist/index.mjs",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsdown",
+    "build:tsc": "pnpm tsc"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./util": {
+      "import": "./dist/util/index.mjs",
+      "require": "./dist/util/index.cjs"
+    }
+  },
+  "keywords": [],
+  "author": "KOMACHINE",
+  "license": "MIT",
+  "packageManager": "pnpm@10.25.0",
+  "devDependencies": {
+    "@typed/node": "^6.7.0",
+    "@types/google-libphonenumber": "^7.4.30",
+    "@types/js-cookie": "^3.0.6",
+    "@types/lodash-es": "^4.17.12",
+    "@types/node": "^24.10.1",
+    "@types/slug": "^5.0.9",
+    "tsdown": "0.17.0-beta.5",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.19",
+    "google-libphonenumber": "^3.2.43",
+    "js-cookie": "^3.0.5",
+    "lodash-es": "^4.17.21",
+    "nanoid": "^5.1.6",
+    "query-string": "^9.3.1",
+    "slug": "^11.0.1"
+  }
+}
