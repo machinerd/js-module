@@ -1,10 +1,4 @@
-import dayjs from 'dayjs';
-import 'dayjs/locale/ko.js';
-import relativeTime from 'dayjs/plugin/relativeTime.js';
-
-import Cookies from 'js-cookie';
-import { intersection, uniq } from 'lodash-es';
-import { customAlphabet } from 'nanoid';
+import { intersection } from 'lodash-es';
 import qs from 'query-string';
 import slug from 'slug';
 import libphonenumber from 'google-libphonenumber';
@@ -13,36 +7,8 @@ const PhoneNumberUtil = libphonenumber.PhoneNumberUtil;
 
 const phoneUtil = PhoneNumberUtil.getInstance();
 
-dayjs.extend(relativeTime);
-
 slug.extend({ '"': '-', '”': '-', '“': '-', '•': '----' });
 slug.setLocale('en');
-
-export const displayDatetime = (
-  date: string,
-  format = 'YYYY-MM-DD',
-  locale = 'en',
-) => {
-  const d = dayjs(date).locale(locale);
-  const now = dayjs();
-  const diff = now.diff(d, 'hour');
-  if (diff < 12) {
-    return d.fromNow();
-  }
-  return d.format(format);
-};
-
-export const getCookie = (key: string) => {
-  return Cookies.get(key);
-};
-
-export const setCookies = (
-  key: string,
-  value: string,
-  options?: Cookies.CookieAttributes,
-) => {
-  return Cookies.set(key, value, options);
-};
 
 export const link = (
   param: Record<string, string>,
@@ -71,31 +37,6 @@ export const link = (
   })}${hash}`;
 };
 
-interface UploadValues {
-  contentType: string;
-  length: number;
-  key: string;
-  disposition?: string;
-}
-
-interface Address {
-  address: string;
-  addressEn: string;
-  postcode: string;
-  jibun: string;
-}
-
-interface AddressData {
-  perPage: number;
-  page: number;
-  total: number;
-  jusoList: Address[];
-}
-
-interface AddressResponse {
-  data: AddressData;
-}
-
 export const calcPageCount = (total: number, perPage: number) => {
   let pageCount = 0;
   if (total % perPage === 0) {
@@ -116,27 +57,6 @@ export const shuffle = <T>(arr: T[]) => {
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // swap
   }
   return shuffled;
-};
-
-const generateCandidates = (min: number, max: number) => {
-  const candidates = [];
-  for (let i = min; i < max; i++) {
-    candidates.push(i);
-  }
-  return candidates;
-};
-
-export const randomNum = (min: number, max: number, count = 1) => {
-  const rn: number[] = [];
-  const candidates = generateCandidates(min, max);
-  while (rn.length < count) {
-    const mn = Math.ceil(min);
-    const mx = Math.floor(candidates.length);
-    const r = Math.floor(Math.random() * (mx - mn)) + mn;
-    const ra = candidates.splice(r, 1);
-    rn.push(ra[0]);
-  }
-  return [...rn];
 };
 
 export const loadExLib = (callback: () => void) => {
@@ -356,45 +276,6 @@ export const comparePriorityAsc = <T extends { priority: number }>(
   return 0;
 };
 
-export const genNanoID = () => {
-  const alphabet = '0123456789abcdefghijklmnopqrstuvwxyz';
-  const nanoid = customAlphabet(alphabet, 5);
-  return nanoid();
-};
-
-export const printNanoID = (cnt: number) => {
-  for (let i = 0; i < cnt; i++) {
-    console.log(genNanoID());
-  }
-};
-
-export const getSearchHistory = () => {
-  if (typeof window === 'undefined') {
-    return [];
-  }
-  const history = JSON.parse(
-    localStorage.getItem('search-history') || '[]',
-  ) as string[];
-  return history;
-};
-
-export const insertSearchHistory = (item: string) => {
-  const history = uniq([item, ...getSearchHistory()]).slice(0, 10);
-  localStorage.setItem('search-history', JSON.stringify(history));
-  return history;
-};
-
-export const deleteSearchHistory = (index: number) => {
-  const history = getSearchHistory();
-  history.splice(index, 1);
-  localStorage.setItem('search-history', JSON.stringify(history));
-  return history;
-};
-
-export const deleteAllSearchHistory = () => {
-  localStorage.setItem('search-history', JSON.stringify([]));
-};
-
 export const parseQuery = <T, F = T>(
   q: string | string[] | undefined | null,
   conv: (v: string) => T,
@@ -436,27 +317,6 @@ export const existLeastOne = <T>(a: T[], b: T[]) => {
   return intersection(a, b).length > 0;
 };
 
-export const isSearchPage = (pathname: string) => {
-  return pathname.endsWith('/search');
-};
-
-export const appendSearchPath = (pathname: string) => {
-  if (isSearchPage(pathname)) {
-    return pathname;
-  }
-  return `${pathname}/search`.replace('//', '/');
-};
-
-export const clearSearchPath = (pathname: string) => {
-  return pathname.replace('/search', '').replace('//', '/');
-};
-
-export const clearQueryByKey = (query: Record<string, any>, key: string) => {
-  const searchParams = new URLSearchParams(query);
-  searchParams.delete(key);
-  return Object.fromEntries(searchParams);
-};
-
 export const getI18nKey = (key: string) => {
   const splitNs = key.split(':');
   const withoutNs = splitNs.pop();
@@ -468,71 +328,6 @@ export const composeKey = (
   ...keys: Array<string | number>
 ) => {
   return [prefix, keys].flat().join('.').replace(':.', '.');
-};
-
-export function formatBytes(bytes: number, decimals = 0) {
-  if (bytes == 0) return '0 Bytes';
-  const k = 1024,
-    dm = decimals,
-    sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
-    i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-}
-
-export const getFilename = (s: string) => {
-  return s.split('.').slice(0, -1).join('.');
-};
-
-export const getFileExtension = (s: string) => {
-  return s.split('.').pop();
-};
-
-interface PathInfo {
-  directory: string;
-  filename: string;
-  extension: string;
-  filenameWithoutExtension: string;
-}
-
-export const parsePath = (filepath: string, isStatic?: boolean): PathInfo => {
-  const result = {
-    directory: '',
-    filename: '',
-    extension: '',
-    filenameWithoutExtension: '',
-  };
-
-  const lastSlashIndex = filepath.lastIndexOf('/');
-  const filename =
-    lastSlashIndex >= 0 ? filepath.substring(lastSlashIndex + 1) : filepath;
-
-  const lastDotIndex = filename.lastIndexOf('.');
-  const extension =
-    lastDotIndex > 0 ? filename.substring(lastDotIndex + 1) : '';
-  const filenameWithoutExtension =
-    lastDotIndex > 0 ? filename.substring(0, lastDotIndex) : filename;
-
-  result.filename = filename;
-  result.extension = extension;
-  result.filenameWithoutExtension = filenameWithoutExtension;
-
-  if (filepath.startsWith('http')) {
-    const cdnPath = isStatic ? '/static/' : '/media/';
-    const cdnIndex = filepath.indexOf(cdnPath);
-    if (cdnIndex !== -1) {
-      const afterCdn = filepath.substring(cdnIndex + cdnPath.length);
-      const lastSlashIndex = afterCdn.lastIndexOf('/');
-
-      result.directory =
-        lastSlashIndex !== -1 ? afterCdn.substring(0, lastSlashIndex) : '';
-
-      return result;
-    }
-  }
-
-  result.directory =
-    lastSlashIndex !== -1 ? filepath.substring(0, lastSlashIndex) : '';
-  return result;
 };
 
 interface Location<I extends LocationI18n = LocationI18n> {
