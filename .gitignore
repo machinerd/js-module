@@ -57,7 +57,6 @@ ehthumbs.db
 Thumbs.db
 
 # IDE files
-.vscode/
 .idea/
 *.swp
 *.swo
@@ -83,3 +82,5 @@ obj/
 *.zip
 *.tar.gz
 *.rar
+*storybook.log
+storybook-static

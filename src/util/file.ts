@@ -22,7 +22,7 @@ interface PathInfo {
   filenameWithoutExtension: string;
 }
 
-export const parsePath = (filepath: string, isStatic?: boolean): PathInfo => {
+export const parsePath = (filepath: string, folder?: string): PathInfo => {
   const result = {
     directory: '',
     filename: '',
@@ -45,7 +45,7 @@ export const parsePath = (filepath: string, isStatic?: boolean): PathInfo => {
   result.filenameWithoutExtension = filenameWithoutExtension;
 
   if (filepath.startsWith('http')) {
-    const cdnPath = isStatic ? '/static/' : '/media/';
+    const cdnPath = folder ? `/${folder}/` : '/';
     const cdnIndex = filepath.indexOf(cdnPath);
     if (cdnIndex !== -1) {
       const afterCdn = filepath.substring(cdnIndex + cdnPath.length);

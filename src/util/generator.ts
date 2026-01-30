@@ -32,3 +32,38 @@ export const printNanoID = (cnt: number) => {
     console.log(genNanoID());
   }
 };
+
+export const generatePage = (
+  count: number,
+  page: number,
+  pagePerView: number,
+) => {
+  const current = Math.floor((page - 1) / pagePerView);
+  const start = current * pagePerView + 1;
+  const end = Math.min(start + pagePerView - 1, count);
+
+  return {
+    current,
+    start,
+    end,
+  };
+};
+
+export const generatePageGroup = (
+  count: number,
+  page: number,
+  pagePerView: number,
+) => {
+  const { start, end } = generatePage(count, page, pagePerView);
+  const prev = start - 1 < 1 ? 1 : start - 1;
+  const next = end + 1 > count ? count : end + 1;
+  const items = Array.from({ length: end - start + 1 }, (_, i) => start + i);
+
+  return {
+    prev,
+    next,
+    isPrev: prev !== 1,
+    isNext: end < count,
+    items,
+  };
+};

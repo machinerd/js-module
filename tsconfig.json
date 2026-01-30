@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "module": "nodenext",
-    "moduleResolution": "nodenext",
+    "jsx": "react-jsx",
+    "target": "es2022",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "declaration": true,
     "outDir": "dist",
     "strict": true,
     "noEmit": true,
     "allowImportingTsExtensions": true
   },
-  "include": ["src/**/*", "**/*.ts", "src"]
+  "include": ["src"]
 }

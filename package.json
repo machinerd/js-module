@@ -1,6 +1,6 @@
 {
   "name": "@machinerd/js-module",
-  "version": "0.0.11",
+  "version": "0.1.0",
   "type": "module",
   "description": "",
   "main": "dist/index.mjs",
@@ -9,8 +9,11 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsdown",
-    "build:tsc": "pnpm tsc"
+    "build": "tsdown && pnpm build:css",
+    "build:tsc": "pnpm tsc",
+    "build:css": "pnpm dlx @tailwindcss/cli -i src/styles/index.css -o dist/styles/index.css",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "exports": {
     ".": {
@@ -20,23 +23,43 @@
     "./util": {
       "import": "./dist/util/index.mjs",
       "require": "./dist/util/index.cjs"
-    }
+    },
+    "./ui": {
+      "import": "./dist/ui/index.mjs",
+      "require": "./dist/ui/index.cjs"
+    },
+    "./hooks": {
+      "import": "./dist/hooks/index.mjs",
+      "require": "./dist/hooks/index.cjs"
+    },
+    "./styles/index.css": "./dist/styles/index.css"
   },
   "keywords": [],
   "author": "KOMACHINE",
   "license": "MIT",
   "packageManager": "pnpm@10.25.0",
   "devDependencies": {
+    "@storybook/react-vite": "^10.2.3",
+    "@tailwindcss/postcss": "^4.1.18",
     "@typed/node": "^6.7.0",
     "@types/google-libphonenumber": "^7.4.30",
     "@types/js-cookie": "^3.0.6",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^24.10.1",
+    "@types/react": "^18.3.27",
+    "@types/react-dom": "^18.3.7",
     "@types/slug": "^5.0.9",
+    "postcss": "^8.5.6",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "storybook": "^10.2.3",
+    "tailwindcss": "^4.1.18",
     "tsdown": "0.17.0-beta.5",
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "dayjs": "^1.11.19",
     "google-libphonenumber": "^3.2.43",
     "js-cookie": "^3.0.5",
@@ -44,5 +67,9 @@
     "nanoid": "^5.1.6",
     "query-string": "^9.3.1",
     "slug": "^11.0.1"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1 || ^19.0.0",
+    "react-dom": "^18.3.1 || ^19.0.0"
   }
 }

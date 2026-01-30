@@ -389,4 +389,8 @@ export const selectItemByWeight = <T extends { weight: number }>(
   return itemsWithWeights[itemsWithWeights.length - 1];
 };
 
-export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+export const sleep = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
+
+export const cn = (...classes: Array<string | false | null | undefined>) =>
+  classes.filter(Boolean).join(' ');
