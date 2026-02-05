@@ -69,6 +69,7 @@ const TooltipContainer = forwardRef<HTMLDivElement, TooltipContainerProps>(
     return (
       <div
         ref={containerRef}
+        data-komc
         className="komc:flex komc:shrink-0 komc:relative komc:overflow-hidden komc:w-fit komc:h-fit"
       >
         <TooltipTrigger setOpen={setOpen}>

@@ -6,9 +6,9 @@ const classes = cva(
   cn(
     'komc:inline-flex komc:justify-center komc:items-center komc:w-full',
     'komc:transition-colors komc:duration-200 komc:relative',
-    'komc:*:transition-colors komc:*:duration-200 komc:cursor-pointer',
+    'komc:*:transition-colors komc:*:duration-200',
     'komc:disabled:cursor-default komc:disabled:opacity-50 komc:disabled:pointer-events-none',
-    'komc:whitespace-nowrap komc:shrink-0 komc:outline-none komc:box-border',
+    'komc:whitespace-nowrap komc:shrink-0 komc:outline-none',
   ),
   {
     variants: {
@@ -162,6 +162,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         ref={ref}
         type={type}
+        data-komc
         className={classes({
           size,
           outline,

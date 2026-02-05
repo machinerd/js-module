@@ -8,10 +8,10 @@ export interface TooltipTriggerProps {
 export default function TooltipTrigger({ children, setOpen }: TooltipTriggerProps) {
   return (
     <div
+      data-komc
       className={clsx(
-        'komc:inline-flex komc:shrink-0 komc:justify-center komc:items-center',
-        'komc:bg-transparent komc:border-none komc:outline-none',
-        'komc:p-0 komc:m-0 komc:box-border',
+        'komc:inline-flex komc:shrink-0 komc:justify-center',
+        'komc:items-center komc:outline-none',
       )}
       onMouseLeave={() => setOpen(false)}
       onMouseOver={() => setOpen(true)}

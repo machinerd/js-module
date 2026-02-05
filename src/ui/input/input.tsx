@@ -4,11 +4,10 @@ import { cva, VariantProps } from 'class-variance-authority';
 
 const classes = cva(
   cn(
-    'komc:flex komc:items-center komc:w-full komc:px-2 komc:box-border',
+    'komc:flex komc:items-center komc:w-full komc:px-2',
     'komc:[&>input]:outline-none komc:[&>input]:w-full',
     'komc:[&>input]:focus:ring-0 komc:[&>input]:focus:ring-offset-0',
-    'komc:[&>input]:border-none komc:[&>input]:h-full',
-    'komc:[&>input]:p-0 komc:[&>input]:m-0',
+    'komc:[&>input]:h-full',
   ),
   {
     variants: {
@@ -123,6 +122,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   ) => {
     return (
       <div
+        data-komc
         className={classes({
           size,
           gap,

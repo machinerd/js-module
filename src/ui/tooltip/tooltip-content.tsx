@@ -5,9 +5,9 @@ import { cn } from '../../util';
 
 const classes = cva(
   cn(
-    'komc:absolute komc:z-99 komc:w-max komc:max-w-70 komc:p-2',
+    'komc:absolute komc:z-99 komc:w-max komc:max-w-70 komc:p-2 komc:rounded-md',
     'komc:break-all komc:transition-opacity komc:duration-300 komc:bg-white',
-    'komc:drop-shadow-[0px_0.5px_3px_rgba(0,0,0,0.2)]',
+    'komc:drop-shadow-[0px_0.5px_3px_rgba(0,0,0,0.2)] komc:text-xs',
   ),
   {
     variants: {
@@ -169,6 +169,7 @@ const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(({ portal
   return (
     <div
       ref={ref}
+      data-komc
       role="tooltip"
       className={classes({ portal, placement, className })}
       {...props}

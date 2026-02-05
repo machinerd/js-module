@@ -173,6 +173,7 @@ export default function TooltipPortal({
     <TooltipContent
       ref={tooltipContentRef}
       portal
+      data-komc
       placement={dynamicPlacement}
       className={clsx(
         className,
