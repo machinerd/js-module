@@ -1,6 +1,6 @@
 {
   "name": "@machinerd/js-module",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "description": "",
   "main": "dist/index.mjs",
@@ -61,6 +61,8 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.19",
+    "embla-carousel": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
     "google-libphonenumber": "^3.2.43",
     "js-cookie": "^3.0.5",
     "lodash-es": "^4.17.21",

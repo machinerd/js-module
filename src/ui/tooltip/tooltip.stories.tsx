@@ -16,7 +16,6 @@ export const Default: Story = {
     content: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.',
     children: 'hover me',
     placement: 'top',
-    className: 'komc:bg-black! komc:text-white komc:rounded-md komc:text-xs',
   },
   render: (args) => {
     return (

@@ -91,6 +91,7 @@ export default function Skeleton({ size, rounded, width, height, className, ...p
 
   return (
     <div
+      data-komc
       className={classes({ size, rounded, className })}
       style={{ width: widthValue, height: heightValue }}
       {...props}

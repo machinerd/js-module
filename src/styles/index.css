@@ -2,3 +2,24 @@
 
 @import "tailwindcss/theme.css" layer(theme) prefix(komc);
 @import "tailwindcss/utilities.css" layer(utilities) prefix(komc);
+
+@layer base {
+  [data-komc],
+  [data-komc] *,
+  [data-komc] *::before,
+  [data-komc] *::after {
+    margin: 0;
+    padding: 0;
+    border: 0 solid;
+    background-color: transparent;
+    box-sizing: border-box;
+    line-height: 1.5;
+  }
+
+  button[data-komc] {
+    cursor: pointer;
+    opacity: 1;
+    color: inherit;
+    border-radius: 0;
+  }
+}

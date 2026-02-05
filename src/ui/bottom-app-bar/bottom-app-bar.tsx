@@ -20,15 +20,16 @@ export default function BottomAppBar<T>({
 }: BottomAppBarProps<T>): React.ReactNode {
   return (
     <nav
+      data-komc
       className={clsx(
-        'komc:fixed komc:bottom-0 komc:left-0 komc:right-0 komc:box-border',
+        'komc:fixed komc:bottom-0 komc:left-0 komc:right-0',
         'komc:border-t komc:border-neutral-200 komc:bg-white komc:z-10',
         className,
       )}
       {...props}
     >
       <div
-        className="komc:grid komc:min-h-15 komc:p-0"
+        className="komc:grid komc:min-h-15"
         style={{ gridTemplateColumns: `repeat(${items.length}, 1fr)` }}
       >
         {items.map((item, index) => {
