@@ -1,7 +1,7 @@
 import { forwardRef, HTMLAttributes } from 'react';
 import { cva } from 'class-variance-authority';
 import { TooltipPlacement } from './tooltip-container';
-import { cn } from '../../util';
+import { cn } from '../../../util';
 
 const classes = cva(
   cn(

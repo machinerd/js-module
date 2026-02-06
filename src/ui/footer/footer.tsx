@@ -2,7 +2,7 @@ import { cva, VariantProps } from 'class-variance-authority';
 import clsx from 'clsx';
 
 const classes = cva(
-  'komc:flex komc:flex-col komc:w-full komc:max-w-7xl komc:mx-auto',
+  'komc:flex komc:flex-col komc:w-full komc:mx-auto',
   {
     variants: {
       maxWidth: {
