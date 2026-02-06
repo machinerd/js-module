@@ -1,7 +1,7 @@
 import { ComponentProps, KeyboardEvent, useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { CarouselApi, CarouselContext, CarouselProps as CarouselContextProps } from "./carousel-context";
-import { cn } from "../../util";
+import { cn } from "../../../util";
 
 export interface CarouselProps extends ComponentProps<'div'>, CarouselContextProps {
   /**
