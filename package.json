@@ -1,6 +1,6 @@
 {
   "name": "@machinerd/js-module",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "type": "module",
   "description": "",
   "main": "dist/index.mjs",
@@ -27,6 +27,10 @@
     "./ui": {
       "import": "./dist/ui/index.mjs",
       "require": "./dist/ui/index.cjs"
+    },
+    "./ui/client": {
+      "import": "./dist/ui/client-only/index.mjs",
+      "require": "./dist/ui/client-only/index.cjs"
     },
     "./hooks": {
       "import": "./dist/hooks/index.mjs",

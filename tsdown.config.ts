@@ -5,6 +5,7 @@ export default defineConfig({
     './src/index.ts',
     './src/util/index.ts',
     './src/ui/index.ts',
+    './src/ui/client-only/index.ts',
     './src/hooks/index.ts',
   ],
   format: ['cjs', 'esm'],
