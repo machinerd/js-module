@@ -35,12 +35,4 @@ export const Default: Story = {
       );
     },
   },
-  render: (args) => {
-    return (
-      <div className='komc:flex komc:flex-col komc:w-full komc:h-screen bg-neutral-100 komc:overflow-hidden'>
-        <div className='komc:flex-1 komc:bg-neutral-200'></div>
-        <BottomAppBar {...args} />
-      </div>
-    );
-  },
 };

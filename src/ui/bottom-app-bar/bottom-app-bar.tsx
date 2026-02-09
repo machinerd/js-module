@@ -22,7 +22,7 @@ export default function BottomAppBar<T>({
     <nav
       data-komc
       className={clsx(
-        'komc:sticky komc:bottom-0 komc:left-0 komc:right-0',
+        'komc:fixed komc:bottom-0 komc:left-0 komc:right-0',
         'komc:border-t komc:border-neutral-200 komc:bg-white komc:z-10',
         className,
       )}
