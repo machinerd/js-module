@@ -1,6 +1,6 @@
 {
   "name": "@machinerd/js-module",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "type": "module",
   "description": "",
   "main": "dist/index.mjs",
