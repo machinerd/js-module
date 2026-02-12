@@ -1,6 +1,5 @@
 import { Footer } from '.';
 import { Meta, StoryObj } from '@storybook/react-vite';
-import { Layout } from '../layout';
 import { Header } from '../header';
 
 const meta = {
@@ -15,19 +14,16 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   render: (args) => (
-    <Layout type="main" className="komc:bg-neutral-200">
-      <Header className="komc:bg-neutral-400!">
-        Header Section
+    <div className='komc:flex komc:flex-col komc:w-full komc:h-full komc:relative'>
+      <Header className='komc:bg-gray-300'>
+        Sticky Header Section
       </Header>
-      Main Section
-      <Layout type="content" className="komc:bg-neutral-300">
-        <div className="komc:h-screen">
-          Content Layout
-        </div>
-      </Layout>
-      <Footer {...args} className="komc:bg-neutral-400! komc:border-red-500">
+      <main className='komc:flex komc:justify-center komc:p-40 komc:min-h-400 komc:bg-gray-100'>
+        Main Section
+      </main>
+      <Footer {...args} className="komc:bg-neutral-400">
         Footer Layout
       </Footer>
-    </Layout>
+    </div>
   ),
 };

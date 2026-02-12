@@ -60,7 +60,7 @@ export default function Footer({
       data-komc
       className={clsx(
         'komc:block komc:w-full komc:h-full',
-        'komc:bg-white komc:border-t komc:border-neutral-200',
+        'komc:border-t komc:border-neutral-200',
         className,
       )}
       {...props}

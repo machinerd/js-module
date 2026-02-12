@@ -102,7 +102,7 @@ export default function Header({
     <header
       data-komc
       className={clsx(
-        'komc:w-full komc:sticky komc:top-0 komc:z-1000 komc:bg-white',
+        'komc:w-full komc:sticky komc:top-0 komc:z-1000',
         'komc:transition-all komc:duration-200',
         className,
       )}
