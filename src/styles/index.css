@@ -3,6 +3,22 @@
 @import "tailwindcss/theme.css" layer(theme) prefix(komc);
 @import "tailwindcss/utilities.css" layer(utilities) prefix(komc);
 
+@theme {
+  --color-gray-50: #fafafa;
+  --color-gray-200: #f5f5f5;
+  --color-gray-500: #e5e5e5;
+  --color-gray-700: #cccccc;
+  --color-gray-800: #808080;
+
+  --color-night-700: #2c5cb7;
+  --color-night-800: #22488e;
+
+  --color-sky-450: #3aacd5;
+  --color-sky-650: #0099cc;
+  --color-sky-750: #0083b2;
+  --color-sky-950: #006699;
+}
+
 @layer base {
   [data-komc],
   [data-komc] *,
