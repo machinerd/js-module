@@ -21,6 +21,7 @@ export const Default: Story = {
     children: 'Button',
     outline: 'line',
     variant: 'gray',
+    disabled: false,
   },
   render: (args) => {
     return (
@@ -32,6 +33,8 @@ export const Default: Story = {
           <Button {...args} outline='line' variant='white' />
           <Button {...args} outline='line' variant='gray' />
           <Button {...args} outline='line' variant='neutral' />
+          <Button {...args} outline='line' variant='sky' />
+          <Button {...args} outline='line' variant='sky-blue' />
         </div>
         <h4>{'outline: solid'}</h4>
         <div className='komc:grid komc:grid-cols-5 komc:gap-4 komc:w-full'>

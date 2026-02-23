@@ -5,7 +5,7 @@ import { cn } from '../../util';
 
 const classes = cva(
   cn(
-    'komc:flex komc:justify-center komc:items-center komc:gap-x-2',
+    'komc:flex komc:justify-center komc:items-center komc:gap-x-2 komc:w-full',
     'komc:transition-colors komc:duration-200 komc:relative',
     'komc:[&_svg]:transition-colors komc:[&_svg]:duration-200',
     'komc:cursor-pointer komc:disabled:cursor-default',
@@ -119,6 +119,26 @@ const classes = cva(
           'komc:border-gray-800 komc:bg-transparent komc:text-black',
           'komc:hover:bg-gray-200 komc:hover:text-black',
           'komc:active:bg-gray-200 komc:active:text-black',
+          'komc:disabled:border-gray-500 komc:disabled:bg-transparent komc:disabled:text-gray-500',
+        ),
+      },
+      {
+        outline: 'line',
+        variant: 'sky',
+        className: cn(
+          'komc:border-sky-750 komc:bg-transparent komc:text-black',
+          'komc:hover:bg-sky-750 komc:hover:text-white',
+          'komc:active:bg-sky-750 komc:active:text-white',
+          'komc:disabled:border-gray-500 komc:disabled:bg-transparent komc:disabled:text-gray-500',
+        ),
+      },
+      {
+        outline: 'line',
+        variant: 'sky-blue',
+        className: cn(
+          'komc:border-sky-450 komc:bg-transparent komc:text-black',
+          'komc:hover:bg-sky-450 komc:hover:text-white',
+          'komc:active:bg-sky-450 komc:active:text-white',
           'komc:disabled:border-gray-500 komc:disabled:bg-transparent komc:disabled:text-gray-500',
         ),
       },
