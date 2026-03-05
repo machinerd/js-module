@@ -1,6 +1,6 @@
 {
   "name": "@machinerd/js-module",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "type": "module",
   "description": "",
   "main": "dist/index.mjs",
@@ -13,7 +13,8 @@
     "build:tsc": "pnpm tsc",
     "build:css": "pnpm dlx @tailwindcss/cli -i src/styles/index.css -o dist/styles/index.css",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "prepublishOnly": "pnpm build"
   },
   "exports": {
     ".": {
@@ -28,9 +29,9 @@
       "import": "./dist/ui/index.mjs",
       "require": "./dist/ui/index.cjs"
     },
-    "./ui/client": {
-      "import": "./dist/ui/client-only/index.mjs",
-      "require": "./dist/ui/client-only/index.cjs"
+    "./ui-client": {
+      "import": "./dist/ui-client/index.mjs",
+      "require": "./dist/ui-client/index.cjs"
     },
     "./hooks": {
       "import": "./dist/hooks/index.mjs",
