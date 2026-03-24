@@ -1,0 +1,34 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 22
+    commands:
+      - echo Entered the install phase...
+      - echo $CODEBUILD_RESOLVED_SOURCE_VERSION
+      - COMMIT_ID=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c1-8)
+      - echo $COMMIT_ID
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 401965576390.dkr.ecr.ap-northeast-2.amazonaws.com
+  build:
+    commands:
+      - echo Start build...
+      - export APP_NAME=${APP_NAME}
+      - export REPO_URL=401965576390.dkr.ecr.ap-northeast-2.amazonaws.com/$APP_NAME
+      - |
+        if [[ "$(uname -m)" == "aarch64" ]]; then
+          export ARCH=arm64
+        else
+          export ARCH=amd64
+        fi
+      - |
+          echo Build for Dev;
+          docker build -t dev --build-arg GITHUB_PAT=${GITHUB_PAT} -f ./Dockerfile.dev . ;
+          docker tag dev $REPO_URL:dev-$ARCH ;
+          docker push $REPO_URL:dev-$ARCH ;
+  post_build:
+    commands:
+      - echo Build completed on `date`

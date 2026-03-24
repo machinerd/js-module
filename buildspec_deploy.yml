@@ -1,0 +1,28 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 22
+    commands:
+      - yum update -y --skip-broken
+      - echo Entered the install phase...
+      - echo $CODEBUILD_RESOLVED_SOURCE_VERSION
+      - COMMIT_ID=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c1-8)
+      - echo $COMMIT_ID
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region ap-northeast-2 | docker login --username AWS --password-stdin 401965576390.dkr.ecr.ap-northeast-2.amazonaws.com
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker manifest...
+      - export DOCKER_CLI_EXPERIMENTAL=enabled
+      - export APP_NAME=${APP_NAME}
+      - export REPO_URL=401965576390.dkr.ecr.ap-northeast-2.amazonaws.com/$APP_NAME
+      - |
+        docker manifest create $REPO_URL:dev $REPO_URL:dev-arm64 $REPO_URL:dev-amd64 ;
+        docker manifest annotate --arch arm64 $REPO_URL:dev $REPO_URL:dev-arm64 ;
+        docker manifest annotate --arch amd64 $REPO_URL:dev $REPO_URL:dev-amd64 ;
+        docker manifest push $REPO_URL:dev ;

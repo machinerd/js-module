@@ -1,0 +1,28 @@
+FROM public.ecr.aws/docker/library/node:22-bookworm
+
+ENV LC_ALL=C.UTF-8
+ENV GIT_UPSTREAM=github.com/machinerd/js-module.git
+
+ARG GITHUB_PAT
+
+# 1. 시스템 도구 설치
+RUN apt update && apt install -y git vim less zsh fzf wget
+
+# 2. 코어팩 활성화 및 pnpm 준비
+RUN corepack enable && corepack prepare pnpm@10.25.0 --activate
+
+# oh my zsh 설치
+RUN wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh || true
+
+WORKDIR /app/js-module
+
+RUN git clone https://${GITHUB_PAT}@${GIT_UPSTREAM} .
+RUN git remote remove origin
+RUN git remote add origin https://${GIT_UPSTREAM}
+RUN git remote -v
+
+# 3. pnpm으로 의존성 설치
+RUN pnpm install --frozen-lockfile
+
+# 4. 실행 명령어를 pnpm으로 변경
+CMD [ "pnpm", "storybook"]
