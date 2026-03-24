@@ -84,3 +84,8 @@ obj/
 *.rar
 *storybook.log
 storybook-static
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
