@@ -60,3 +60,28 @@ export const clearQueryByKey = (query: Record<string, any>, key: string) => {
   searchParams.delete(key);
   return Object.fromEntries(searchParams);
 };
+
+export const getYoutubeVideoId = (youtubeURL?: string | null): string => {
+  if (!youtubeURL) return '';
+
+  try {
+    const url = new URL(youtubeURL);
+
+    if (url.hostname === 'youtu.be') {
+      return url.pathname.slice(1).split('?')[0];
+    }
+
+    const vParam = url.searchParams.get('v');
+    if (vParam) return vParam;
+
+    const pathMatch = url.pathname.match(/\/(?:embed|shorts|v)\/([^/?]+)/);
+    if (pathMatch) return pathMatch[1];
+  } catch {
+    const match = youtubeURL.match(
+      /(?:v=|youtu\.be\/|embed\/|shorts\/)([^&?/\s]{11})/,
+    );
+    if (match) return match[1];
+  }
+
+  return '';
+};

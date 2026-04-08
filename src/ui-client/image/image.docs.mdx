@@ -1,0 +1,110 @@
+import { Meta, Title } from '@storybook/addon-docs/blocks';
+import * as ImageStories from './image.stories';
+
+<Meta of={ImageStories} />
+
+<Title />
+
+## 역할
+
+`Image`는 `useSubsetImage` 훅으로 **CDN 상대 경로** `src`를 절대 URL·`srcSet`으로 바꾼 뒤, 스켈레톤·에러 UI를 붙인 기본 구현입니다.
+
+내부적으로 `apiClient.cdnMedia` / `cdnStatic`을 사용하므로, **`ApiClient` 인스턴스를 props로 넘겨야** 합니다. (`folder`에 따라 미디어/정적 규칙이 갈립니다.)
+
+## `src` 경로
+
+- CDN 루트 기준 **키만** 넘깁니다. **앞의 `/`는 생략**해도 됩니다.
+- 절대 URL(`https://...`)이면 외부 이미지로 취급해 그대로 씁니다.
+
+## `apiClient`
+
+`@machinerd/js-module`의 `ApiClient`를 생성해 넘깁니다. 엔드포인트는 환경에 맞게 설정합니다.
+
+```ts
+import ApiClient from '@machinerd/js-module';
+
+const apiClient = new ApiClient({
+  apiEndpoint: process.env.NEXT_PUBLIC_API_ENDPOINT,
+  cdnEndpoint: process.env.NEXT_PUBLIC_CDN_ENDPOINT,
+});
+```
+
+앱 전용 래퍼에서 `apiClient`를 고정 주입하려면 props 타입으로 **`ImagePropsWithoutApiClient`**(`@machinerd/js-module/ui-client`) 또는 훅용 **`UseSubsetImagePropsWithoutApiClient`**(`@machinerd/js-module/hooks`)를 쓰면 됩니다. `Omit`으로 `UseSubsetImageProps`에서 `apiClient`만 빼는 방식 대신 이 타입을 쓰는 이유는, `fill` 분기 **유니온**이 `Omit`과 섞일 때 추론이 깨지는 경우가 있기 때문입니다.
+
+## 저수준 훅
+
+마크업·스타일을 앱에서 전부 잡고 싶다면 컴포넌트 대신 `useSubsetImage`(`@machinerd/js-module/hooks`)에 동일하게 `apiClient`와 props를 넘기면 됩니다.
+
+## `folder`
+
+- `media` → `cdnMedia` 규칙 (기본값)
+- `static` → `cdnStatic` 규칙
+
+## 고정 크기
+
+`fill`이 아니면 `width`, `height`(표시 크기)와 `originalWidth`(원본 가로, srcSet·리사이즈 계산용)가 필요합니다.
+
+### `layout` (`fill`이 아닐 때만)
+
+- `stretch`(기본): 래퍼는 `w-full h-full` — **부모**가 표시 영역을 잡아야 함
+- `intrinsic`: 래퍼에 `width`·`height` px 박스를 직접 지정 — **CLS**에 유리한 편
+
+```tsx
+<div className="h-40 w-full max-w-md">
+  <Image
+    apiClient={apiClient}
+    src="media/campaign/hero.webp"
+    alt="배너"
+    folder="media"
+    originalWidth={1920}
+    width={960}
+    height={300}
+  />
+</div>
+```
+
+```tsx
+<Image
+  layout="intrinsic"
+  apiClient={apiClient}
+  src="media/campaign/hero.webp"
+  alt="배너"
+  folder="media"
+  originalWidth={1920}
+  width={960}
+  height={300}
+/>
+```
+
+## `fill` 모드
+
+부모에 `position: relative`와 명시적인 높이(또는 비율)를 두고, `sizes`를 뷰포트에 맞게 넘깁니다.
+
+```tsx
+<div className="relative h-[150px] w-full max-w-4xl">
+  <Image
+    apiClient={apiClient}
+    src="media/campaign/hero.webp"
+    alt="배너"
+    folder="media"
+    originalWidth={1920}
+    fill
+    sizes="(max-width: 896px) 100vw, 896px"
+  />
+</div>
+```
+
+## `skeleton`
+
+- `true`(기본): 로딩 중 UI `Skeleton` 표시
+- `false`: 곧바로 이미지 로드·표시
+
+## `emptyNode`
+
+`fallbackSrc`가 **비어 있을 때** 로드가 끝까지 실패하면 `emptyNode`를 보여 줍니다. `fallbackSrc`가 있으면 이 분기는 쓰이지 않습니다.
+
+## 기타 props
+
+- **`origin`**: 원본/특수 URL 규칙이 필요할 때
+- **`fallbackSrc`**: 실패 시 시도할 **대체 CDN 상대 경로**
+- **`skeletonClassName`**, **`emptyNodeClassName`**: 래퍼 스타일 조정

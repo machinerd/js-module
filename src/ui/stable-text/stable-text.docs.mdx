@@ -1,0 +1,32 @@
+import { Meta, Title, Primary, Controls, Markdown, Canvas } from '@storybook/addon-docs/blocks';
+import * as StableTextStories from './stable-text.stories';
+
+<Meta of={StableTextStories} />
+
+<Title />
+
+<Markdown>
+  {`
+\`children\`은 \`string\` 또는 \`number\`만 받습니다.
+
+보이는 텍스트의 굵기·크기 등은 \`className\`의 Tailwind(\`komc:font-*\`, \`komc:text-*\` 등)로 줍니다. 내부 \`::after\`에는 동일한 문자열이 **항상 bold**로 깔려 있어, 굵기를 바꿔도 **줄바꿈·너비가 덜 흔들리게** 하는 용도입니다.
+`}
+</Markdown>
+
+## Playground
+
+<Primary of={StableTextStories.Playground} />
+
+<Controls />
+
+## font-weight 비교
+
+<Canvas of={StableTextStories.FontWeights} />
+
+## 개별 굵기
+
+<Canvas of={StableTextStories.FontLight} />
+
+<Canvas of={StableTextStories.FontNormal} />
+
+<Canvas of={StableTextStories.FontBold} />

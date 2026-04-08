@@ -1,11 +1,6 @@
 import { intersection } from 'lodash-es';
 import qs from 'query-string';
 import slug from 'slug';
-import libphonenumber from 'google-libphonenumber';
-const PhoneNumberFormat = libphonenumber.PhoneNumberFormat;
-const PhoneNumberUtil = libphonenumber.PhoneNumberUtil;
-
-const phoneUtil = PhoneNumberUtil.getInstance();
 
 slug.extend({ '"': '-', '”': '-', '“': '-', '•': '----' });
 slug.setLocale('en');
@@ -49,12 +44,11 @@ export const calcPageCount = (total: number, perPage: number) => {
   return pageCount;
 };
 
-// fisher-Yates 알고리즘
 export const shuffle = <T>(arr: T[]) => {
   const shuffled = [...arr];
   for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1)); //random index
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // swap
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
   return shuffled;
 };
@@ -75,65 +69,6 @@ export const loadExLib = (callback: () => void) => {
   }
   if (existingScript && callback) {
     callback();
-  }
-};
-
-export const recomposeI18nNumber = (
-  locale: string,
-  number?: string | null,
-  i18nNumber?: string | null,
-) => {
-  if (!number) {
-    return '-';
-  }
-  if (locale === 'ko' && i18nNumber && i18nNumber !== '82') {
-    const nn = number.replace(/^0/, '');
-    return `+${i18nNumber}-${nn}`;
-  }
-  if (locale !== 'ko' && i18nNumber) {
-    const nn = number.replace(/^0/, '');
-    return `+${i18nNumber}-${nn}`;
-  }
-  return number;
-};
-
-interface Country {
-  alpha2Code: string;
-  callingCode: string;
-}
-
-export interface I18nNumberProps<C extends Country = Country> {
-  phone?: string | null;
-  country?: C | null;
-  format?: number;
-  locale?: string | null;
-}
-
-export const formatI18nNumber = ({
-  phone,
-  country = {
-    callingCode: '82',
-    alpha2Code: 'KR',
-  },
-  format = PhoneNumberFormat.INTERNATIONAL,
-  locale,
-}: I18nNumberProps) => {
-  if (!phone || phone === '-') return '-';
-
-  try {
-    const phoneNumber = phoneUtil.parseAndKeepRawInput(
-      phone,
-      country?.alpha2Code || 'KR',
-    );
-    const countryCode = phoneNumber.getCountryCode();
-
-    if (locale === 'ko' && country?.alpha2Code === 'KR' && countryCode === 82) {
-      return phoneUtil.format(phoneNumber, PhoneNumberFormat.NATIONAL);
-    }
-
-    return phoneUtil.format(phoneNumber, format);
-  } catch {
-    return recomposeI18nNumber(locale || 'en', phone, country?.callingCode);
   }
 };
 
@@ -298,8 +233,10 @@ export const parseQuery = <T, F = T>(
   return fallback;
 };
 
-export const withoutProperty = <T>(obj: T, property: keyof T) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const withoutProperty = <T, K extends keyof T>(
+  obj: T,
+  property: K,
+): Omit<T, K> => {
   const { [property]: _, ...rest } = obj;
   return rest;
 };

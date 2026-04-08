@@ -45,6 +45,9 @@ importers:
         specifier: ^11.0.1
         version: 11.0.1
     devDependencies:
+      '@storybook/addon-docs':
+        specifier: ^10.3.5
+        version: 10.3.5(@types/react@18.3.27)(esbuild@0.27.2)(rollup@4.57.1)(storybook@10.2.3(@testing-library/dom@10.4.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@7.3.1(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2))
       '@storybook/react-vite':
         specifier: ^10.2.3
         version: 10.2.3(esbuild@0.27.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rollup@4.57.1)(storybook@10.2.3(@testing-library/dom@10.4.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.9.3)(vite@7.3.1(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2))
@@ -392,6 +395,12 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
+  '@mdx-js/react@3.1.1':
+    resolution: {integrity: sha512-f++rKLQgUVYDAtECQ6fn/is15GkEH9+nZPM3MS0RcxVqoTfawHvDlSCH7JbMhAM6uJ32v3eXLvLmLvjGu7PTQw==}
+    peerDependencies:
+      '@types/react': '>=16'
+      react: '>=16'
+
   '@napi-rs/wasm-runtime@1.1.0':
     resolution: {integrity: sha512-Fq6DJW+Bb5jaWE69/qOE0D1TUN9+6uWhCeZpdnSBk14pjLcCWR7Q8n49PTSPHazM37JqrsdpEthXy2xn6jWWiA==}
 
@@ -643,6 +652,11 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@storybook/addon-docs@10.3.5':
+    resolution: {integrity: sha512-WuHbxia/o5TX4Rg/IFD0641K5qId/Nk0dxhmAUNoFs5L0+yfZUwh65XOBbzXqrkYmYmcVID4v7cgDRmzstQNkA==}
+    peerDependencies:
+      storybook: ^10.3.5
+
   '@storybook/builder-vite@10.2.3':
     resolution: {integrity: sha512-sKSccERL23gqC+nkTD+4io3ZF8vvNXkNiSi16X6BC29sGsbgWohw3Nv6tIGwVkIlQh0b1z24EQgXYWbdqivHGw==}
     peerDependencies:
@@ -655,6 +669,24 @@ packages:
       esbuild: '*'
       rollup: '*'
       storybook: ^10.2.3
+      vite: '*'
+      webpack: '*'
+    peerDependenciesMeta:
+      esbuild:
+        optional: true
+      rollup:
+        optional: true
+      vite:
+        optional: true
+      webpack:
+        optional: true
+
+  '@storybook/csf-plugin@10.3.5':
+    resolution: {integrity: sha512-qlEzNKxOjq86pvrbuMwiGD/bylnsXk1dg7ve0j77YFjEEchqtl7qTlrXvFdNaLA89GhW6D/EV6eOCu/eobPDgw==}
+    peerDependencies:
+      esbuild: '*'
+      rollup: '*'
+      storybook: ^10.3.5
       vite: '*'
       webpack: '*'
     peerDependenciesMeta:
@@ -682,6 +714,13 @@ packages:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       storybook: ^10.2.3
+
+  '@storybook/react-dom-shim@10.3.5':
+    resolution: {integrity: sha512-Gw8R7XZm0zSUH0XAuxlQJhmizsLzyD6x00KOlP6l7oW9eQHXGfxg3seNDG3WrSAcW07iP1/P422kuiriQlOv7g==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      storybook: ^10.3.5
 
   '@storybook/react-vite@10.2.3':
     resolution: {integrity: sha512-2muczz7r/Mnwscjzliwm8qrcAcJyqkgMA9kpgjDm5jh0EOo2ADHeW4515tRoiYOjeYCa3ixDNs28uhIvz/8BNA==}
@@ -941,6 +980,9 @@ packages:
 
   '@types/lodash@4.17.21':
     resolution: {integrity: sha512-FOvQ0YPD5NOfPgMzJihoT+Za5pdkDJWcbpuj1DjaKZIr/gxodQjY/uWEFlTNqW2ugXHUiL8lRQgw63dzKHZdeQ==}
+
+  '@types/mdx@2.0.13':
+    resolution: {integrity: sha512-+OWZQfAYyio6YkJb3HLxDrvnx6SWWDbC0zVPfBRzUk0/nqoDyf6dNxQi3eArPe8rJ473nobTMQ/8Zk+LxJ+Yuw==}
 
   '@types/node@24.10.1':
     resolution: {integrity: sha512-GNWcUTRBgIRJD5zj+Tq0fKOJ5XZajIiBroOF0yvj2bSU1WvNdYS/dn9UxwsujGW4JX06dnHyjV2y9rRaybH0iQ==}
@@ -2069,6 +2111,12 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
+  '@mdx-js/react@3.1.1(@types/react@18.3.27)(react@18.3.1)':
+    dependencies:
+      '@types/mdx': 2.0.13
+      '@types/react': 18.3.27
+      react: 18.3.1
+
   '@napi-rs/wasm-runtime@1.1.0':
     dependencies:
       '@emnapi/core': 1.7.1
@@ -2226,6 +2274,23 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.57.1':
     optional: true
 
+  '@storybook/addon-docs@10.3.5(@types/react@18.3.27)(esbuild@0.27.2)(rollup@4.57.1)(storybook@10.2.3(@testing-library/dom@10.4.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@7.3.1(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2))':
+    dependencies:
+      '@mdx-js/react': 3.1.1(@types/react@18.3.27)(react@18.3.1)
+      '@storybook/csf-plugin': 10.3.5(esbuild@0.27.2)(rollup@4.57.1)(storybook@10.2.3(@testing-library/dom@10.4.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@7.3.1(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2))
+      '@storybook/icons': 2.0.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@storybook/react-dom-shim': 10.3.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@10.2.3(@testing-library/dom@10.4.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      storybook: 10.2.3(@testing-library/dom@10.4.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      ts-dedent: 2.2.0
+    transitivePeerDependencies:
+      - '@types/react'
+      - esbuild
+      - rollup
+      - vite
+      - webpack
+
   '@storybook/builder-vite@10.2.3(esbuild@0.27.2)(rollup@4.57.1)(storybook@10.2.3(@testing-library/dom@10.4.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@7.3.1(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2))':
     dependencies:
       '@storybook/csf-plugin': 10.2.3(esbuild@0.27.2)(rollup@4.57.1)(storybook@10.2.3(@testing-library/dom@10.4.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@7.3.1(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2))
@@ -2246,6 +2311,15 @@ snapshots:
       rollup: 4.57.1
       vite: 7.3.1(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)
 
+  '@storybook/csf-plugin@10.3.5(esbuild@0.27.2)(rollup@4.57.1)(storybook@10.2.3(@testing-library/dom@10.4.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(vite@7.3.1(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2))':
+    dependencies:
+      storybook: 10.2.3(@testing-library/dom@10.4.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      unplugin: 2.3.11
+    optionalDependencies:
+      esbuild: 0.27.2
+      rollup: 4.57.1
+      vite: 7.3.1(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)
+
   '@storybook/global@5.0.0': {}
 
   '@storybook/icons@2.0.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
@@ -2254,6 +2328,12 @@ snapshots:
       react-dom: 18.3.1(react@18.3.1)
 
   '@storybook/react-dom-shim@10.2.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@10.2.3(@testing-library/dom@10.4.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))':
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      storybook: 10.2.3(@testing-library/dom@10.4.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+
+  '@storybook/react-dom-shim@10.3.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@10.2.3(@testing-library/dom@10.4.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))':
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
@@ -2578,6 +2658,8 @@ snapshots:
       '@types/lodash': 4.17.21
 
   '@types/lodash@4.17.21': {}
+
+  '@types/mdx@2.0.13': {}
 
   '@types/node@24.10.1':
     dependencies:

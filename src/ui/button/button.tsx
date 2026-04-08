@@ -264,7 +264,7 @@ interface VariantMap {
 
 type BaseProps = Omit<VariantProps<typeof classes>, 'outline' | 'variant'>;
 
-type ButtonProps = ComponentProps<'button'> &
+export type ButtonProps = ComponentProps<'button'> &
   BaseProps &
   (
     | { outline?: 'line'; variant?: VariantMap['line'] }
@@ -274,77 +274,6 @@ type ButtonProps = ComponentProps<'button'> &
     asChild?: boolean;
   };
 
-/**
- * Button component
- * @description Button component or Slot component (asChild)
- * @param outline
- * @property
- * - line
- * - solid
- * - clear
- * @param variant
- * @property line
- * - blue
- * - duo
- * - white
- * - gray
- * - neutral
- * - sky
- * - sky-blue
- * @property solid
- * - white
- * - gray
- * - blue
- * - night
- * - black
- * - sky
- * - sky-blue
- * - indigo
- * @property clear
- * - sky
- * - gray
- * @param px
- * @property
- * - none - px-0
- * - xs - px-0.5
- * - sm - px-1
- * - md - px-1.5
- * - lg - px-2
- * - xl - px-3
- * - 2xl - px-4
- * - 3xl - px-5
- * - 4xl - px-6
- * @param rounded
- * @property
- * - none - rounded-none
- * - sm - rounded-sm
- * - md - rounded-md
- * - lg - rounded-lg
- * - xl - rounded-xl
- * - 2xl - rounded-2xl
- * - 3xl - rounded-3xl
- * - full - rounded-full
- * @param size
- * @property
- * - xxs - h-7.5
- * - xs - h-8
- * - sm - h-9
- * - md - h-10
- * - lg - h-11
- * - xl - h-12
- * - 2xl - h-13
- * - 3xl - h-14
- * - 4xl - h-15
- * @param shadow
- * @property
- * - none
- * - sm
- * - md
- * - lg
- * - xl
- * - 2xl
- * - 3xl
- */
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   type = 'button',
   className,

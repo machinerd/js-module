@@ -36,55 +36,12 @@ const classes = cva(
 );
 
 export interface SkeletonProps extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof classes> {
-  /**
-   * @param width - Width of the skeleton
-   * @description string or number, number unit is px
-   * @default 100
-   */
   width?: string | number;
-  /**
-   * @param height - Height of the skeleton
-   * @description string or number, number unit is px
-   * @default 100
-   */
   height?: string | number;
-  /**
-   * @param size - Size of the skeleton (height)
-   * @default sm
-   * @property
-   * - xs: 4px
-   * - sm: 8px
-   * - md: 12px
-   * - lg: 16px
-   * - xl: 20px
-   * - 2xl: 24px
-   * - 3xl: 28px
-   * - square: 100%
-   * - full: 100%
-   */
   size?: VariantProps<typeof classes>['size'];
-  /**
-   * @param rounded - Rounded of the skeleton
-   * @default sm
-   * @property
-   * - none: 0
-   * - sm: 2px
-   * - md: 6px
-   * - lg: 8px
-   * - xl: 12px
-   * - 2xl: 16px
-   * - 3xl: 20px
-   * - full: 100%
-   */
   rounded?: VariantProps<typeof classes>['rounded'];
 }
 
-/**
- * @param size - Size of the skeleton (height)
- * @param rounded - Rounded of the skeleton
- * @param width - Width of the skeleton
- * @param height - Height of the skeleton
- */
 export default function Skeleton({ size, rounded, width, height, className, ...props }: SkeletonProps) {
   const widthValue = width ? typeof width === 'string' ? width : `${width}px` : undefined;
   const heightValue = height ? typeof height === 'string' ? height : `${height}px` : undefined;
@@ -92,6 +49,7 @@ export default function Skeleton({ size, rounded, width, height, className, ...p
   return (
     <div
       data-komc
+      aria-hidden="true"
       className={classes({ size, rounded, className })}
       style={{ width: widthValue, height: heightValue }}
       {...props}
