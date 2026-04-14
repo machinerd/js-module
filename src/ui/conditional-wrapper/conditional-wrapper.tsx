@@ -4,11 +4,6 @@ export interface ConditionalWrapperProps {
   children: React.ReactNode;
 }
 
-/**
- * @param condition - Condition to wrap the children
- * @param wrapper - Wrapper function
- * @param children - Children to wrap
- */
 export default function ConditionalWrapper({
   condition,
   wrapper,

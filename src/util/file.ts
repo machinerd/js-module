@@ -62,3 +62,23 @@ export const parsePath = (filepath: string, folder?: string): PathInfo => {
     lastSlashIndex !== -1 ? filepath.substring(0, lastSlashIndex) : '';
   return result;
 };
+
+export const isExternalSrc = (src: string) => {
+  return src.startsWith('http') || src.startsWith('blob:') || src.startsWith('data:');
+};
+
+const SRCSET_INCOMPATIBLE_EXTENSIONS = ['svg', 'gif'];
+
+export const isSrcSetCompatible = (src: string) => {
+  if (!src || src.startsWith('blob:') || src.startsWith('data:')) {
+    return false;
+  }
+
+  const lastSlashIndex = src.lastIndexOf('/');
+  const filename = lastSlashIndex >= 0 ? src.substring(lastSlashIndex + 1) : src;
+  const lastDotIndex = filename.lastIndexOf('.');
+  const extension = lastDotIndex > 0 ? filename.substring(lastDotIndex + 1) : '';
+
+  return !SRCSET_INCOMPATIBLE_EXTENSIONS.includes(extension?.toLowerCase() ?? '');
+};
+

@@ -1,0 +1,28 @@
+import { Meta, Title, Primary, Controls, Markdown, Canvas } from '@storybook/addon-docs/blocks';
+import * as InputStories from './input.stories';
+
+<Meta of={InputStories} />
+
+<Title />
+
+<Markdown>
+  {`
+접두·접미 슬롯을 둘 수 있는 입력 필드입니다. CVA로 \`size\`, \`gap\`, \`outline\`, \`rounded\`를 조절합니다.
+
+\`prefix\` / \`surffix\`는 \`ReactNode\`라 컨트롤 패널 대신 **Prefix** / **Prefix + Suffix** 스토리에서 예시를 봅니다.
+`}
+</Markdown>
+
+## Playground
+
+<Primary of={InputStories.Playground} />
+
+<Controls />
+
+## Prefix
+
+<Canvas of={InputStories.WithPrefix} />
+
+## Prefix + Suffix
+
+<Canvas of={InputStories.WithPrefixAndSuffix} />

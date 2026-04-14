@@ -1,0 +1,18 @@
+import { Meta, Title, Primary, Controls, Markdown } from '@storybook/addon-docs/blocks';
+import * as CarouselStories from './carousel.stories';
+
+<Meta of={CarouselStories} />
+
+<Title />
+
+<Markdown>
+  {`
+Embla 기반 캐러셀입니다. \`Carousel\` + \`CarouselWrapper\` + \`CarouselItem\` 조합으로 슬라이드를 구성합니다.
+
+컨트롤의 **Embla** 항목은 \`options\`에 전달되는 값이고, \`slideCount\`는 스토리 데모용입니다.
+`}
+</Markdown>
+
+<Primary />
+
+<Controls />

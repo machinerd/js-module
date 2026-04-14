@@ -1,0 +1,18 @@
+import { Meta, Title, Primary, Controls, Markdown } from '@storybook/addon-docs/blocks';
+import * as BottomAppBarStories from './bottom-app-bar.stories';
+
+<Meta of={BottomAppBarStories} />
+
+<Title />
+
+<Markdown>
+  {`
+하단 고정 내비게이션 바입니다. \`items\`와 \`render\`로 항목을 그립니다.
+
+스토리에서는 \`itemCount\`로 탭 개수만 조절하고, 실제 사용 시에는 \`items\` 배열과 \`render\`를 넘기면 됩니다.
+`}
+</Markdown>
+
+<Primary />
+
+<Controls />

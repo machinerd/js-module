@@ -1,46 +1,75 @@
 import { Input } from '.';
-import { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+
+const prefixNode = (
+  <span className="komc:bg-neutral-100 komc:rounded-md komc:px-2 komc:py-1 komc:text-xs komc:text-neutral-600">
+    Prefix
+  </span>
+);
+const suffixNode = (
+  <span className="komc:bg-neutral-100 komc:rounded-md komc:px-2 komc:py-1 komc:text-xs komc:text-neutral-600">
+    Suffix
+  </span>
+);
 
 const meta = {
   component: Input,
-  title: 'ui/input',
-  tags: ['ui', 'components'],
+  title: 'ui/Input',
+  tags: ['ui'],
+  argTypes: {
+    placeholder: { control: 'text' },
+    disabled: { control: 'boolean' },
+    readOnly: { control: 'boolean' },
+    defaultValue: { control: 'text' },
+    size: {
+      control: 'select',
+      options: ['xs', 'sm', 'base', 'md', 'lg', 'xl', '2xl', '3xl'],
+    },
+    gap: {
+      control: 'select',
+      options: ['none', 'xs', 'sm', 'md', 'lg', 'xl'],
+    },
+    outline: {
+      control: 'select',
+      options: ['line', 'solid', 'clear', 'dashed', 'dotted'],
+    },
+    rounded: {
+      control: 'select',
+      options: ['none', 'sm', 'md', 'lg', 'xl', '2xl'],
+    },
+    className: { control: 'text' },
+    prefix: { table: { disable: true } },
+    surffix: { table: { disable: true } },
+  },
+  args: {
+    placeholder: '입력하세요',
+    size: 'lg',
+    gap: 'xl',
+    outline: 'line',
+    rounded: 'lg',
+    disabled: false,
+    readOnly: false,
+  },
 } satisfies Meta<typeof Input>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
+export const Playground: Story = {};
+
+export const WithPrefix: Story = {
+  name: 'Prefix',
   args: {
-    placeholder: 'Input',
-    className: 'komc:focus:border-neutral-300',
+    placeholder: '검색',
   },
+  render: (args) => <Input {...args} prefix={prefixNode} />,
 };
 
-export const Prefix: Story = {
+export const WithPrefixAndSuffix: Story = {
+  name: 'Prefix + Suffix',
   args: {
-    placeholder: 'Search',
-    prefix: (
-      <div className="komc:bg-neutral-100 komc:rounded-md komc:p-1 komc:px-2 komc:text-xs">
-        Prefix
-      </div>
-    ),
+    placeholder: '검색',
   },
-};
-
-export const Surffix: Story = {
-  args: {
-    placeholder: 'Search',
-    prefix: (
-      <div className="komc:bg-neutral-100 komc:rounded-md komc:p-1 komc:px-2 komc:text-xs">
-        Prefix
-      </div>
-    ),
-    surffix: (
-      <div className="komc:bg-neutral-100 komc:rounded-md komc:p-1 komc:px-2 komc:text-xs">
-        Surffix
-      </div>
-    ),
-  },
+  render: (args) => <Input {...args} prefix={prefixNode} surffix={suffixNode} />,
 };

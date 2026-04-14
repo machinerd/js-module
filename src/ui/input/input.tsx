@@ -55,57 +55,14 @@ export interface InputProps
     'prefix' | 'surffix' | 'size'
   >,
   VariantProps<typeof classes> {
-  /**
-   * @param size - Height of the input
-   * @default lg - 44px
-   * @property
-   * - xs: 30px
-   * - sm: 32px
-   * - base: 36px
-   * - md: 40px
-   * - lg: 44px
-   * - xl: 48px
-   * - 2xl: 52px
-   * - 3xl: 56px
-   */
   size?: VariantProps<typeof classes>['size'];
-  /**
-   * @param gap - Gap between the input and the prefix/suffix
-   * @default xl - 20px
-   * @property
-   * - none: 0
-   * - xs: 4px
-   * - sm: 8px
-   * - md: 12px
-   * - lg: 16px
-   * - xl: 20px
-   */
   gap?: VariantProps<typeof classes>['gap'];
   outline?: VariantProps<typeof classes>['outline'];
-  /**
-   * @param rounded - Border radius of the input
-   * @default lg
-   * @property
-   * - none: 0
-   * - sm: 2px
-   * - md: 6px
-   * - lg: 8px
-   * - xl: 12px
-   * - 2xl: 16px
-   */
   rounded?: VariantProps<typeof classes>['rounded'];
   prefix?: React.ReactNode;
   surffix?: React.ReactNode;
 }
 
-/**
- * @param prefix - Prefix of the input
- * @param surffix - Surffix of the input
- * @param size - Size of the input
- * @param gap - Gap between the input and the prefix/suffix
- * @param outline - Outline of the input
- * @param rounded - Border radius of the input
- */
 const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {
