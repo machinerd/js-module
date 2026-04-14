@@ -1,4 +1,6 @@
-import { PhoneNumberFormat, PhoneNumberUtil } from 'google-libphonenumber';
+import lib from 'google-libphonenumber';
+
+const { PhoneNumberUtil, PhoneNumberFormat } = lib;
 
 const phoneUtil = PhoneNumberUtil.getInstance();
 
@@ -44,7 +46,7 @@ export interface I18nNumberProps {
   phone?: string | null;
   alpha2Code?: string;
   callingCode?: string;
-  format?: PhoneNumberFormat;
+  format?: keyof typeof PhoneNumberFormat;
   locale?: string;
 }
 
@@ -52,7 +54,7 @@ export const formatI18nNumber = ({
   phone,
   alpha2Code,
   callingCode,
-  format = PhoneNumberFormat.RFC3966,
+  format = 'RFC3966',
   locale = 'en',
 }: I18nNumberProps) => {
   if (!phone?.trim()) return '';
@@ -60,7 +62,7 @@ export const formatI18nNumber = ({
   try {
     const phoneNumber = phoneUtil.parse(phone, alpha2Code);
 
-    return phoneUtil.format(phoneNumber, format);
+    return phoneUtil.format(phoneNumber, PhoneNumberFormat[format]);
   } catch {
     return recomposeI18nNumber(locale, phone, callingCode);
   }
