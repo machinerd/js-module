@@ -2,7 +2,7 @@
 
 React용 공용 UI·훅·유틸·API 클라이언트 패키지입니다.
 
-**현재 버전:** `0.4` (`package.json`의 `version` 필드와 동일합니다. 배포 전에는 해당 값을 확인하세요.)
+**현재 버전:** `0.5` (`package.json`의 `version` 필드와 동일합니다. 배포 전에는 해당 값을 확인하세요.)
 
 **Peer dependency:** `react`, `react-dom` — `^18.3.1` 또는 `^19.0.0`
 
@@ -41,7 +41,37 @@ await client.login(/* ... */);
 client.cdnMedia('path/to/key');
 ```
 
-일부 UI·훅은 **`ApiClient` 인스턴스**를 인자로 받습니다. 앱 구조에 맞게 한 번 생성해 전달하면 됩니다.
+로그인·CDN URL 빌드 등에는 위처럼 직접 인스턴스를 만들어 쓸 수 있습니다.
+
+---
+
+## Providers
+
+Export 경로: `@machinerd/js-module/providers`
+
+**`Image`·`useSubsetImage` 등 CDN 경로를 다루는 UI·훅**은 내부에서 `useApiClient()`로 **`ApiClient` 인스턴스**에 접근합니다. 사용하는 쪽에서 매번 `ApiClient`를 만들어 props로 넘기지 않도록, **앱(또는 라우트 트리) 최상단**을 `ApiClientProvider`로 감싸고 `config`만 넘기면 됩니다.
+
+```tsx
+import { ApiClientProvider } from '@machinerd/js-module/providers';
+
+export function App({ children }: { children: React.ReactNode }) {
+  return (
+    <ApiClientProvider
+      config={{
+        apiEndpoint: 'https://api.example.com',
+        cdnEndpoint: 'https://cdn.example.com',
+      }}
+    >
+      {children}
+    </ApiClientProvider>
+  );
+}
+```
+
+- Next.js App Router라면 `app/layout.tsx` 등 **루트 레이아웃**에 두는 것을 권장합니다.
+- Provider 밖에서 `Image` / `useSubsetImage`를 쓰면 런타임에 `ApiClient not found` 오류가 납니다.
+
+`useApiClient`는 같은 패키지의 `./providers`에서 export 됩니다.
 
 ---
 
@@ -73,7 +103,7 @@ import { Carousel, CarouselItem, Image, Tooltip /* … */ } from '@machinerd/js-
 import '@machinerd/js-module/styles/index.css';
 ```
 
-`Image` 등은 `ApiClient` 인스턴스·CDN 상대 경로 등 앱 설정이 필요합니다. 자세한 props는 타입 정의와 Storybook 문서를 참고하세요.
+**`Image`를 쓰려면** 위 [Providers](#providers)의 **`ApiClientProvider`를 최상위에 두는 것**이 필요합니다. CDN·API 엔드포인트는 `config`로 한 번만 넘기면 되며, `Image`에 `ApiClient`를 props로 넘길 필요는 없습니다. props·Storybook 문서는 타입 정의와 Storybook을 참고하세요.
 
 > **참고:** export 경로는 `ui/client`가 아니라 **`ui-client`** 입니다 (`package.json`의 `exports`와 일치).
 
@@ -86,6 +116,8 @@ import { useOutsideClick, useWindowSize } from '@machinerd/js-module/hooks';
 ```
 
 `useOutsideClick`은 타입 `UseOutsideClickProps`도 함께 export 합니다.
+
+`useSubsetImage`는 **`ApiClientProvider` 안**에서만 사용할 수 있습니다 ([Providers](#providers)).
 
 ---
 
@@ -119,7 +151,7 @@ pnpm build
 pnpm pack
 ```
 
-현재 버전 기준으로 예: `machinerd-js-module-0.4.0.tgz` 형태의 파일이 상위 디렉터리(또는 현재 디렉터리)에 생성됩니다. 정확한 파일명은 명령 출력을 따르세요.
+현재 버전 기준으로 예: `machinerd-js-module-0.5.0.tgz` 형태의 파일이 상위 디렉터리(또는 현재 디렉터리)에 생성됩니다. 정확한 파일명은 명령 출력을 따르세요.
 
 소비하는 프로젝트에서:
 

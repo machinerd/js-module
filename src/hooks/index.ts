@@ -18,6 +18,5 @@ export {
   type BaseProps, 
   type Folder, 
   type UseSubsetImageProps, 
-  type UseSubsetImagePropsWithoutApiClient,
 } from './use-subset-image';
 export { default as useWindowSize } from './use-window-size';

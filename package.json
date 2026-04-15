@@ -1,6 +1,6 @@
 {
   "name": "@machinerd/js-module",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "type": "module",
   "description": "",
   "main": "dist/index.mjs",
@@ -37,6 +37,10 @@
     "./hooks": {
       "import": "./dist/hooks/index.mjs",
       "require": "./dist/hooks/index.cjs"
+    },
+    "./providers": {
+      "import": "./dist/providers/index.mjs",
+      "require": "./dist/providers/index.cjs"
     },
     "./styles/index.css": "./dist/styles/index.css"
   },

@@ -2,10 +2,7 @@ import clsx from 'clsx';
 import {
   forwardRef,
 } from 'react';
-import useSubsetImage, {
-  type UseSubsetImageProps,
-  type UseSubsetImagePropsWithoutApiClient,
-} from '../../hooks/use-subset-image';
+import useSubsetImage, { type UseSubsetImageProps } from '../../hooks/use-subset-image';
 import { Skeleton } from '../../ui/skeleton';
 import { cva } from 'class-variance-authority';
 
@@ -29,7 +26,6 @@ export type ImageSubsetProps = {
   skeletonClassName?: string;
 };
 export type ImageProps = UseSubsetImageProps & ImageSubsetProps
-export type ImagePropsWithoutApiClient = UseSubsetImagePropsWithoutApiClient & ImageSubsetProps
 
 export const BaseImage = forwardRef<HTMLImageElement, UseSubsetImageProps>(({
   ...rest
