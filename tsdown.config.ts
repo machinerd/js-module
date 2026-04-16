@@ -7,6 +7,7 @@ export default defineConfig({
     "./src/ui/index.ts", 
     "./src/ui-client/index.ts", 
     "./src/hooks/index.ts", 
+    "./src/providers/index.ts",
   ],
   format: ["cjs", "esm"],
   dts: true,

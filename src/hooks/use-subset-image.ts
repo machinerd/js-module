@@ -1,6 +1,6 @@
 import React, { SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type ApiClient from "..";
 import { isExternalSrc, isSrcSetCompatible, parsePath } from "../util";
+import { useApiClient } from "../providers";
 
 export const SUBSETS = [12, 120, 240, 300, 406, 512, 612, 768, 960, 1024, 1280, 1440, 1560, 1920, 2560, 3840];
 
@@ -14,10 +14,9 @@ export interface BaseProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   originalWidth: number;
   fallbackSrc?: string;
   folder?: Folder;
-  apiClient: ApiClient;
 }
 
-export type UseSubsetImagePropsWithoutApiClient = Omit<BaseProps, 'apiClient'> &
+export type UseSubsetImageProps = BaseProps &
   (
     | {
         fill: true;
@@ -33,10 +32,6 @@ export type UseSubsetImagePropsWithoutApiClient = Omit<BaseProps, 'apiClient'> &
       }
   );
 
-export type UseSubsetImageProps = UseSubsetImagePropsWithoutApiClient & {
-  apiClient: ApiClient;
-};
-
 export default function useSubsetImage({ 
   ref,
   src, 
@@ -46,9 +41,9 @@ export default function useSubsetImage({
   origin, 
   originalWidth, 
   loading = 'lazy',
-  apiClient,
   ...rest
 }: UseSubsetImageProps) {
+  const apiClient = useApiClient();
   const [fallbackStep, setFallbackStep] = useState(0);
   const [isLoad, setIsLoad] = useState(forceLoad || !Boolean(src));
   const [isError, setIsError] = useState(!Boolean(src));

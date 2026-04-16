@@ -9,31 +9,43 @@ import * as ImageStories from './image.stories';
 
 `Image`는 `useSubsetImage` 훅으로 **CDN 상대 경로** `src`를 절대 URL·`srcSet`으로 바꾼 뒤, 스켈레톤·에러 UI를 붙인 기본 구현입니다.
 
-내부적으로 `apiClient.cdnMedia` / `cdnStatic`을 사용하므로, **`ApiClient` 인스턴스를 props로 넘겨야** 합니다. (`folder`에 따라 미디어/정적 규칙이 갈립니다.)
+내부적으로 `apiClient.cdnMedia` / `cdnStatic`을 쓰므로, **`ApiClient`는 React context**(`useApiClient`)로 주입됩니다. 앱 최상단에서 **`ApiClientProvider`**로 감싸 두면 `Image`에 `ApiClient`를 props로 넘길 필요가 없습니다. (`folder`에 따라 미디어/정적 규칙이 갈립니다.)
+
+## Providers (필수)
+
+`@machinerd/js-module/ui-client`의 **`Image`**와 `@machinerd/js-module/hooks`의 **`useSubsetImage`**는 **`ApiClientProvider` 안**에서만 동작합니다. **루트 레이아웃**(예: Next.js `app/layout.tsx`) 등 트리 최상단에 두세요.
+
+```tsx
+import { ApiClientProvider } from '@machinerd/js-module/providers';
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="ko">
+      <body>
+        <ApiClientProvider
+          config={{
+            apiEndpoint: process.env.NEXT_PUBLIC_API_ENDPOINT!,
+            cdnEndpoint: process.env.NEXT_PUBLIC_CDN_ENDPOINT!,
+          }}
+        >
+          {children}
+        </ApiClientProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+Provider 밖에서 `Image` / `useSubsetImage`를 쓰면 `ApiClient not found` 오류가 납니다. 패키지 README의 Providers 절도 함께 참고하면 됩니다.
 
 ## `src` 경로
 
 - CDN 루트 기준 **키만** 넘깁니다. **앞의 `/`는 생략**해도 됩니다.
 - 절대 URL(`https://...`)이면 외부 이미지로 취급해 그대로 씁니다.
 
-## `apiClient`
-
-`@machinerd/js-module`의 `ApiClient`를 생성해 넘깁니다. 엔드포인트는 환경에 맞게 설정합니다.
-
-```ts
-import ApiClient from '@machinerd/js-module';
-
-const apiClient = new ApiClient({
-  apiEndpoint: process.env.NEXT_PUBLIC_API_ENDPOINT,
-  cdnEndpoint: process.env.NEXT_PUBLIC_CDN_ENDPOINT,
-});
-```
-
-앱 전용 래퍼에서 `apiClient`를 고정 주입하려면 props 타입으로 **`ImagePropsWithoutApiClient`**(`@machinerd/js-module/ui-client`) 또는 훅용 **`UseSubsetImagePropsWithoutApiClient`**(`@machinerd/js-module/hooks`)를 쓰면 됩니다. `Omit`으로 `UseSubsetImageProps`에서 `apiClient`만 빼는 방식 대신 이 타입을 쓰는 이유는, `fill` 분기 **유니온**이 `Omit`과 섞일 때 추론이 깨지는 경우가 있기 때문입니다.
-
 ## 저수준 훅
 
-마크업·스타일을 앱에서 전부 잡고 싶다면 컴포넌트 대신 `useSubsetImage`(`@machinerd/js-module/hooks`)에 동일하게 `apiClient`와 props를 넘기면 됩니다.
+마크업·스타일을 앱에서 전부 잡고 싶다면 컴포넌트 대신 `useSubsetImage`(`@machinerd/js-module/hooks`)에 props를 넘기면 됩니다. **`ApiClientProvider`는 동일하게 필요**합니다.
 
 ## `folder`
 
@@ -52,7 +64,6 @@ const apiClient = new ApiClient({
 ```tsx
 <div className="h-40 w-full max-w-md">
   <Image
-    apiClient={apiClient}
     src="media/campaign/hero.webp"
     alt="배너"
     folder="media"
@@ -66,7 +77,6 @@ const apiClient = new ApiClient({
 ```tsx
 <Image
   layout="intrinsic"
-  apiClient={apiClient}
   src="media/campaign/hero.webp"
   alt="배너"
   folder="media"
@@ -83,7 +93,6 @@ const apiClient = new ApiClient({
 ```tsx
 <div className="relative h-[150px] w-full max-w-4xl">
   <Image
-    apiClient={apiClient}
     src="media/campaign/hero.webp"
     alt="배너"
     folder="media"
