@@ -5,7 +5,7 @@ import { HTMLAttributes, ReactNode, useCallback, useEffect, useState } from 'rea
 import { useDelayUnmount } from '../../hooks';
 
 const classes = cva(
-  'komc:relative komc:z-10 komc:w-full komc:transition-all komc:duration-300 komc:ease-in-out',
+  'komc:relative komc:z-10 komc:flex komc:min-h-0 komc:flex-col komc:overflow-hidden komc:w-full komc:max-h-full komc:min-w-0 komc:transition-all komc:duration-300 komc:ease-in-out',
   {
     variants: {
       padding: {
@@ -96,25 +96,26 @@ export default function Dialog({
   return (
     <div
       data-komc
-      className="komc:flex komc:justify-center komc:items-center komc:fixed komc:inset-0"
+      className="komc:fixed komc:inset-0 komc:flex komc:min-h-0 komc:flex-col komc:overflow-hidden"
       style={{ zIndex }}
     >
-      <button
-        type="button"
-        data-state={isAnimating ? 'open' : 'closed'}
-        className="komc:w-full komc:h-full komc:bg-black/50 komc:absolute komc:inset-0 komc:cursor-default komc:transition-opacity komc:duration-300 komc:ease-in-out komc:data-[state=closed]:opacity-0 komc:data-[state=open]:opacity-100"
-        onClick={handleBackdropClick}
-        aria-label="close dialog"
-      />
-
-      <div
-        data-state={isAnimating ? 'open' : 'closed'}
-        className={`${classes({ padding, maxWidth, className })} komc:data-[state=closed]:opacity-0 komc:data-[state=open]:opacity-100 komc:data-[state=closed]:scale-95 komc:data-[state=open]:scale-100`}
-        role="dialog"
-        aria-modal="true"
-        {...rest}
-      >
-        {children}
+      <div className="komc:relative komc:flex komc:min-h-0 komc:flex-1 komc:w-full komc:items-center komc:justify-center">
+        <button
+          type="button"
+          data-state={isAnimating ? 'open' : 'closed'}
+          className="komc:fixed komc:inset-0 komc:z-0 komc:cursor-default komc:bg-black/50 komc:transition-opacity komc:duration-300 komc:ease-in-out komc:data-[state=closed]:opacity-0 komc:data-[state=open]:opacity-100"
+          onClick={handleBackdropClick}
+          aria-label="close dialog"
+        />
+        <div
+          data-state={isAnimating ? 'open' : 'closed'}
+          className={`${classes({ padding, maxWidth, className })} komc:data-[state=closed]:opacity-0 komc:data-[state=open]:opacity-100 komc:data-[state=closed]:scale-95 komc:data-[state=open]:scale-100`}
+          role="dialog"
+          aria-modal="true"
+          {...rest}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );

@@ -29,7 +29,6 @@
     border: 0 solid;
     background-color: transparent;
     box-sizing: border-box;
-    line-height: 1.5;
   }
 
   button[data-komc] {
