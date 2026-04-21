@@ -28,11 +28,14 @@ export default function Carousel({
   );
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
+  const [dots, setDots] = useState(0);
+  const [selectedScrollSnap, setSelectedScrollSnap] = useState(0);
 
   const onSelect = useCallback((api: CarouselApi) => {
     if (!api) return;
     setCanScrollPrev(api.canScrollPrev());
     setCanScrollNext(api.canScrollNext());
+    setSelectedScrollSnap(api.selectedScrollSnap());
   }, []);
 
   const scrollPrev = useCallback(() => {
@@ -41,6 +44,14 @@ export default function Carousel({
 
   const scrollNext = useCallback(() => {
     api?.scrollNext();
+  }, [api]);
+
+  const scrollTo = useCallback((index: number) => {
+    api?.scrollTo(index);
+  }, [api]);
+
+  const getDots = useCallback(() => {
+    setDots(api?.scrollSnapList().length || 0);
   }, [api]);
 
   const handleKeyDown = useCallback(
@@ -74,6 +85,9 @@ export default function Carousel({
   useEffect(() => {
     if (!api) return;
     onSelect(api);
+    getDots();
+
+    api.on('reInit', getDots);
     api.on('reInit', onSelect);
     api.on('select', onSelect);
 
@@ -86,7 +100,7 @@ export default function Carousel({
     <CarouselContext.Provider
       value={{
         carouselRef,
-        api: api,
+        api,
         options,
         orientation:
           orientation || (options?.axis === 'y' ? 'vertical' : 'horizontal'),
@@ -94,6 +108,9 @@ export default function Carousel({
         scrollNext,
         canScrollPrev,
         canScrollNext,
+        scrollTo,
+        dots,
+        selectedScrollSnap,
       }}
     >
       <div
