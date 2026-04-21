@@ -1,5 +1,6 @@
 import {
   Carousel,
+  CarouselDot,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
@@ -74,7 +75,7 @@ export const Playground: Story = {
       >
         <CarouselWrapper>
           {Array.from({ length: count }).map((_, index) => (
-            <CarouselItem key={index}>
+            <CarouselItem key={index} className="komc:basis-1/2!">
               <div
                 className={clsx(
                   'komc:flex komc:h-full komc:min-h-32 komc:items-center komc:justify-center',
@@ -93,6 +94,15 @@ export const Playground: Story = {
           <CarouselNext className="komc:rounded-md komc:bg-neutral-100 komc:px-3 komc:py-2 hover:komc:bg-neutral-200">
             다음
           </CarouselNext>
+        </div>
+        <div className='komc:flex komc:justify-center komc:gap-1.5 komc:w-full komc:mt-2'>
+          <CarouselDot className="komc:flex komc:justify-center komc:items-center komc:w-4 komc:aspect-square komc:rounded-full komc:bg-neutral-300 komc:text-xs komc:font-medium komc:text-neutral-600 komc:data-[selected=true]:bg-blue-500 komc:data-[selected=true]:text-white">
+            {(index) => {
+              return (
+                <span>{index + 1}</span>
+              )
+            }}
+          </CarouselDot>
         </div>
       </Carousel>
     );

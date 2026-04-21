@@ -20,6 +20,9 @@ export type CarouselContextProps = {
   scrollNext: () => void;
   canScrollPrev: boolean;
   canScrollNext: boolean;
+  scrollTo: (index: number) => void;
+  dots: number;
+  selectedScrollSnap: number;
 } & CarouselProps;
 
 export const CarouselContext = React.createContext<CarouselContextProps | null>(null);
