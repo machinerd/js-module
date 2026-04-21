@@ -6,6 +6,7 @@ export type {
   CarouselPlugin,
 } from './carousel-context';
 export { default as Carousel } from './carousel';
+export { default as CarouselViewport } from './carousel-viewport';
 export { default as CarouselWrapper } from './carousel-wrapper';
 export { default as CarouselItem } from './carousel-item';
 export { default as CarouselPrevious } from './carousel-previous';
