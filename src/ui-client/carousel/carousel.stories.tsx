@@ -1,20 +1,44 @@
 import {
   Carousel,
-  CarouselDot,
-  CarouselDots,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
+  CarouselViewport,
   CarouselWrapper,
 } from '.';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import clsx from 'clsx';
 
-type CarouselStoryArgs = React.ComponentProps<typeof Carousel> & {
-  loop: boolean;
-  align: 'start' | 'center' | 'end';
-  slideCount: number;
-};
+const SLIDE_COUNT = 8;
+
+const btnClass =
+  'komc:rounded-md komc:bg-neutral-100 komc:px-3 komc:py-2 hover:komc:bg-neutral-200';
+
+const slideCardClass = clsx(
+  'komc:flex komc:h-full komc:min-h-32 komc:items-center komc:justify-center',
+  'komc:border komc:rounded-lg komc:border-neutral-300 komc:bg-neutral-100 komc:text-lg komc:font-medium',
+);
+
+function CarouselNav({
+  orientation,
+}: {
+  orientation: 'horizontal' | 'vertical';
+}) {
+  const vertical = orientation === 'vertical';
+  return (
+    <div
+      className={clsx(
+        'komc:mt-3 komc:w-full komc:gap-2',
+        vertical
+          ? 'komc:flex komc:flex-col'
+          : 'komc:flex komc:flex-row komc:justify-between',
+      )}
+    >
+      <CarouselPrevious className={btnClass}>이전</CarouselPrevious>
+      <CarouselNext className={btnClass}>다음</CarouselNext>
+    </div>
+  );
+}
 
 const meta = {
   component: Carousel,
@@ -25,22 +49,6 @@ const meta = {
       control: 'select',
       options: ['horizontal', 'vertical'],
     },
-    loop: {
-      control: 'boolean',
-      description: 'Embla `options.loop`',
-      table: { category: 'Embla' },
-    },
-    align: {
-      control: 'select',
-      options: ['start', 'center', 'end'],
-      description: 'Embla `options.align`',
-      table: { category: 'Embla' },
-    },
-    slideCount: {
-      control: { type: 'number', min: 2, max: 12, step: 1 },
-      description: '데모 슬라이드 개수',
-      table: { category: 'Story' },
-    },
     className: { control: 'text' },
     options: { table: { disable: true } },
     plugins: { table: { disable: true } },
@@ -50,81 +58,119 @@ const meta = {
     orientation: 'horizontal',
     options: {
       loop: true,
-      align: 'center',
-    }
+      align: 'start',
+    },
   },
-} satisfies Meta<CarouselStoryArgs>;
+} satisfies Meta<typeof Carousel>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Playground: Story = {
-  render: (args) => {
-    const { orientation, options, className, ...rest } = args;
-    const count = Math.min(12, Math.max(2, 5));
-    return (
-      <Carousel
-        {...rest}
-        orientation={orientation}
-        options={options}
-        className={clsx(
-          'komc:w-full komc:max-w-md',
-          orientation === 'vertical' ? 'komc:h-56' : 'komc:h-40',
-          className,
-        )}
-      >
+const storyDecorator: Story['decorators'] = [
+  (Story) => (
+    <div className="komc:p-4">
+      <Story />
+    </div>
+  ),
+];
+
+/** 가로 · 한 번에 1장 */
+export const HorizontalOneSlide: Story = {
+  name: '가로 · 1장씩',
+  parameters: { controls: { disable: true } },
+  decorators: storyDecorator,
+  render: () => (
+    <Carousel
+      orientation="horizontal"
+      options={{ loop: true, align: 'start' }}
+      className="komc:w-full komc:max-w-md komc:h-40"
+    >
+      <CarouselViewport>
         <CarouselWrapper>
-          {Array.from({ length: count }).map((_, index) => (
-            <CarouselItem key={index} className="komc:basis-1/2!">
-              <div
-                className={clsx(
-                  'komc:flex komc:h-full komc:min-h-32 komc:items-center komc:justify-center',
-                  'komc:border komc:rounded-lg komc:border-neutral-300 komc:bg-neutral-100 komc:text-lg komc:font-medium',
-                )}
-              >
-                {index + 1}
-              </div>
+          {Array.from({ length: SLIDE_COUNT }).map((_, index) => (
+            <CarouselItem key={index} className="komc:basis-full">
+              <div className={slideCardClass}>{index + 1}</div>
             </CarouselItem>
           ))}
         </CarouselWrapper>
-        <div className="komc:flex komc:justify-between komc:gap-2 komc:mt-3 komc:w-full">
-          <CarouselPrevious className="komc:rounded-md komc:bg-neutral-100 komc:px-3 komc:py-2 hover:komc:bg-neutral-200">
-            이전
-          </CarouselPrevious>
-          <CarouselNext className="komc:rounded-md komc:bg-neutral-100 komc:px-3 komc:py-2 hover:komc:bg-neutral-200">
-            다음
-          </CarouselNext>
-        </div>
-        <div className='komc:flex komc:justify-center komc:gap-1.5 komc:w-full komc:mt-2'>
-          <CarouselDots className="komc:flex komc:justify-center komc:items-center komc:w-4 komc:aspect-square komc:rounded-full komc:bg-neutral-300 komc:text-xs komc:font-medium komc:text-neutral-600 komc:data-[selected=true]:bg-blue-500 komc:data-[selected=true]:text-white">
-            {(index) => {
-              return (
-                <span>{index + 1}</span>
-              )
-            }}
-          </CarouselDots>
-        </div>
-        <div className='komc:flex komc:justify-center komc:gap-1.5 komc:w-full komc:mt-2'>
-          <CarouselDots className="komc:flex komc:justify-center komc:items-center komc:w-4 komc:aspect-square komc:rounded-full komc:bg-neutral-300 komc:text-xs komc:font-medium komc:text-neutral-600 komc:data-[selected=true]:bg-blue-500 komc:data-[selected=true]:text-white" />
-        </div>
-        <div className='komc:flex komc:justify-center komc:gap-1.5 komc:w-full komc:mt-2'>
-          {Array.from({ length: count }).map((_, i) => {
-            return (
-              <CarouselDot key={i} index={i} className='komc:flex komc:justify-center komc:items-center komc:w-4 komc:aspect-square komc:rounded-full komc:bg-neutral-300 komc:text-xs komc:font-medium komc:text-neutral-600 komc:data-[selected=true]:bg-blue-500 komc:data-[selected=true]:text-white'>
-                {i + 1}
-              </CarouselDot>
-            )
-          })}
-        </div>
-      </Carousel>
-    );
-  },
-  decorators: [
-    (Story) => (
-      <div className="komc:p-4">
-        <Story />
-      </div>
-    ),
-  ],
+      </CarouselViewport>
+      <CarouselNav orientation="horizontal" />
+    </Carousel>
+  ),
+};
+
+/** 가로 · 한 화면에 2장 */
+export const HorizontalTwoSlides: Story = {
+  name: '가로 · 2장 노출',
+  parameters: { controls: { disable: true } },
+  decorators: storyDecorator,
+  render: () => (
+    <Carousel
+      orientation="horizontal"
+      options={{ loop: true, align: 'start', slidesToScroll: 'auto' }}
+      className="komc:w-full komc:max-w-md komc:h-40"
+    >
+      <CarouselViewport>
+        <CarouselWrapper>
+          {Array.from({ length: SLIDE_COUNT }).map((_, index) => (
+            <CarouselItem key={index} className="komc:basis-1/2!">
+              <div className={slideCardClass}>{index + 1}</div>
+            </CarouselItem>
+          ))}
+        </CarouselWrapper>
+      </CarouselViewport>
+      <CarouselNav orientation="horizontal" />
+    </Carousel>
+  ),
+};
+
+/** 세로 · 1장씩 · align start */
+export const VerticalOneSlideStart: Story = {
+  name: '세로 · 1장씩 (align start)',
+  parameters: { controls: { disable: true } },
+  decorators: storyDecorator,
+  render: () => (
+    <Carousel
+      orientation="vertical"
+      options={{ loop: true, align: 'start' }}
+      className="komc:h-72 komc:w-full komc:max-w-md"
+    >
+      <CarouselViewport>
+        <CarouselWrapper>
+          {Array.from({ length: SLIDE_COUNT }).map((_, index) => (
+            <CarouselItem key={index} className="komc:basis-full">
+              <div className={slideCardClass}>{index + 1}</div>
+            </CarouselItem>
+          ))}
+        </CarouselWrapper>
+      </CarouselViewport>
+      <CarouselNav orientation="vertical" />
+    </Carousel>
+  ),
+};
+
+/** 세로 · 1장씩 · align center */
+export const VerticalOneSlideCenter: Story = {
+  name: '세로 · 1장씩 (align center)',
+  parameters: { controls: { disable: true } },
+  decorators: storyDecorator,
+  render: () => (
+    <Carousel
+      orientation="vertical"
+      options={{ loop: true, align: 'center' }}
+      className="komc:h-72 komc:w-full komc:max-w-md"
+    >
+      <CarouselViewport>
+        <CarouselWrapper>
+          {Array.from({ length: SLIDE_COUNT }).map((_, index) => (
+            <CarouselItem key={index} className="komc:basis-1/2!">
+              <div className={slideCardClass}>{index + 1}</div>
+            </CarouselItem>
+          ))}
+        </CarouselWrapper>
+      </CarouselViewport>
+      <CarouselNav orientation="vertical" />
+    </Carousel>
+  ),
 };
