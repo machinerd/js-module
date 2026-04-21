@@ -1,6 +1,7 @@
 import {
   Carousel,
   CarouselDot,
+  CarouselDots,
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
@@ -96,13 +97,25 @@ export const Playground: Story = {
           </CarouselNext>
         </div>
         <div className='komc:flex komc:justify-center komc:gap-1.5 komc:w-full komc:mt-2'>
-          <CarouselDot className="komc:flex komc:justify-center komc:items-center komc:w-4 komc:aspect-square komc:rounded-full komc:bg-neutral-300 komc:text-xs komc:font-medium komc:text-neutral-600 komc:data-[selected=true]:bg-blue-500 komc:data-[selected=true]:text-white">
+          <CarouselDots className="komc:flex komc:justify-center komc:items-center komc:w-4 komc:aspect-square komc:rounded-full komc:bg-neutral-300 komc:text-xs komc:font-medium komc:text-neutral-600 komc:data-[selected=true]:bg-blue-500 komc:data-[selected=true]:text-white">
             {(index) => {
               return (
                 <span>{index + 1}</span>
               )
             }}
-          </CarouselDot>
+          </CarouselDots>
+        </div>
+        <div className='komc:flex komc:justify-center komc:gap-1.5 komc:w-full komc:mt-2'>
+          <CarouselDots className="komc:flex komc:justify-center komc:items-center komc:w-4 komc:aspect-square komc:rounded-full komc:bg-neutral-300 komc:text-xs komc:font-medium komc:text-neutral-600 komc:data-[selected=true]:bg-blue-500 komc:data-[selected=true]:text-white" />
+        </div>
+        <div className='komc:flex komc:justify-center komc:gap-1.5 komc:w-full komc:mt-2'>
+          {Array.from({ length: count }).map((_, i) => {
+            return (
+              <CarouselDot key={i} index={i} className='komc:flex komc:justify-center komc:items-center komc:w-4 komc:aspect-square komc:rounded-full komc:bg-neutral-300 komc:text-xs komc:font-medium komc:text-neutral-600 komc:data-[selected=true]:bg-blue-500 komc:data-[selected=true]:text-white'>
+                {i + 1}
+              </CarouselDot>
+            )
+          })}
         </div>
       </Carousel>
     );

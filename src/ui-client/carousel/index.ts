@@ -10,4 +10,5 @@ export { default as CarouselWrapper } from './carousel-wrapper';
 export { default as CarouselItem } from './carousel-item';
 export { default as CarouselPrevious } from './carousel-previous';
 export { default as CarouselNext } from './carousel-next';
+export { default as CarouselDots } from './carousel-dots';
 export { default as CarouselDot } from './carousel-dot';

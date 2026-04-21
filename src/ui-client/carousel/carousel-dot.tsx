@@ -1,29 +1,23 @@
 import React from 'react';
 import { useCarousel } from './carousel-context';
 
-export default function CarouselDot({
+export default function CarouselDots({
+  index,
   children,
   ...props
-}: Omit<React.ComponentProps<'button'>, 'children'> & { children: (index: number) => React.ReactNode }) {
-  const { dots, selectedScrollSnap, scrollTo } = useCarousel();
+}: React.ComponentProps<'button'> & { index: number }) {
+  const { selectedScrollSnap, scrollTo } = useCarousel();
 
   return (
-    <>
-      {Array.from({ length: dots }).map((_, i) => (
-        (
-          <button
-            key={i}
-            type="button"
-            data-komc
-            data-selected={selectedScrollSnap === i}
-            aria-label={`go to slide ${i + 1}`}
-            onClick={() => scrollTo(i)}
-            {...props}
-          >
-            {children(i)}
-          </button>
-        )
-      ))}
-    </>
+    <button
+      type="button"
+      data-komc
+      data-selected={selectedScrollSnap === index}
+      aria-label={`go to slide ${index + 1}`}
+      onClick={() => scrollTo(index)}
+      {...props}
+    >
+      {children}
+    </button>
   );
 }
