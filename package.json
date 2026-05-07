@@ -1,6 +1,6 @@
 {
   "name": "@machinerd/js-module",
-  "version": "0.5.4",
+  "version": "0.6.0",
   "type": "module",
   "description": "",
   "main": "dist/index.mjs",
@@ -22,17 +22,57 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
-    "./util": {
-      "import": "./dist/util/index.mjs",
-      "require": "./dist/util/index.cjs"
+    "./util/browser": {
+      "import": "./dist/util/browser.mjs",
+      "require": "./dist/util/browser.cjs"
     },
-    "./ui": {
+    "./util/common": {
+      "import": "./dist/util/common.mjs",
+      "require": "./dist/util/common.cjs"
+    },
+    "./util/date": {
+      "import": "./dist/util/date.mjs",
+      "require": "./dist/util/date.cjs"
+    },
+    "./util/file": {
+      "import": "./dist/util/file.mjs",
+      "require": "./dist/util/file.cjs"
+    },
+    "./util/format": {
+      "import": "./dist/util/format.mjs",
+      "require": "./dist/util/format.cjs"
+    },
+    "./util/generator": {
+      "import": "./dist/util/generator.mjs",
+      "require": "./dist/util/generator.cjs"
+    },
+    "./util/phone": {
+      "import": "./dist/util/phone.mjs",
+      "require": "./dist/util/phone.cjs"
+    },
+    "./ui/common": {
       "import": "./dist/ui/index.mjs",
       "require": "./dist/ui/index.cjs"
     },
-    "./ui-client": {
-      "import": "./dist/ui-client/index.mjs",
-      "require": "./dist/ui-client/index.cjs"
+    "./ui/carousel": {
+      "import": "./dist/ui/carousel/index.mjs",
+      "require": "./dist/ui/carousel/index.cjs"
+    },
+    "./ui/dialog": {
+      "import": "./dist/ui/dialog/index.mjs",
+      "require": "./dist/ui/dialog/index.cjs"
+    },
+    "./ui/image": {
+      "import": "./dist/ui/image/index.mjs",
+      "require": "./dist/ui/image/index.cjs"
+    },
+    "./ui/sheet": {
+      "import": "./dist/ui/sheet/index.mjs",
+      "require": "./dist/ui/sheet/index.cjs"
+    },
+    "./ui/tooltip": {
+      "import": "./dist/ui/tooltip/index.mjs",
+      "require": "./dist/ui/tooltip/index.cjs"
     },
     "./hooks": {
       "import": "./dist/hooks/index.mjs",

@@ -1,3 +1,5 @@
+'use client';
+
 import { Dispatch, RefObject, SetStateAction, useCallback, useEffect } from 'react';
 
 export interface UseOutsideClickProps {

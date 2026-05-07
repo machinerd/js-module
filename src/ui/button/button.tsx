@@ -1,7 +1,7 @@
 import { ComponentProps, forwardRef } from 'react';
 import { cva, VariantProps } from 'class-variance-authority';
 import { Slot } from '@radix-ui/react-slot';
-import { cn } from '../../util';
+import { cn } from '../../util/common';
 
 const classes = cva(
   cn(

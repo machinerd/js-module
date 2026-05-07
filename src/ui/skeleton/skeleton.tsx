@@ -1,6 +1,6 @@
 import { cva, VariantProps } from 'class-variance-authority';
 import { HTMLAttributes } from 'react';
-import { cn } from '../../util';
+import { cn } from '../../util/common';
 
 const classes = cva(
   cn('komc:w-full komc:animate-pulse komc:bg-gray-200'),
