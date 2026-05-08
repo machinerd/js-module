@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button } from '../../ui/button';
+import { Button } from '../button';
 import Sheet from './sheet';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 

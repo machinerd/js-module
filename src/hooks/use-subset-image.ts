@@ -1,5 +1,7 @@
+'use client';
+
 import React, { SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { isExternalSrc, isSrcSetCompatible, parsePath } from "../util";
+import { isExternalSrc, isSrcSetCompatible, parsePath } from "../util/file";
 import { useApiClient } from "../providers";
 
 export const SUBSETS = [12, 120, 240, 300, 406, 512, 612, 768, 960, 1024, 1280, 1440, 1560, 1920, 2560, 3840];

@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "../../util";
+import { cn } from "../../util/common";
 import { useCarousel } from "./carousel-context";
 
 export default function CarouselViewport({ children, className, ...props }: React.ComponentProps<'div'>) {

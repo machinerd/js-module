@@ -11,7 +11,7 @@ export {
 export { 
   default as useScrollTop, 
   type UseScrollTopProps,
-} from './use-scoll-top';
+} from './use-scroll-top';
 export { 
   default as useSubsetImage, 
   SUBSETS, 

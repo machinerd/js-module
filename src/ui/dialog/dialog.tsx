@@ -1,5 +1,3 @@
-'use client';
-
 import { cva, VariantProps } from 'class-variance-authority';
 import { HTMLAttributes, ReactNode, useCallback, useEffect, useState } from 'react';
 import { useDelayUnmount } from '../../hooks';

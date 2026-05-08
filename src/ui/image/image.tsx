@@ -3,7 +3,7 @@ import {
   forwardRef,
 } from 'react';
 import useSubsetImage, { type UseSubsetImageProps } from '../../hooks/use-subset-image';
-import { Skeleton } from '../../ui/skeleton';
+import { Skeleton } from '../skeleton';
 import { cva } from 'class-variance-authority';
 
 const classes = cva('', {
