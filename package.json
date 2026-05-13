@@ -1,6 +1,6 @@
 {
   "name": "@machinerd/js-module",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "type": "module",
   "description": "",
   "main": "dist/index.mjs",
@@ -22,6 +22,7 @@
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
+
     "./util/browser": {
       "import": "./dist/util/browser.mjs",
       "require": "./dist/util/browser.cjs"
@@ -50,6 +51,7 @@
       "import": "./dist/util/phone.mjs",
       "require": "./dist/util/phone.cjs"
     },
+
     "./ui/common": {
       "import": "./dist/ui/index.mjs",
       "require": "./dist/ui/index.cjs"
@@ -74,14 +76,17 @@
       "import": "./dist/ui/tooltip/index.mjs",
       "require": "./dist/ui/tooltip/index.cjs"
     },
+
     "./hooks": {
       "import": "./dist/hooks/index.mjs",
       "require": "./dist/hooks/index.cjs"
     },
+
     "./providers": {
       "import": "./dist/providers/index.mjs",
       "require": "./dist/providers/index.cjs"
     },
+
     "./styles/index.css": "./dist/styles/index.css"
   },
   "keywords": [],

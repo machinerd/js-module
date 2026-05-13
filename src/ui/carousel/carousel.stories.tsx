@@ -5,6 +5,7 @@ import {
   CarouselPrevious,
   CarouselViewport,
   CarouselWrapper,
+  useCarousel,
 } from '.';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import clsx from 'clsx';
@@ -105,24 +106,34 @@ export const HorizontalTwoSlides: Story = {
   name: '가로 · 2장 노출',
   parameters: { controls: { disable: true } },
   decorators: storyDecorator,
-  render: () => (
-    <Carousel
-      orientation="horizontal"
-      options={{ loop: true, align: 'start', slidesToScroll: 'auto' }}
-      className="komc:w-full komc:max-w-md komc:h-40"
-    >
-      <CarouselViewport>
-        <CarouselWrapper>
-          {Array.from({ length: SLIDE_COUNT }).map((_, index) => (
-            <CarouselItem key={index} className="komc:basis-1/2!">
-              <div className={slideCardClass}>{index + 1}</div>
-            </CarouselItem>
-          ))}
-        </CarouselWrapper>
-      </CarouselViewport>
-      <CarouselNav orientation="horizontal" />
-    </Carousel>
-  ),
+  render: () => {
+    const Component = () => {
+      const { selectedScrollSnap, dots } = useCarousel();
+      return (
+        <span>{`${selectedScrollSnap + 1}/${dots}`}</span>
+      );
+    };
+
+    return (
+      <Carousel
+        orientation="horizontal"
+        options={{ loop: true, align: 'start', slidesToScroll: 'auto' }}
+        className="komc:w-full komc:max-w-md komc:h-40"
+      >
+        <CarouselViewport>
+          <CarouselWrapper>
+            {Array.from({ length: SLIDE_COUNT }).map((_, index) => (
+              <CarouselItem key={index} className="komc:basis-1/2!">
+                <div className={slideCardClass}>{index + 1}</div>
+              </CarouselItem>
+            ))}
+          </CarouselWrapper>
+        </CarouselViewport>
+        <CarouselNav orientation="horizontal" />
+        <Component />
+      </Carousel>
+    );
+  },
 };
 
 /** 세로 · 1장씩 · align start */
