@@ -1,5 +1,6 @@
 'use client';
 
+export { useCarousel } from './carousel-context';
 export type { 
   CarouselProps,
   CarouselContextProps,
