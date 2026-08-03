@@ -1,4 +1,8 @@
-export const formatCompactNumber = (number: number, locale = 'en-US', options?: Intl.NumberFormatOptions) => {
+export const formatCompactNumber = (
+  number: number,
+  locale = 'en-US',
+  options?: Intl.NumberFormatOptions,
+) => {
   return new Intl.NumberFormat(locale, {
     notation: 'compact',
     maximumFractionDigits: 1,
@@ -6,7 +10,11 @@ export const formatCompactNumber = (number: number, locale = 'en-US', options?: 
   }).format(number);
 };
 
-export const formatExceedNumber = (number: number, threshold: number, suffix = '+') => {
+export const formatExceedNumber = (
+  number: number,
+  threshold: number,
+  suffix = '+',
+) => {
   if (number > threshold) return `${threshold}${suffix}`;
   return String(number);
 };

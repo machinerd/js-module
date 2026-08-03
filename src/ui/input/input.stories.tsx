@@ -71,5 +71,7 @@ export const WithPrefixAndSuffix: Story = {
   args: {
     placeholder: '검색',
   },
-  render: (args) => <Input {...args} prefix={prefixNode} surffix={suffixNode} />,
+  render: (args) => (
+    <Input {...args} prefix={prefixNode} surffix={suffixNode} />
+  ),
 };

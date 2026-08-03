@@ -1,6 +1,6 @@
-import React from "react";
-import { useCarousel } from "./carousel-context";
-import clsx from "clsx";
+import React from 'react';
+import { useCarousel } from './carousel-context';
+import clsx from 'clsx';
 
 export default function CarouselNext({
   children,

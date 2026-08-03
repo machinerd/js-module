@@ -8,7 +8,9 @@ const highlightWrapper = (children: React.ReactNode) => (
 );
 
 const plainWrapper = (children: React.ReactNode) => (
-  <div className="komc:border komc:border-neutral-200 komc:p-4 komc:rounded-md">{children}</div>
+  <div className="komc:border komc:border-neutral-200 komc:p-4 komc:rounded-md">
+    {children}
+  </div>
 );
 
 const meta = {

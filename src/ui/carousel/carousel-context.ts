@@ -1,5 +1,5 @@
-import useEmblaCarousel, { UseEmblaCarouselType } from "embla-carousel-react";
-import React from "react";
+import useEmblaCarousel, { UseEmblaCarouselType } from 'embla-carousel-react';
+import React from 'react';
 
 export type CarouselApi = UseEmblaCarouselType[1];
 export type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -25,7 +25,9 @@ export type CarouselContextProps = {
   selectedScrollSnap: number;
 } & CarouselProps;
 
-export const CarouselContext = React.createContext<CarouselContextProps | null>(null);
+export const CarouselContext = React.createContext<CarouselContextProps | null>(
+  null,
+);
 
 export function useCarousel() {
   const context = React.useContext(CarouselContext);

@@ -2,10 +2,29 @@ import { Button } from '.';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 const outlineOptions = ['line', 'solid', 'clear'] as const;
-const variantLine = ['blue', 'duo', 'white', 'gray', 'neutral', 'sky', 'sky-blue'] as const;
-const variantSolid = ['white', 'gray', 'blue', 'night', 'black', 'sky', 'sky-blue', 'indigo'] as const;
+const variantLine = [
+  'blue',
+  'duo',
+  'white',
+  'gray',
+  'neutral',
+  'sky',
+  'sky-blue',
+] as const;
+const variantSolid = [
+  'white',
+  'gray',
+  'blue',
+  'night',
+  'black',
+  'sky',
+  'sky-blue',
+  'indigo',
+] as const;
 const variantClear = ['gray', 'sky'] as const;
-const allVariants = [...new Set([...variantLine, ...variantSolid, ...variantClear])];
+const allVariants = [
+  ...new Set([...variantLine, ...variantSolid, ...variantClear]),
+];
 
 const meta = {
   component: Button,
@@ -14,7 +33,10 @@ const meta = {
   argTypes: {
     children: { control: 'text', description: '버튼 라벨' },
     disabled: { control: 'boolean' },
-    asChild: { control: 'boolean', description: 'true면 Slot으로 자식 요소에 스타일만 전달' },
+    asChild: {
+      control: 'boolean',
+      description: 'true면 Slot으로 자식 요소에 스타일만 전달',
+    },
     type: {
       control: 'select',
       options: ['button', 'submit', 'reset'],

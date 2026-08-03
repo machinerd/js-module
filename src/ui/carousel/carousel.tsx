@@ -1,9 +1,20 @@
-import { ComponentProps, KeyboardEvent, useCallback, useEffect, useState } from "react";
-import useEmblaCarousel from "embla-carousel-react";
-import { CarouselApi, CarouselContext, CarouselProps as CarouselContextProps } from "./carousel-context";
-import { cn } from "../../util/common";
+import {
+  ComponentProps,
+  KeyboardEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
+import useEmblaCarousel from 'embla-carousel-react';
+import {
+  CarouselApi,
+  CarouselContext,
+  CarouselProps as CarouselContextProps,
+} from './carousel-context';
+import { cn } from '../../util/common';
 
-export interface CarouselProps extends ComponentProps<'div'>, CarouselContextProps {
+export interface CarouselProps
+  extends ComponentProps<'div'>, CarouselContextProps {
   orientation?: 'horizontal' | 'vertical';
   options?: CarouselContextProps['options'];
   setApi?: CarouselContextProps['setApi'];
@@ -46,9 +57,12 @@ export default function Carousel({
     api?.scrollNext();
   }, [api]);
 
-  const scrollTo = useCallback((index: number) => {
-    api?.scrollTo(index);
-  }, [api]);
+  const scrollTo = useCallback(
+    (index: number) => {
+      api?.scrollTo(index);
+    },
+    [api],
+  );
 
   const getDots = useCallback(() => {
     setDots(api?.scrollSnapList().length || 0);
@@ -94,7 +108,7 @@ export default function Carousel({
     return () => {
       api?.off('select', onSelect);
     };
-  }, [api, onSelect]);
+  }, [api, getDots, onSelect]);
 
   return (
     <CarouselContext.Provider
@@ -118,6 +132,7 @@ export default function Carousel({
         role="region"
         aria-label="carousel"
         aria-roledescription="carousel"
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         tabIndex={0}
         onKeyDownCapture={handleKeyDown}
         className={cn('komc:relative', className)}

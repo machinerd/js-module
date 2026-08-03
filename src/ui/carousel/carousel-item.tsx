@@ -1,8 +1,11 @@
-import React from "react";
-import { cn } from "../../util/common";
-import { useCarousel } from "./carousel-context";
+import React from 'react';
+import { cn } from '../../util/common';
+import { useCarousel } from './carousel-context';
 
-export default function CarouselItem({ className, ...props }: React.ComponentProps<'div'>) {
+export default function CarouselItem({
+  className,
+  ...props
+}: React.ComponentProps<'div'>) {
   const { orientation } = useCarousel();
 
   return (

@@ -1,12 +1,9 @@
-import React from 'react';
 import '../src/styles/index.css';
 import type { Preview } from '@storybook/react-vite';
 import type { ReactElement } from 'react';
 
 const preview: Preview = {
-  decorators: [
-    (Story): ReactElement => <Story />,
-  ],
+  decorators: [(Story): ReactElement => <Story />],
   parameters: {
     controls: {
       matchers: {

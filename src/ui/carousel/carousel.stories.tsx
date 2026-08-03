@@ -109,9 +109,7 @@ export const HorizontalTwoSlides: Story = {
   render: () => {
     const Component = () => {
       const { selectedScrollSnap, dots } = useCarousel();
-      return (
-        <span>{`${selectedScrollSnap + 1}/${dots}`}</span>
-      );
+      return <span>{`${selectedScrollSnap + 1}/${dots}`}</span>;
     };
 
     return (

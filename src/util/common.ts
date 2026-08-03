@@ -146,7 +146,7 @@ export const getI18nValues = <
   if (locale) {
     const matchIndex = sorted.findIndex((v) => v.locale === locale);
 
-    if (matchIndex) {
+    if (matchIndex !== -1) {
       const matched = sorted.splice(matchIndex, 1);
       sorted.unshift(matched[0]);
     }
@@ -182,7 +182,7 @@ export const getI18nValue = <
   const sorted = newValues!.sort(comparePriorityAsc);
   if (locale) {
     const matchIndex = sorted.findIndex((v) => v.locale === locale);
-    if (matchIndex) {
+    if (matchIndex !== -1) {
       const matched = sorted.splice(matchIndex, 1);
       sorted.unshift(matched[0]);
     }
@@ -237,6 +237,7 @@ export const withoutProperty = <T, K extends keyof T>(
   obj: T,
   property: K,
 ): Omit<T, K> => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { [property]: _, ...rest } = obj;
   return rest;
 };

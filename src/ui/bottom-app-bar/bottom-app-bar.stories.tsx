@@ -6,7 +6,16 @@ interface DemoItem {
   href: string;
 }
 
-const defaultLabels = ['홈', '검색', '즐겨찾기', '프로필', '알림', '설정', '더보기', '닫기'];
+const defaultLabels = [
+  '홈',
+  '검색',
+  '즐겨찾기',
+  '프로필',
+  '알림',
+  '설정',
+  '더보기',
+  '닫기',
+];
 
 function itemsForCount(count: number): DemoItem[] {
   return Array.from({ length: count }, (_, i) => ({
@@ -24,7 +33,9 @@ function BottomAppBarDemo({ itemCount, className }: BottomAppBarDemoProps) {
   const items = itemsForCount(Math.min(8, Math.max(2, itemCount)));
   return (
     <div className="komc:relative komc:min-h-48 komc:border komc:border-dashed komc:border-neutral-300 komc:rounded-lg komc:overflow-hidden">
-      <div className="komc:p-4 komc:text-sm komc:text-neutral-500">하단 고정 바 미리보기</div>
+      <div className="komc:p-4 komc:text-sm komc:text-neutral-500">
+        하단 고정 바 미리보기
+      </div>
       <BottomAppBar
         className={className}
         items={items}

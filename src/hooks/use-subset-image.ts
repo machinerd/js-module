@@ -1,10 +1,21 @@
+/* eslint-disable react-hooks/immutability */
 'use client';
 
-import React, { SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { isExternalSrc, isSrcSetCompatible, parsePath } from "../util/file";
-import { useApiClient } from "../providers";
+import React, {
+  SyntheticEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { isExternalSrc, isSrcSetCompatible, parsePath } from '../util/file';
+import { useApiClient } from '../providers';
 
-export const SUBSETS = [12, 120, 240, 300, 406, 512, 612, 768, 960, 1024, 1280, 1440, 1560, 1920, 2560, 3840];
+export const SUBSETS = [
+  12, 120, 240, 300, 406, 512, 612, 768, 960, 1024, 1280, 1440, 1560, 1920,
+  2560, 3840,
+];
 
 export type Folder = 'media' | 'static';
 
@@ -34,29 +45,32 @@ export type UseSubsetImageProps = BaseProps &
       }
   );
 
-export default function useSubsetImage({ 
+export default function useSubsetImage({
   ref,
-  src, 
+  src,
   forceLoad = false,
-  folder = 'media', 
+  folder = 'media',
   fallbackSrc,
-  origin, 
-  originalWidth, 
+  origin,
+  originalWidth,
   loading = 'lazy',
   ...rest
 }: UseSubsetImageProps) {
   const apiClient = useApiClient();
   const [fallbackStep, setFallbackStep] = useState(0);
-  const [isLoad, setIsLoad] = useState(forceLoad || !Boolean(src));
-  const [isError, setIsError] = useState(!Boolean(src));
+  const [isLoad, setIsLoad] = useState(forceLoad || !src);
+  const [isError, setIsError] = useState(!src);
   const internalRef = useRef<HTMLImageElement | null>(null);
-  const pendingErrorEventRef = useRef<SyntheticEvent<HTMLImageElement, Event> | null>(null);
+  const pendingErrorEventRef = useRef<SyntheticEvent<
+    HTMLImageElement,
+    Event
+  > | null>(null);
 
   const combinedRef = useCallback(
     (node: HTMLImageElement | null) => {
       internalRef.current = node;
 
-      if (typeof ref === "function") {
+      if (typeof ref === 'function') {
         ref(node);
       } else if (ref) {
         (ref as React.MutableRefObject<HTMLImageElement | null>).current = node;
@@ -65,16 +79,28 @@ export default function useSubsetImage({
     [ref],
   );
 
-  const cdnFn = useCallback((src: string, folder: Folder) => {
-    const replaceSrc = src.startsWith('/') ? src.slice(1) : src;
-    return folder === 'static' ? apiClient.cdnStatic(replaceSrc) : apiClient.cdnMedia(replaceSrc);
-  }, [apiClient]);
+  const cdnFn = useCallback(
+    (src: string, folder: Folder) => {
+      const replaceSrc = src.startsWith('/') ? src.slice(1) : src;
+      return folder === 'static'
+        ? apiClient.cdnStatic(replaceSrc)
+        : apiClient.cdnMedia(replaceSrc);
+    },
+    [apiClient],
+  );
 
-  const availableSubsets = useMemo(() => SUBSETS.filter((subset) => subset <= originalWidth), [originalWidth]);
-  const validatedSrc = useMemo(() => isExternalSrc(src) ? src : cdnFn(src, folder), [cdnFn, src, folder]);
+  const availableSubsets = useMemo(
+    () => SUBSETS.filter((subset) => subset <= originalWidth),
+    [originalWidth],
+  );
+  const validatedSrc = useMemo(
+    () => (isExternalSrc(src) ? src : cdnFn(src, folder)),
+    [cdnFn, src, folder],
+  );
 
   const srcSet = useMemo(() => {
-    if (origin || !isSrcSetCompatible(src) || availableSubsets.length === 0) return undefined;
+    if (origin || !isSrcSetCompatible(src) || availableSubsets.length === 0)
+      return undefined;
 
     const { filenameWithoutExtension, directory } = parsePath(src, folder);
 
@@ -99,11 +125,14 @@ export default function useSubsetImage({
     return result.trim();
   }, [availableSubsets, cdnFn, folder, origin, src, rest.width]);
 
-  const makeFallbackSrc = useCallback((src: string, folder: Folder) => {
-    const { filenameWithoutExtension, directory } = parsePath(src, folder);
-  
-    return `${cdnFn(`${directory}/subsets/origin/${filenameWithoutExtension}.webp`, folder)}`;
-  }, [cdnFn]);
+  const makeFallbackSrc = useCallback(
+    (src: string, folder: Folder) => {
+      const { filenameWithoutExtension, directory } = parsePath(src, folder);
+
+      return `${cdnFn(`${directory}/subsets/origin/${filenameWithoutExtension}.webp`, folder)}`;
+    },
+    [cdnFn],
+  );
 
   const fallbackSrcSet = useMemo(() => {
     if (src) {
@@ -125,11 +154,11 @@ export default function useSubsetImage({
     [],
   );
 
-  const currentSrcSet = (() => {
+  const currentSrcSet = () => {
     if (fallbackStep === 0) return srcSet;
     if (fallbackStep === 1) return fallbackSrcSet;
     return undefined;
-  });
+  };
   const currentSrc = fallbackStep >= 3 ? fallbackSrc : validatedSrc;
   const currentSizes = fallbackStep === 0 ? rest.sizes : undefined;
   const currentLoading = fallbackStep > 0 ? 'eager' : loading;
@@ -165,6 +194,7 @@ export default function useSubsetImage({
     return () => img.removeEventListener('load', handleLoad);
   }, [isError, fallbackStep, handleError]);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { fill: _, ...imageProps } = rest;
 
   return {

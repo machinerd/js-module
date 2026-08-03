@@ -158,8 +158,15 @@ export const PlacementGrid: Story = {
   render: () => (
     <div className="komc:grid komc:grid-cols-2 sm:komc:grid-cols-3 md:komc:grid-cols-4 komc:gap-6 komc:p-6 komc:bg-neutral-50 komc:rounded-xl komc:min-h-96 komc:items-center komc:justify-items-center">
       {PLACEMENTS.map((placement) => (
-        <div key={placement} className="komc:flex komc:items-center komc:justify-center komc:min-h-16 komc:w-full">
-          <Tooltip content={`placement: ${placement}`} placement={placement} defaultOpen={false}>
+        <div
+          key={placement}
+          className="komc:flex komc:items-center komc:justify-center komc:min-h-16 komc:w-full"
+        >
+          <Tooltip
+            content={`placement: ${placement}`}
+            placement={placement}
+            defaultOpen={false}
+          >
             <button
               type="button"
               className="komc:text-xs komc:px-2 komc:py-1 komc:bg-white komc:rounded komc:border komc:border-neutral-200"
