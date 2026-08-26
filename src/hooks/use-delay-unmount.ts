@@ -3,18 +3,17 @@
 import { useState, useEffect } from 'react';
 
 export default function useDelayUnmount(isMounted: boolean, delayTime: number) {
-  const [shouldRender, setShouldRender] = useState(false);
+  const [keepMounted, setKeepMounted] = useState(isMounted);
 
   useEffect(() => {
-    let timeoutId: ReturnType<typeof setTimeout>;
-
-    if (isMounted && !shouldRender) {
-      setShouldRender(true);
-    } else if (!isMounted && shouldRender) {
-      timeoutId = setTimeout(() => setShouldRender(false), delayTime);
+    if (isMounted) {
+      setKeepMounted(true);
+      return;
     }
-    return () => clearTimeout(timeoutId);
-  }, [isMounted, delayTime, shouldRender]);
 
-  return shouldRender;
+    const timeoutId = setTimeout(() => setKeepMounted(false), delayTime);
+    return () => clearTimeout(timeoutId);
+  }, [isMounted, delayTime]);
+
+  return isMounted || keepMounted;
 }
