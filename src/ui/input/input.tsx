@@ -50,11 +50,11 @@ const classes = cva(
 
 export interface InputProps
   extends
-  Omit<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    'prefix' | 'surffix' | 'size'
-  >,
-  VariantProps<typeof classes> {
+    Omit<
+      React.InputHTMLAttributes<HTMLInputElement>,
+      'prefix' | 'surffix' | 'size'
+    >,
+    VariantProps<typeof classes> {
   size?: VariantProps<typeof classes>['size'];
   gap?: VariantProps<typeof classes>['gap'];
   outline?: VariantProps<typeof classes>['outline'];

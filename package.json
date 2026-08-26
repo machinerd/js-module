@@ -1,6 +1,6 @@
 {
   "name": "@machinerd/js-module",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "type": "module",
   "description": "",
   "main": "dist/index.mjs",
@@ -15,14 +15,18 @@
     "build:css": "pnpm dlx @tailwindcss/cli -i src/styles/index.css -o dist/styles/index.css",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "prepublishOnly": "pnpm build"
+    "prepublishOnly": "pnpm build",
+    "lint": "eslint --cache --fix"
   },
+  "sideEffects": [
+    "**/*.css",
+    "./dist/styles/index.css"
+  ],
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
-
     "./util/browser": {
       "import": "./dist/util/browser.mjs",
       "require": "./dist/util/browser.cjs"
@@ -51,7 +55,6 @@
       "import": "./dist/util/phone.mjs",
       "require": "./dist/util/phone.cjs"
     },
-
     "./ui/common": {
       "import": "./dist/ui/index.mjs",
       "require": "./dist/ui/index.cjs"
@@ -76,17 +79,14 @@
       "import": "./dist/ui/tooltip/index.mjs",
       "require": "./dist/ui/tooltip/index.cjs"
     },
-
     "./hooks": {
       "import": "./dist/hooks/index.mjs",
       "require": "./dist/hooks/index.cjs"
     },
-
     "./providers": {
       "import": "./dist/providers/index.mjs",
       "require": "./dist/providers/index.cjs"
     },
-
     "./styles/index.css": "./dist/styles/index.css"
   },
   "keywords": [],
@@ -94,6 +94,7 @@
   "license": "MIT",
   "packageManager": "pnpm@10.25.0",
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
     "@storybook/addon-docs": "^10.3.5",
     "@storybook/react-vite": "^10.2.3",
     "@tailwindcss/postcss": "^4.1.18",
@@ -105,21 +106,33 @@
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.7",
     "@types/slug": "^5.0.9",
+    "embla-carousel": "^8.6.0",
+    "embla-carousel-react": "^8.6.0",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-prettier": "^5.5.6",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "motion": "^12.43.0",
     "postcss": "^8.5.6",
+    "prettier": "^3.9.6",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.84.0",
+    "react-select": "^5.10.2",
+    "react-select-async-paginate": "^0.7.11",
     "storybook": "^10.2.3",
     "tailwindcss": "^4.1.18",
     "tsdown": "0.17.0-beta.5",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.65.0"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.19",
-    "embla-carousel": "^8.6.0",
-    "embla-carousel-react": "^8.6.0",
     "google-libphonenumber": "^3.2.43",
     "js-cookie": "^3.0.5",
     "lodash-es": "^4.17.21",
@@ -128,7 +141,33 @@
     "slug": "^11.0.1"
   },
   "peerDependencies": {
+    "embla-carousel": "^8.0.0",
+    "embla-carousel-react": "^8.0.0",
+    "motion": "^12.0.0",
     "react": "^18.3.1 || ^19.0.0",
-    "react-dom": "^18.3.1 || ^19.0.0"
+    "react-dom": "^18.3.1 || ^19.0.0",
+    "react-hook-form": "^7.0.0",
+    "react-select": "^5.0.0",
+    "react-select-async-paginate": "^0.7.0"
+  },
+  "peerDependenciesMeta": {
+    "embla-carousel": {
+      "optional": true
+    },
+    "embla-carousel-react": {
+      "optional": true
+    },
+    "motion": {
+      "optional": true
+    },
+    "react-hook-form": {
+      "optional": true
+    },
+    "react-select": {
+      "optional": true
+    },
+    "react-select-async-paginate": {
+      "optional": true
+    }
   }
 }

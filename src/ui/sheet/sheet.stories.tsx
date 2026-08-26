@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useState } from 'react';
 import { Button } from '../button';
 import Sheet from './sheet';
@@ -49,9 +50,7 @@ function SheetPanel({
   return (
     <div className="komc:p-4 komc:flex komc:flex-col komc:gap-3 komc:h-full komc:min-h-0 komc:overflow-auto">
       <div className="komc:flex komc:justify-between komc:items-center komc:gap-2">
-        <h2 className="komc:text-lg komc:font-semibold">
-          {label ?? 'Sheet'}
-        </h2>
+        <h2 className="komc:text-lg komc:font-semibold">{label ?? 'Sheet'}</h2>
         <Button
           type="button"
           outline="line"
@@ -122,14 +121,12 @@ export const SizeFull: Story = {
             full 높이 Sheet 열기
           </Button>
           <p className="komc:text-xs komc:text-neutral-500">
-            size=&quot;full&quot; — 하단(또는 상단) 축으로 뷰포트 높이를 채웁니다.
+            size=&quot;full&quot; — 하단(또는 상단) 축으로 뷰포트 높이를
+            채웁니다.
           </p>
         </div>
         <Sheet {...args} isOpen={open} onClose={() => setOpen(false)}>
-          <SheetPanel
-            label="size=full"
-            onClose={() => setOpen(false)}
-          />
+          <SheetPanel label="size=full" onClose={() => setOpen(false)} />
         </Sheet>
       </div>
     );
@@ -158,15 +155,13 @@ export const SizeCustom320: Story = {
             320px 너비 Sheet 열기
           </Button>
           <p className="komc:text-xs komc:text-neutral-500">
-            size=&quot;auto&quot;에 <code className="komc:font-mono komc:text-xs">className</code>으로
+            size=&quot;auto&quot;에{' '}
+            <code className="komc:font-mono komc:text-xs">className</code>으로
             너비를 고정한 예입니다.
           </p>
         </div>
         <Sheet {...args} isOpen={open} onClose={() => setOpen(false)}>
-          <SheetPanel
-            label="우측 · 320px"
-            onClose={() => setOpen(false)}
-          />
+          <SheetPanel label="우측 · 320px" onClose={() => setOpen(false)} />
         </Sheet>
       </div>
     );

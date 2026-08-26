@@ -254,13 +254,21 @@ const classes = cva(
       rounded: 'sm',
     },
   },
-)
+);
 
 interface VariantMap {
   line: 'blue' | 'duo' | 'white' | 'gray' | 'neutral' | 'sky' | 'sky-blue';
-  solid: 'white' | 'gray' | 'blue' | 'night' | 'black' | 'sky' | 'sky-blue' | 'indigo';
+  solid:
+    | 'white'
+    | 'gray'
+    | 'blue'
+    | 'night'
+    | 'black'
+    | 'sky'
+    | 'sky-blue'
+    | 'indigo';
   clear: 'sky' | 'gray';
-};
+}
 
 type BaseProps = Omit<VariantProps<typeof classes>, 'outline' | 'variant'>;
 
@@ -274,38 +282,43 @@ export type ButtonProps = ComponentProps<'button'> &
     asChild?: boolean;
   };
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
-  type = 'button',
-  className,
-  id,
-  size,
-  shadow,
-  outline,
-  variant,
-  px,
-  rounded,
-  asChild,
-  ...rest
-}, ref) => {
-  const Comp = asChild ? Slot : 'button';
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      type = 'button',
+      className,
+      id,
+      size,
+      shadow,
+      outline,
+      variant,
+      px,
+      rounded,
+      asChild,
+      ...rest
+    },
+    ref,
+  ) => {
+    const Comp = asChild ? Slot : 'button';
 
-  return (
-    <Comp
-      ref={ref}
-      {...rest}
-      type={type}
-      id={id}
-      className={classes({
-        size,
-        shadow,
-        outline,
-        variant,
-        px,
-        rounded,
-        className,
-      })}
-    />
-  );
-});
+    return (
+      <Comp
+        ref={ref}
+        {...rest}
+        type={type}
+        id={id}
+        className={classes({
+          size,
+          shadow,
+          outline,
+          variant,
+          px,
+          rounded,
+          className,
+        })}
+      />
+    );
+  },
+);
 
 export default Button;

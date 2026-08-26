@@ -3,99 +3,102 @@ import clsx from 'clsx';
 import { useDelayUnmount } from '../../hooks';
 import { cva } from 'class-variance-authority';
 
-const positionClasses = cva(clsx(
-  'komc:absolute komc:bg-white komc:flex komc:flex-col komc:shadow-2xl',
-  'komc:transition-transform komc:duration-300 komc:ease-in-out'
-), {
-  variants: {
-    direction: {
-      top: 'komc:top-0 komc:left-0 komc:right-0 komc:-translate-y-full komc:data-[state=open]:translate-y-0',
-      bottom: 'komc:bottom-0 komc:left-0 komc:right-0 komc:translate-y-full komc:data-[state=open]:translate-y-0',
-      left: 'komc:top-0 komc:bottom-0 komc:left-0 komc:-translate-x-full komc:data-[state=open]:translate-x-0',
-      right: 'komc:top-0 komc:bottom-0 komc:right-0 komc:translate-x-full komc:data-[state=open]:translate-x-0',
-    }
-  }
-});
-
-const sizeClasses = cva('',
+const positionClasses = cva(
+  clsx(
+    'komc:absolute komc:bg-white komc:flex komc:flex-col komc:shadow-2xl',
+    'komc:transition-transform komc:duration-300 komc:ease-in-out',
+  ),
   {
     variants: {
-      size: {
-        full: '',
-        half: '',
-        auto: ''
-      },
       direction: {
-        top: '',
-        bottom: '',
-        left: '',
-        right: '',
+        top: 'komc:top-0 komc:left-0 komc:right-0 komc:-translate-y-full komc:data-[state=open]:translate-y-0',
+        bottom:
+          'komc:bottom-0 komc:left-0 komc:right-0 komc:translate-y-full komc:data-[state=open]:translate-y-0',
+        left: 'komc:top-0 komc:bottom-0 komc:left-0 komc:-translate-x-full komc:data-[state=open]:translate-x-0',
+        right:
+          'komc:top-0 komc:bottom-0 komc:right-0 komc:translate-x-full komc:data-[state=open]:translate-x-0',
       },
     },
-    compoundVariants: [
-      {
-        size: 'full',
-        direction: 'top',
-        className: 'komc:h-full',
-      },
-      {
-        size: 'full',
-        direction: 'bottom',
-        className: 'komc:h-full',
-      },
-      {
-        size: 'full',
-        direction: 'left',
-        className: 'komc:w-full',
-      },
-      {
-        size: 'full',
-        direction: 'right',
-        className: 'komc:w-full',
-      },
-      {
-        size: 'half',
-        direction: 'top',
-        className: 'komc:h-[50dvh]',
-      },
-      {
-        size: 'half',
-        direction: 'bottom',
-        className: 'komc:h-[50dvh]',
-      },
-      {
-        size: 'half',
-        direction: 'left',
-        className: 'komc:w-[50dvw]',
-      },
-      {
-        size: 'half',
-        direction: 'right',
-        className: 'komc:w-[50dvw]',
-      },
-      {
-        size: 'auto',
-        direction: 'top',
-        className: 'komc:h-auto komc:max-h-[90dvh]',
-      },
-      {
-        size: 'auto',
-        direction: 'bottom',
-        className: 'komc:h-auto komc:max-h-[90dvh]',
-      },
-      {
-        size: 'auto',
-        direction: 'left',
-        className: 'komc:w-auto komc:max-w-[90dvw]',
-      },
-      {
-        size: 'auto',
-        direction: 'right',
-        className: 'komc:w-auto komc:max-w-[90dvw]',
-      },
-    ],
-  }
+  },
 );
+
+const sizeClasses = cva('', {
+  variants: {
+    size: {
+      full: '',
+      half: '',
+      auto: '',
+    },
+    direction: {
+      top: '',
+      bottom: '',
+      left: '',
+      right: '',
+    },
+  },
+  compoundVariants: [
+    {
+      size: 'full',
+      direction: 'top',
+      className: 'komc:h-full',
+    },
+    {
+      size: 'full',
+      direction: 'bottom',
+      className: 'komc:h-full',
+    },
+    {
+      size: 'full',
+      direction: 'left',
+      className: 'komc:w-full',
+    },
+    {
+      size: 'full',
+      direction: 'right',
+      className: 'komc:w-full',
+    },
+    {
+      size: 'half',
+      direction: 'top',
+      className: 'komc:h-[50dvh]',
+    },
+    {
+      size: 'half',
+      direction: 'bottom',
+      className: 'komc:h-[50dvh]',
+    },
+    {
+      size: 'half',
+      direction: 'left',
+      className: 'komc:w-[50dvw]',
+    },
+    {
+      size: 'half',
+      direction: 'right',
+      className: 'komc:w-[50dvw]',
+    },
+    {
+      size: 'auto',
+      direction: 'top',
+      className: 'komc:h-auto komc:max-h-[90dvh]',
+    },
+    {
+      size: 'auto',
+      direction: 'bottom',
+      className: 'komc:h-auto komc:max-h-[90dvh]',
+    },
+    {
+      size: 'auto',
+      direction: 'left',
+      className: 'komc:w-auto komc:max-w-[90dvw]',
+    },
+    {
+      size: 'auto',
+      direction: 'right',
+      className: 'komc:w-auto komc:max-w-[90dvw]',
+    },
+  ],
+});
 
 type Direction = 'top' | 'bottom' | 'left' | 'right';
 type Size = 'full' | 'half' | 'auto';
@@ -175,7 +178,7 @@ export default function Sheet({
         className={clsx(
           'komc:absolute komc:inset-0 komc:w-full komc:h-full komc:bg-black/40 komc:cursor-default',
           'komc:transition-opacity komc:duration-300 komc:ease-in-out',
-          'komc:opacity-0 komc:data-[state=open]:opacity-100'
+          'komc:opacity-0 komc:data-[state=open]:opacity-100',
         )}
         onClick={handleBackdropClick}
         aria-label="close sheet"

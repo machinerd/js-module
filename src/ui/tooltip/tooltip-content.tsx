@@ -90,7 +90,7 @@ const classes = cva(
       placement: 'top',
       portal: false,
     },
-  }
+  },
 );
 
 export interface TooltipContentProps extends HTMLAttributes<HTMLDivElement> {
@@ -99,18 +99,20 @@ export interface TooltipContentProps extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
-const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(({ portal, children, className, placement, ...props }, ref) => {
-  return (
-    <div
-      ref={ref}
-      data-komc
-      role="tooltip"
-      className={classes({ portal, placement, className })}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-});
+const TooltipContent = forwardRef<HTMLDivElement, TooltipContentProps>(
+  ({ portal, children, className, placement, ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        data-komc
+        role="tooltip"
+        className={classes({ portal, placement, className })}
+        {...props}
+      >
+        {children}
+      </div>
+    );
+  },
+);
 
 export default TooltipContent;

@@ -7,7 +7,8 @@ import TooltipPortal from './tooltip-portal';
 
 type SubPlacement = 'start' | 'end';
 export type MainPlacement = 'top' | 'bottom';
-export type TooltipPlacement = MainPlacement | `${MainPlacement}-${SubPlacement}`;
+export type TooltipPlacement =
+  MainPlacement | `${MainPlacement}-${SubPlacement}`;
 
 export interface TooltipContainerProps extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -23,12 +24,12 @@ const TooltipContainer = forwardRef<HTMLDivElement, TooltipContainerProps>(
     defaultOpen = false,
     className,
     placement = 'top',
-  }, _ref) => {
+  }) => {
     const [open, setOpen] = useState(defaultOpen);
     const containerRef = useRef<HTMLDivElement>(null);
     const hiddenRef = useRef<HTMLDivElement>(null);
 
-    useOutsideClick({ ref: containerRef, setOpen })
+    useOutsideClick({ ref: containerRef, setOpen });
 
     return (
       <div
@@ -36,9 +37,7 @@ const TooltipContainer = forwardRef<HTMLDivElement, TooltipContainerProps>(
         data-komc
         className="komc:flex komc:shrink-0 komc:relative komc:overflow-hidden komc:w-fit komc:h-fit"
       >
-        <TooltipTrigger setOpen={setOpen}>
-          {children}
-        </TooltipTrigger>
+        <TooltipTrigger setOpen={setOpen}>{children}</TooltipTrigger>
         <TooltipPortal
           placement={placement}
           className={className}
@@ -58,7 +57,7 @@ const TooltipContainer = forwardRef<HTMLDivElement, TooltipContainerProps>(
         </TooltipContent>
       </div>
     );
-  }
+  },
 );
 
 export default TooltipContainer;

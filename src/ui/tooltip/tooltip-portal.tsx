@@ -37,7 +37,8 @@ export default function TooltipPortal({
   containerRef,
 }: TooltipPortalProps) {
   const [mounted, setMounted] = useState(false);
-  const [dynamicPlacement, setDynamicPlacement] = useState<TooltipPlacement>(placement);
+  const [dynamicPlacement, setDynamicPlacement] =
+    useState<TooltipPlacement>(placement);
   const [position, setPosition] = useState({ top: 0, left: 0 });
   const [arrowOffset, setArrowOffset] = useState({ x: 0, y: 0 });
 
@@ -60,9 +61,17 @@ export default function TooltipPortal({
     const spaceAbove = containerRect.top;
     const spaceBelow = window.innerHeight - containerRect.bottom;
 
-    if (main === 'bottom' && spaceBelow < boxRect.height && spaceAbove >= boxRect.height) {
+    if (
+      main === 'bottom' &&
+      spaceBelow < boxRect.height &&
+      spaceAbove >= boxRect.height
+    ) {
       currentPlacement = changePlacement(currentPlacement, 'top');
-    } else if (main === 'top' && spaceAbove < boxRect.height && spaceBelow >= boxRect.height) {
+    } else if (
+      main === 'top' &&
+      spaceAbove < boxRect.height &&
+      spaceBelow >= boxRect.height
+    ) {
       currentPlacement = changePlacement(currentPlacement, 'bottom');
     }
 
@@ -179,7 +188,9 @@ export default function TooltipPortal({
       placement={dynamicPlacement}
       className={clsx(
         className,
-        open ? 'komc:visible komc:opacity-100' : 'komc:opacity-0 komc:invisible',
+        open
+          ? 'komc:visible komc:opacity-100'
+          : 'komc:opacity-0 komc:invisible',
       )}
       style={{ ...position }}
     >

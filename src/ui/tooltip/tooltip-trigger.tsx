@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import clsx from 'clsx';
 
 export interface TooltipTriggerProps {
@@ -5,7 +7,10 @@ export interface TooltipTriggerProps {
   setOpen: (open: boolean) => void;
 }
 
-export default function TooltipTrigger({ children, setOpen }: TooltipTriggerProps) {
+export default function TooltipTrigger({
+  children,
+  setOpen,
+}: TooltipTriggerProps) {
   return (
     <div
       data-komc

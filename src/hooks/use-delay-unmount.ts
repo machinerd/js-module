@@ -7,7 +7,7 @@ export default function useDelayUnmount(isMounted: boolean, delayTime: number) {
 
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout>;
-    
+
     if (isMounted && !shouldRender) {
       setShouldRender(true);
     } else if (!isMounted && shouldRender) {

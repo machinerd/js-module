@@ -55,6 +55,7 @@ export const clearSearchPath = (pathname: string) => {
   return pathname.replace('/search', '').replace('//', '/');
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const clearQueryByKey = (query: Record<string, any>, key: string) => {
   const searchParams = new URLSearchParams(query);
   searchParams.delete(key);

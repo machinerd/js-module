@@ -31,7 +31,7 @@ export default function useScrollTop({
         const entry = entries[0];
         if (entry) setIsVisible(!entry.isIntersecting);
       },
-      { root: null, rootMargin: '0px', threshold: 0 }
+      { root: null, rootMargin: '0px', threshold: 0 },
     );
 
     observer.observe(el);

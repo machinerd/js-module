@@ -1,13 +1,22 @@
 'use client';
 
-import { Dispatch, RefObject, SetStateAction, useCallback, useEffect } from 'react';
+import {
+  Dispatch,
+  RefObject,
+  SetStateAction,
+  useCallback,
+  useEffect,
+} from 'react';
 
 export interface UseOutsideClickProps {
   ref: RefObject<HTMLElement | null>;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function useOutsideClick({ ref, setOpen }: UseOutsideClickProps) {
+export default function useOutsideClick({
+  ref,
+  setOpen,
+}: UseOutsideClickProps) {
   const handleOutsideClick = useCallback(
     (e: MouseEvent | TouchEvent) => {
       if (!ref.current?.contains(e.target as Node)) {

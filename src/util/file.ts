@@ -64,7 +64,9 @@ export const parsePath = (filepath: string, folder?: string): PathInfo => {
 };
 
 export const isExternalSrc = (src: string) => {
-  return src.startsWith('http') || src.startsWith('blob:') || src.startsWith('data:');
+  return (
+    src.startsWith('http') || src.startsWith('blob:') || src.startsWith('data:')
+  );
 };
 
 const SRCSET_INCOMPATIBLE_EXTENSIONS = ['svg', 'gif'];
@@ -75,10 +77,13 @@ export const isSrcSetCompatible = (src: string) => {
   }
 
   const lastSlashIndex = src.lastIndexOf('/');
-  const filename = lastSlashIndex >= 0 ? src.substring(lastSlashIndex + 1) : src;
+  const filename =
+    lastSlashIndex >= 0 ? src.substring(lastSlashIndex + 1) : src;
   const lastDotIndex = filename.lastIndexOf('.');
-  const extension = lastDotIndex > 0 ? filename.substring(lastDotIndex + 1) : '';
+  const extension =
+    lastDotIndex > 0 ? filename.substring(lastDotIndex + 1) : '';
 
-  return !SRCSET_INCOMPATIBLE_EXTENSIONS.includes(extension?.toLowerCase() ?? '');
+  return !SRCSET_INCOMPATIBLE_EXTENSIONS.includes(
+    extension?.toLowerCase() ?? '',
+  );
 };
-
