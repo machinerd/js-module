@@ -10,6 +10,7 @@ export default function CarouselWrapper({
 
   return (
     <div
+      data-komc
       className={cn(
         'komc:flex komc:h-full',
         orientation === 'horizontal'

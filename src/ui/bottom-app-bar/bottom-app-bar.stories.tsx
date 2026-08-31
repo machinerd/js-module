@@ -42,7 +42,7 @@ function BottomAppBarDemo({ itemCount, className }: BottomAppBarDemoProps) {
         render={(item) => (
           <button
             type="button"
-            className="komc:flex komc:flex-col komc:items-center komc:justify-center komc:w-full komc:h-full komc:border-none komc:bg-white komc:text-sm komc:cursor-pointer hover:komc:bg-neutral-50"
+            className="komc:flex komc:flex-col komc:items-center komc:justify-center komc:w-full komc:h-full komc:border-none komc:bg-white komc:text-sm komc:cursor-pointer komc:hover:bg-neutral-50"
           >
             {item.label}
           </button>

@@ -27,12 +27,52 @@ export default class ApiClient {
     return data as { ok: boolean; errors: Array<{ name: T; message: string }> };
   }
 
+  logout(path = '/', domain = '.komachine.com') {
+    const cookieOption: { path: string; domain?: string } = { path };
+
+    if (window.location.hostname !== 'localhost') {
+      cookieOption.domain = domain;
+    }
+
+    Cookies.remove('access', cookieOption);
+
+    window.location.href = cookieOption.path;
+  }
+
   getToken() {
     return Cookies.get('access');
   }
 
   getBearer() {
     return `Bearer ${this.getToken()}`;
+  }
+
+  async accessLog() {
+    if (this.getToken() === undefined) {
+      throw new Error('로그인 필요');
+    }
+    const url = `${this.#apiEndpoint}/access-log`;
+    const res = await fetch(url, {
+      headers: { Authorization: this.getBearer() },
+    });
+    if (!res.ok) {
+      throw new Error('인증에러');
+    }
+    return await res.json();
+  }
+
+  async me() {
+    if (this.getToken() === undefined) {
+      throw new Error('로그인 필요');
+    }
+    const url = `${this.#apiEndpoint}/me`;
+    const res = await fetch(url, {
+      headers: { Authorization: this.getBearer() },
+    });
+    if (!res.ok) {
+      throw new Error('인증에러');
+    }
+    return await res.json();
   }
 
   async hasPermission(obj: string, act: string, exact = false, silent = false) {
@@ -55,8 +95,7 @@ export default class ApiClient {
       }
       return;
     }
-    const data = await res.json();
-    return data;
+    return await res.json();
   }
 
   cdnMedia(path: string, size?: number) {
@@ -79,6 +118,27 @@ export default class ApiClient {
       return `${this.#cdnEndpoint}/media/resized/${prefix}/${size}/${key}`;
     }
     return `${this.#cdnEndpoint}/static/${path}`;
+  }
+
+  refinePath(path?: string | null) {
+    if (!path?.trim()) {
+      return '';
+    }
+    if (path.startsWith('blob:')) {
+      const lastSlashIndex = path.lastIndexOf('/');
+
+      if (lastSlashIndex !== -1) {
+        const beforeFile = path.substring(0, lastSlashIndex + 1);
+        const fileName = path.substring(lastSlashIndex + 1);
+        const extIndex = fileName.lastIndexOf('.');
+
+        if (extIndex !== -1) {
+          return beforeFile + fileName.substring(0, extIndex);
+        }
+      }
+    }
+
+    return this.cdnMedia(path);
   }
 
   getUploadPresignURL(param: {

@@ -2,7 +2,7 @@
 
 import { useRef, useState } from 'react';
 
-export default function useDragScroll(speed = 1) {
+export function useDragScroll(speed = 1) {
   const ref = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);

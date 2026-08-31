@@ -6,7 +6,8 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { useDelayUnmount } from '../../hooks';
+import { useDelayUnmount } from '../../hooks/common';
+import { useDialogStack } from '../../hooks/use-dialog-stack';
 
 const classes = cva(
   'komc:relative komc:z-10 komc:flex komc:min-h-0 komc:flex-col komc:overflow-hidden komc:w-full komc:max-h-full komc:min-w-0 komc:transition-all komc:duration-300 komc:ease-in-out',
@@ -57,6 +58,8 @@ export default function Dialog({
   const shouldRender = useDelayUnmount(isOpen, 300);
   const [isAnimating, setIsAnimating] = useState(false);
 
+  useDialogStack(isOpen, onClose);
+
   useEffect(() => {
     if (isOpen && shouldRender) {
       const timer = setTimeout(() => setIsAnimating(true), 10);
@@ -66,34 +69,11 @@ export default function Dialog({
     }
   }, [isOpen, shouldRender]);
 
-  const handleEscapeKey = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    },
-    [onClose],
-  );
-
   const handleBackdropClick = useCallback(() => {
     if (closeOnBackdropClick) {
       onClose();
     }
   }, [closeOnBackdropClick, onClose]);
-
-  useEffect(() => {
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscapeKey);
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleEscapeKey);
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen, handleEscapeKey]);
 
   if (!shouldRender) return null;
 

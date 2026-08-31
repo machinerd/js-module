@@ -13,12 +13,16 @@ import * as ImageStories from './image.stories';
 
 ## Providers (필수)
 
-`@machinerd/js-module/ui-client`의 **`Image`**와 `@machinerd/js-module/hooks`의 **`useSubsetImage`**는 **`ApiClientProvider` 안**에서만 동작합니다. **루트 레이아웃**(예: Next.js `app/layout.tsx`) 등 트리 최상단에 두세요.
+`@machinerd/js-module/ui-client`의 **`Image`**와 `@machinerd/js-module/hooks/common`의 **`useSubsetImage`**는 **`ApiClientProvider` 안**에서만 동작합니다. **루트 레이아웃**(예: Next.js `app/layout.tsx`) 등 트리 최상단에 두세요.
 
 ```tsx
-import { ApiClientProvider } from '@machinerd/js-module/providers';
+import { ApiClientProvider } from '@machinerd/js-module/providers/api-client';
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="ko">
       <body>
@@ -45,7 +49,7 @@ Provider 밖에서 `Image` / `useSubsetImage`를 쓰면 `ApiClient not found` �
 
 ## 저수준 훅
 
-마크업·스타일을 앱에서 전부 잡고 싶다면 컴포넌트 대신 `useSubsetImage`(`@machinerd/js-module/hooks`)에 props를 넘기면 됩니다. **`ApiClientProvider`는 동일하게 필요**합니다.
+마크업·스타일을 앱에서 전부 잡고 싶다면 컴포넌트 대신 `useSubsetImage`(`@machinerd/js-module/hooks/common`)에 props를 넘기면 됩니다. **`ApiClientProvider`는 동일하게 필요**합니다.
 
 ## `folder`
 

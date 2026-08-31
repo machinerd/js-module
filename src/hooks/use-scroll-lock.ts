@@ -11,7 +11,26 @@ export interface UseScrollLockProps {
 
 const DEFAULT_TYPES: readonly ScrollLockType[] = ['mouse', 'touch'];
 
-export default function useScrollLock({
+let mouseLockCount = 0;
+let savedOverflow: string | undefined;
+
+function acquireMouseLock() {
+  if (mouseLockCount === 0) {
+    savedOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+  }
+  mouseLockCount += 1;
+}
+
+function releaseMouseLock() {
+  mouseLockCount = Math.max(0, mouseLockCount - 1);
+  if (mouseLockCount === 0) {
+    document.body.style.overflow = savedOverflow || 'unset';
+    savedOverflow = undefined;
+  }
+}
+
+export function useScrollLock({
   open,
   type = DEFAULT_TYPES,
 }: UseScrollLockProps) {
@@ -28,27 +47,27 @@ export default function useScrollLock({
     const lockTouch = open && type.includes('touch');
 
     if (lockMouse) {
-      document.body.classList.add('overflow-hidden');
+      acquireMouseLock();
       document.addEventListener('wheel', preventWheelScroll, {
         passive: false,
       });
-    } else {
-      document.body.classList.remove('overflow-hidden');
-      document.removeEventListener('wheel', preventWheelScroll);
     }
 
     if (lockTouch) {
       document.addEventListener('touchmove', preventTouchScroll, {
         passive: false,
       });
-    } else {
-      document.removeEventListener('touchmove', preventTouchScroll);
     }
 
     return () => {
-      document.body.classList.remove('overflow-hidden');
-      document.removeEventListener('touchmove', preventTouchScroll);
-      document.removeEventListener('wheel', preventWheelScroll);
+      if (lockMouse) {
+        releaseMouseLock();
+        document.removeEventListener('wheel', preventWheelScroll);
+      }
+
+      if (lockTouch) {
+        document.removeEventListener('touchmove', preventTouchScroll);
+      }
     };
   }, [open, type, preventTouchScroll, preventWheelScroll]);
 }

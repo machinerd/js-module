@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 
-export default function useDelayUnmount(isMounted: boolean, delayTime: number) {
+export function useDelayUnmount(isMounted: boolean, delayTime: number) {
   const [keepMounted, setKeepMounted] = useState(isMounted);
 
   useEffect(() => {

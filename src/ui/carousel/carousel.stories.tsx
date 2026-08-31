@@ -13,7 +13,7 @@ import clsx from 'clsx';
 const SLIDE_COUNT = 8;
 
 const btnClass =
-  'komc:rounded-md komc:bg-neutral-100 komc:px-3 komc:py-2 hover:komc:bg-neutral-200';
+  'komc:rounded-md komc:bg-neutral-100 komc:px-3 komc:py-2 komc:hover:bg-neutral-200';
 
 const slideCardClass = clsx(
   'komc:flex komc:h-full komc:min-h-32 komc:items-center komc:justify-center',

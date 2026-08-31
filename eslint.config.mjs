@@ -48,6 +48,18 @@ export default defineConfig(
           readonly: 'array-simple',
         },
       ],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          args: 'all',
+          argsIgnorePattern: '^_',
+          caughtErrors: 'all',
+          caughtErrorsIgnorePattern: '^_',
+          destructuredArrayIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          ignoreRestSiblings: true,
+        },
+      ],
       'prettier/prettier': 'warn',
       ...reactHooks.configs.recommended.rules,
       'react-hooks/set-state-in-effect': 'off',

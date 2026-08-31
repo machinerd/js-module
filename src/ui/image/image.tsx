@@ -1,7 +1,8 @@
 /* eslint-disable jsx-a11y/alt-text */
 import clsx from 'clsx';
 import { forwardRef } from 'react';
-import useSubsetImage, {
+import {
+  useSubsetImage,
   type UseSubsetImageProps,
 } from '../../hooks/use-subset-image';
 import { Skeleton } from '../skeleton';
