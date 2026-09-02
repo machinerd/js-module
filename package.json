@@ -1,6 +1,6 @@
 {
   "name": "@machinerd/js-module",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "type": "module",
   "description": "",
   "main": "dist/index.mjs",
@@ -12,7 +12,7 @@
     "build": "tsdown && pnpm build:css",
     "build:pack": "pnpm build && pnpm pack",
     "build:tsc": "pnpm tsc",
-    "build:css": "pnpm dlx @tailwindcss/cli -i src/styles/index.css -o dist/styles/index.css && cp src/styles/editor.css dist/styles/editor.css",
+    "build:css": "pnpm dlx @tailwindcss/cli -i src/styles/index.css -o dist/styles/index.css",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "prepublishOnly": "pnpm build",
@@ -20,8 +20,7 @@
   },
   "sideEffects": [
     "**/*.css",
-    "./dist/styles/index.css",
-    "./dist/styles/editor.css"
+    "./dist/styles/index.css"
   ],
   "exports": {
     ".": {
@@ -60,14 +59,6 @@
       "import": "./dist/util/phone.mjs",
       "require": "./dist/util/phone.cjs"
     },
-    "./util/editor": {
-      "import": "./dist/util/editor.mjs",
-      "require": "./dist/util/editor.cjs"
-    },
-    "./editor": {
-      "import": "./dist/editor/index.mjs",
-      "require": "./dist/editor/index.cjs"
-    },
     "./ui/common": {
       "import": "./dist/ui/index.mjs",
       "require": "./dist/ui/index.cjs"
@@ -87,14 +78,6 @@
     "./ui/dnd": {
       "import": "./dist/ui/dnd/index.mjs",
       "require": "./dist/ui/dnd/index.cjs"
-    },
-    "./ui/dropdown": {
-      "import": "./dist/ui/dropdown/index.mjs",
-      "require": "./dist/ui/dropdown/index.cjs"
-    },
-    "./ui/preserve-focus-button": {
-      "import": "./dist/ui/preserve-focus-button/index.mjs",
-      "require": "./dist/ui/preserve-focus-button/index.cjs"
     },
     "./ui/image": {
       "import": "./dist/ui/image/index.mjs",
@@ -128,8 +111,7 @@
       "import": "./dist/providers/noti-stack/index.mjs",
       "require": "./dist/providers/noti-stack/index.cjs"
     },
-    "./styles/index.css": "./dist/styles/index.css",
-    "./styles/editor.css": "./dist/styles/editor.css"
+    "./styles/index.css": "./dist/styles/index.css"
   },
   "keywords": [],
   "author": "KOMACHINE",
@@ -141,13 +123,9 @@
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "@eslint/js": "^9.39.5",
-    "@floating-ui/react": "^0.27.16",
     "@storybook/addon-docs": "^10.3.5",
     "@storybook/react-vite": "^10.5.10",
     "@tailwindcss/postcss": "^4.1.18",
-    "@tiptap/core": "^3.2.0",
-    "@tiptap/pm": "^3.2.0",
-    "@tiptap/react": "^3.2.0",
     "@types/google-libphonenumber": "^7.4.30",
     "@types/js-cookie": "^3.0.6",
     "@types/lodash-es": "^4.17.12",
@@ -192,10 +170,6 @@
     "@dnd-kit/modifiers": "^9.0.0",
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.0.0",
-    "@floating-ui/react": "^0.27.0",
-    "@tiptap/core": "^3.2.0",
-    "@tiptap/pm": "^3.2.0",
-    "@tiptap/react": "^3.2.0",
     "embla-carousel": "^8.0.0",
     "embla-carousel-react": "^8.0.0",
     "notistack": "^3.0.0",
@@ -216,9 +190,6 @@
     "@dnd-kit/utilities": {
       "optional": true
     },
-    "@floating-ui/react": {
-      "optional": true
-    },
     "embla-carousel": {
       "optional": true
     },
@@ -229,15 +200,6 @@
       "optional": true
     },
     "motion": {
-      "optional": true
-    },
-    "@tiptap/core": {
-      "optional": true
-    },
-    "@tiptap/pm": {
-      "optional": true
-    },
-    "@tiptap/react": {
       "optional": true
     }
   }
