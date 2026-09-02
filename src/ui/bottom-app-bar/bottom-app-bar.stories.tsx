@@ -1,4 +1,4 @@
-import { BottomAppBar } from '.';
+import { BottomAppBar, type BottomAppBarProps } from '.';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 interface DemoItem {
@@ -26,10 +26,15 @@ function itemsForCount(count: number): DemoItem[] {
 
 interface BottomAppBarDemoProps {
   itemCount: number;
+  size?: BottomAppBarProps<DemoItem>['size'];
   className?: string;
 }
 
-function BottomAppBarDemo({ itemCount, className }: BottomAppBarDemoProps) {
+function BottomAppBarDemo({
+  itemCount,
+  size,
+  className,
+}: BottomAppBarDemoProps) {
   const items = itemsForCount(Math.min(8, Math.max(2, itemCount)));
   return (
     <div className="komc:relative komc:min-h-48 komc:border komc:border-dashed komc:border-neutral-300 komc:rounded-lg komc:overflow-hidden">
@@ -39,6 +44,7 @@ function BottomAppBarDemo({ itemCount, className }: BottomAppBarDemoProps) {
       <BottomAppBar
         className={className}
         items={items}
+        size={size}
         render={(item) => (
           <button
             type="button"
@@ -69,10 +75,26 @@ const meta = {
       control: { type: 'number', min: 2, max: 8, step: 1 },
       description: '데모: 탭 개수',
     },
+    size: {
+      control: 'select',
+      options: [
+        'auto',
+        'xxs',
+        'xs',
+        'xs-caption',
+        'caption',
+        'sm',
+        'sm-base',
+        'base',
+        'base-lg',
+        'lg',
+      ],
+    },
     className: { control: 'text' },
   },
   args: {
     itemCount: 4,
+    size: 'sm-base',
   },
 } satisfies Meta<typeof BottomAppBarDemo>;
 

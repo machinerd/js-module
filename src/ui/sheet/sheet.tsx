@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import clsx from 'clsx';
-import { useDelayUnmount } from '../../hooks/common';
+import { useDelayUnmount } from '../../hooks/use-delay-unmount';
 import { cva } from 'class-variance-authority';
 import { useDialogStack } from '../../hooks/use-dialog-stack';
 
@@ -148,7 +148,7 @@ export default function Sheet({
   if (!shouldRender) return null;
 
   return (
-    <div
+    <aside
       data-komc
       className="komc:fixed komc:inset-0 komc:flex komc:justify-center komc:items-center"
       style={{ zIndex }}
@@ -164,7 +164,7 @@ export default function Sheet({
         onClick={handleBackdropClick}
         aria-label="close sheet"
       />
-      <div
+      <section
         data-state={isAnimating ? 'open' : 'closed'}
         className={clsx(
           positionClasses({ direction, className }),
@@ -174,7 +174,7 @@ export default function Sheet({
         aria-modal="true"
       >
         {children}
-      </div>
-    </div>
+      </section>
+    </aside>
   );
 }

@@ -1,10 +1,10 @@
 import { forwardRef, HTMLAttributes } from 'react';
 import { cva } from 'class-variance-authority';
 import { TooltipPlacement } from './tooltip-container';
-import { cn } from '../../util/common';
+import clsx from 'clsx';
 
 const classes = cva(
-  cn(
+  clsx(
     'komc:z-99 komc:w-max komc:max-w-70 komc:p-2 komc:rounded-md',
     'komc:break-all komc:transition-opacity komc:duration-300 komc:bg-white',
     'komc:drop-shadow-[0px_0.5px_3px_rgba(0,0,0,0.2)] komc:text-xs',

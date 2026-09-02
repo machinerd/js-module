@@ -11,7 +11,7 @@ import {
   CarouselContext,
   CarouselProps as CarouselContextProps,
 } from './carousel-context';
-import { cn } from '../../util/common';
+import clsx from 'clsx';
 
 export interface CarouselProps
   extends ComponentProps<'div'>, CarouselContextProps {
@@ -135,7 +135,7 @@ export default function Carousel({
         // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
         tabIndex={0}
         onKeyDownCapture={handleKeyDown}
-        className={cn('komc:relative', className)}
+        className={clsx('komc:relative', className)}
         {...props}
       >
         {children}

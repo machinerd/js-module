@@ -1,6 +1,6 @@
 {
   "name": "@machinerd/js-module",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "type": "module",
   "description": "",
   "main": "dist/index.mjs",
@@ -9,10 +9,13 @@
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsdown && pnpm build:css",
-    "build:pack": "pnpm build && pnpm pack",
+    "build": "pnpm lint && tsdown && pnpm build:css",
+    "build:pack": "pnpm lint && pnpm build && pnpm pack",
     "build:tsc": "pnpm tsc",
-    "build:css": "pnpm dlx @tailwindcss/cli -i src/styles/index.css -o dist/styles/index.css",
+    "build:css": "pnpm build:css:index && pnpm build:css:admin && pnpm build:css:editor",
+    "build:css:index": "pnpm dlx @tailwindcss/cli -i src/styles/index.css -o dist/styles/index.css",
+    "build:css:admin": "pnpm dlx @tailwindcss/cli -i src/styles/admin.css -o dist/styles/admin.css",
+    "build:css:editor": "pnpm dlx @tailwindcss/cli -i src/styles/editor.css -o dist/styles/editor.css",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "prepublishOnly": "pnpm build",
@@ -20,98 +23,50 @@
   },
   "sideEffects": [
     "**/*.css",
-    "./dist/styles/index.css"
+    "./dist/styles/index.css",
+    "./dist/styles/admin.css",
+    "./dist/styles/editor.css"
   ],
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
       "require": "./dist/index.cjs"
     },
-    "./util/browser": {
-      "import": "./dist/util/browser.mjs",
-      "require": "./dist/util/browser.cjs"
+    "./editor": {
+      "import": "./dist/editor/index.mjs",
+      "require": "./dist/editor/index.cjs"
     },
-    "./util/common": {
-      "import": "./dist/util/common.mjs",
-      "require": "./dist/util/common.cjs"
+    "./editor/nodes/*": {
+      "import": "./dist/editor/nodes/*/index.mjs",
+      "require": "./dist/editor/nodes/*/index.cjs"
     },
-    "./util/date": {
-      "import": "./dist/util/date.mjs",
-      "require": "./dist/util/date.cjs"
+    "./editor/extensions/*": {
+      "import": "./dist/editor/extensions/*/index.mjs",
+      "require": "./dist/editor/extensions/*/index.cjs"
     },
-    "./util/fetcher": {
-      "import": "./dist/util/fetcher.mjs",
-      "require": "./dist/util/fetcher.cjs"
+    "./util/*": {
+      "import": "./dist/util/*/index.mjs",
+      "require": "./dist/util/*/index.cjs"
     },
-    "./util/file": {
-      "import": "./dist/util/file.mjs",
-      "require": "./dist/util/file.cjs"
+    "./ui/*": {
+      "import": "./dist/ui/*/index.mjs",
+      "require": "./dist/ui/*/index.cjs"
     },
-    "./util/format": {
-      "import": "./dist/util/format.mjs",
-      "require": "./dist/util/format.cjs"
+    "./ui/admin/*": {
+      "import": "./dist/ui/admin/*/index.mjs",
+      "require": "./dist/ui/admin/*/index.cjs"
     },
-    "./util/generator": {
-      "import": "./dist/util/generator.mjs",
-      "require": "./dist/util/generator.cjs"
+    "./hooks/*": {
+      "import": "./dist/hooks/*/index.mjs",
+      "require": "./dist/hooks/*/index.cjs"
     },
-    "./util/phone": {
-      "import": "./dist/util/phone.mjs",
-      "require": "./dist/util/phone.cjs"
+    "./providers/*": {
+      "import": "./dist/providers/*/index.mjs",
+      "require": "./dist/providers/*/index.cjs"
     },
-    "./ui/common": {
-      "import": "./dist/ui/index.mjs",
-      "require": "./dist/ui/index.cjs"
-    },
-    "./ui/carousel": {
-      "import": "./dist/ui/carousel/index.mjs",
-      "require": "./dist/ui/carousel/index.cjs"
-    },
-    "./ui/dialog": {
-      "import": "./dist/ui/dialog/index.mjs",
-      "require": "./dist/ui/dialog/index.cjs"
-    },
-    "./ui/motion-dialog": {
-      "import": "./dist/ui/motion-dialog/index.mjs",
-      "require": "./dist/ui/motion-dialog/index.cjs"
-    },
-    "./ui/dnd": {
-      "import": "./dist/ui/dnd/index.mjs",
-      "require": "./dist/ui/dnd/index.cjs"
-    },
-    "./ui/image": {
-      "import": "./dist/ui/image/index.mjs",
-      "require": "./dist/ui/image/index.cjs"
-    },
-    "./ui/sheet": {
-      "import": "./dist/ui/sheet/index.mjs",
-      "require": "./dist/ui/sheet/index.cjs"
-    },
-    "./ui/switch": {
-      "import": "./dist/ui/switch/index.mjs",
-      "require": "./dist/ui/switch/index.cjs"
-    },
-    "./ui/tooltip": {
-      "import": "./dist/ui/tooltip/index.mjs",
-      "require": "./dist/ui/tooltip/index.cjs"
-    },
-    "./hooks/common": {
-      "import": "./dist/hooks/common/index.mjs",
-      "require": "./dist/hooks/common/index.cjs"
-    },
-    "./hooks/use-snackbar": {
-      "import": "./dist/hooks/use-snackbar.mjs",
-      "require": "./dist/hooks/use-snackbar.cjs"
-    },
-    "./providers/api-client": {
-      "import": "./dist/providers/api-client/index.mjs",
-      "require": "./dist/providers/api-client/index.cjs"
-    },
-    "./providers/noti-stack": {
-      "import": "./dist/providers/noti-stack/index.mjs",
-      "require": "./dist/providers/noti-stack/index.cjs"
-    },
-    "./styles/index.css": "./dist/styles/index.css"
+    "./styles/index.css": "./dist/styles/index.css",
+    "./styles/admin.css": "./dist/styles/admin.css",
+    "./styles/editor.css": "./dist/styles/editor.css"
   },
   "keywords": [],
   "author": "KOMACHINE",
@@ -123,9 +78,31 @@
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "@eslint/js": "^9.39.5",
+    "@floating-ui/react": "^0.27.20",
+    "@fortawesome/fontawesome-svg-core": "^7.3.1",
+    "@fortawesome/free-solid-svg-icons": "^7.3.1",
+    "@fortawesome/react-fontawesome": "^3.5.0",
     "@storybook/addon-docs": "^10.3.5",
     "@storybook/react-vite": "^10.5.10",
     "@tailwindcss/postcss": "^4.1.18",
+    "@tailwindcss/typography": "^0.5.20",
+    "@tiptap/core": "3.23.4",
+    "@tiptap/extension-color": "3.23.4",
+    "@tiptap/extension-details": "3.23.4",
+    "@tiptap/extension-document": "3.23.4",
+    "@tiptap/extension-heading": "3.23.4",
+    "@tiptap/extension-image": "3.23.4",
+    "@tiptap/extension-list": "3.23.4",
+    "@tiptap/extension-paragraph": "3.23.4",
+    "@tiptap/extension-table": "3.23.4",
+    "@tiptap/extension-text": "3.23.4",
+    "@tiptap/extension-text-style": "3.23.4",
+    "@tiptap/extension-youtube": "3.23.4",
+    "@tiptap/extensions": "3.23.4",
+    "@tiptap/pm": "3.23.4",
+    "@tiptap/react": "3.23.4",
+    "@tiptap/starter-kit": "3.23.4",
+    "@tiptap/suggestion": "3.23.4",
     "@types/google-libphonenumber": "^7.4.30",
     "@types/js-cookie": "^3.0.6",
     "@types/lodash-es": "^4.17.12",
@@ -147,6 +124,10 @@
     "prettier": "^3.9.6",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-dropzone": "^20.1.1",
+    "react-hook-form": "^7.87.0",
+    "react-select": "^5.10.2",
+    "react-select-async-paginate": "^0.7.11",
     "storybook": "^10.5.10",
     "tailwindcss": "^4.1.18",
     "tsdown": "0.17.0-beta.5",
@@ -170,14 +151,48 @@
     "@dnd-kit/modifiers": "^9.0.0",
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.0.0",
+    "@floating-ui/react": "^0.27.0",
+    "@fortawesome/fontawesome-svg-core": "^6.0.0 || ^7.0.0",
+    "@fortawesome/react-fontawesome": "^3.0.0",
+    "@tailwindcss/typography": "^0.5.0",
+    "@tiptap/core": "^3.0.0",
+    "@tiptap/extension-color": "^3.0.0",
+    "@tiptap/extension-details": "^3.0.0",
+    "@tiptap/extension-document": "^3.0.0",
+    "@tiptap/extension-heading": "^3.0.0",
+    "@tiptap/extension-image": "^3.0.0",
+    "@tiptap/extension-list": "^3.0.0",
+    "@tiptap/extension-paragraph": "^3.0.0",
+    "@tiptap/extension-table": "^3.0.0",
+    "@tiptap/extension-text": "^3.0.0",
+    "@tiptap/extension-text-style": "^3.0.0",
+    "@tiptap/extension-youtube": "^3.0.0",
+    "@tiptap/extensions": "^3.0.0",
+    "@tiptap/pm": "^3.0.0",
+    "@tiptap/react": "^3.0.0",
+    "@tiptap/starter-kit": "^3.0.0",
+    "@tiptap/suggestion": "^3.0.0",
     "embla-carousel": "^8.0.0",
     "embla-carousel-react": "^8.0.0",
-    "notistack": "^3.0.0",
     "motion": "^13.0.0",
+    "notistack": "^3.0.0",
     "react": "^18.3.1 || ^19.0.0",
-    "react-dom": "^18.3.1 || ^19.0.0"
+    "react-dom": "^18.3.1 || ^19.0.0",
+    "react-dropzone": ">=14.0.0 <21.0.0",
+    "react-hook-form": "^7.0.0",
+    "react-select": "^5.0.0",
+    "react-select-async-paginate": "^0.7.0"
   },
   "peerDependenciesMeta": {
+    "@fortawesome/fontawesome-svg-core": {
+      "optional": true
+    },
+    "@fortawesome/react-fontawesome": {
+      "optional": true
+    },
+    "@floating-ui/react": {
+      "optional": true
+    },
     "@dnd-kit/core": {
       "optional": true
     },
@@ -196,7 +211,73 @@
     "embla-carousel-react": {
       "optional": true
     },
+    "@tailwindcss/typography": {
+      "optional": true
+    },
+    "@tiptap/core": {
+      "optional": true
+    },
+    "@tiptap/extension-color": {
+      "optional": true
+    },
+    "@tiptap/extension-details": {
+      "optional": true
+    },
+    "@tiptap/extension-document": {
+      "optional": true
+    },
+    "@tiptap/extension-heading": {
+      "optional": true
+    },
+    "@tiptap/extension-image": {
+      "optional": true
+    },
+    "@tiptap/extension-list": {
+      "optional": true
+    },
+    "@tiptap/extension-paragraph": {
+      "optional": true
+    },
+    "@tiptap/extension-table": {
+      "optional": true
+    },
+    "@tiptap/extension-text": {
+      "optional": true
+    },
+    "@tiptap/extension-text-style": {
+      "optional": true
+    },
+    "@tiptap/extension-youtube": {
+      "optional": true
+    },
+    "@tiptap/extensions": {
+      "optional": true
+    },
+    "@tiptap/pm": {
+      "optional": true
+    },
+    "@tiptap/react": {
+      "optional": true
+    },
+    "@tiptap/starter-kit": {
+      "optional": true
+    },
+    "@tiptap/suggestion": {
+      "optional": true
+    },
     "notistack": {
+      "optional": true
+    },
+    "react-dropzone": {
+      "optional": true
+    },
+    "react-hook-form": {
+      "optional": true
+    },
+    "react-select": {
+      "optional": true
+    },
+    "react-select-async-paginate": {
       "optional": true
     },
     "motion": {

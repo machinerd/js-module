@@ -1,10 +1,10 @@
 import { ComponentProps, forwardRef } from 'react';
 import { cva, VariantProps } from 'class-variance-authority';
 import { Slot } from '@radix-ui/react-slot';
-import { cn } from '../../util/common';
+import clsx from 'clsx';
 
 const classes = cva(
-  cn(
+  clsx(
     'komc:flex komc:justify-center komc:items-center komc:gap-x-2 komc:w-full',
     'komc:transition-colors komc:duration-200 komc:relative',
     'komc:[&_svg]:transition-colors komc:[&_svg]:duration-200',
@@ -75,7 +75,7 @@ const classes = cva(
       {
         outline: 'line',
         variant: 'blue',
-        className: cn(
+        className: clsx(
           'komc:border-blue-500 komc:bg-white komc:text-blue-500',
           'komc:hover:border-transparent komc:hover:bg-blue-500 komc:hover:text-white',
           'komc:active:border-transparent komc:active:bg-blue-500 komc:active:text-white',
@@ -85,7 +85,7 @@ const classes = cva(
       {
         outline: 'line',
         variant: 'duo',
-        className: cn(
+        className: clsx(
           'komc:border-blue-500 komc:bg-white komc:text-brand-blck',
           'komc:hover:border-transparent komc:hover:bg-blue-500 komc:hover:text-white',
           'komc:active:border-transparent komc:active:bg-blue-500 komc:active:text-white',
@@ -95,7 +95,7 @@ const classes = cva(
       {
         outline: 'line',
         variant: 'white',
-        className: cn(
+        className: clsx(
           'komc:border-gray-600 komc:bg-white komc:text-brand-blck',
           'komc:hover:bg-gray-200 komc:hover:text-brand-blck',
           'komc:active:bg-gray-200 komc:active:text-brand-blck',
@@ -105,7 +105,7 @@ const classes = cva(
       {
         outline: 'line',
         variant: 'gray',
-        className: cn(
+        className: clsx(
           'komc:border-white komc:bg-transparent komc:text-white',
           'komc:hover:bg-[rgb(199,199,199)] komc:hover:text-white',
           'komc:active:bg-[rgb(199,199,199)] komc:active:text-white',
@@ -115,7 +115,7 @@ const classes = cva(
       {
         outline: 'line',
         variant: 'neutral',
-        className: cn(
+        className: clsx(
           'komc:border-gray-800 komc:bg-transparent komc:text-black',
           'komc:hover:bg-gray-200 komc:hover:text-black',
           'komc:active:bg-gray-200 komc:active:text-black',
@@ -125,7 +125,7 @@ const classes = cva(
       {
         outline: 'line',
         variant: 'sky',
-        className: cn(
+        className: clsx(
           'komc:border-sky-750 komc:bg-transparent komc:text-black',
           'komc:hover:bg-sky-750 komc:hover:text-white',
           'komc:active:bg-sky-750 komc:active:text-white',
@@ -135,7 +135,7 @@ const classes = cva(
       {
         outline: 'line',
         variant: 'sky-blue',
-        className: cn(
+        className: clsx(
           'komc:border-sky-450 komc:bg-transparent komc:text-black',
           'komc:hover:bg-sky-450 komc:hover:text-white',
           'komc:active:bg-sky-450 komc:active:text-white',
@@ -146,7 +146,7 @@ const classes = cva(
       {
         outline: 'solid',
         variant: 'white',
-        className: cn(
+        className: clsx(
           'komc:bg-white komc:text-brand-blck',
           'komc:hover:bg-gray-200',
           'komc:active:bg-gray-200',
@@ -156,7 +156,7 @@ const classes = cva(
       {
         outline: 'solid',
         variant: 'gray',
-        className: cn(
+        className: clsx(
           'komc:bg-gray-100 komc:text-blue-500',
           'komc:hover:bg-blue-500 komc:hover:text-white',
           'komc:active:bg-blue-500 komc:active:text-white',
@@ -166,7 +166,7 @@ const classes = cva(
       {
         outline: 'solid',
         variant: 'blue',
-        className: cn(
+        className: clsx(
           'komc:bg-blue-500 komc:text-white',
           'komc:hover:bg-night-700 komc:hover:text-white',
           'komc:active:bg-night-700 komc:active:text-white',
@@ -176,7 +176,7 @@ const classes = cva(
       {
         outline: 'solid',
         variant: 'night',
-        className: cn(
+        className: clsx(
           'komc:bg-night-700 komc:text-white',
           'komc:hover:bg-night-800 komc:hover:text-white',
           'komc:active:bg-night-800 komc:active:text-white',
@@ -186,7 +186,7 @@ const classes = cva(
       {
         outline: 'solid',
         variant: 'black',
-        className: cn(
+        className: clsx(
           'komc:bg-[rgb(95,95,96)] komc:text-white',
           'komc:hover:bg-[rgb(76,76,77)] komc:hover:text-white',
           'komc:active:bg-[rgb(76,76,77)] komc:active:text-white',
@@ -196,7 +196,7 @@ const classes = cva(
       {
         outline: 'solid',
         variant: 'sky',
-        className: cn(
+        className: clsx(
           'komc:bg-sky-750 komc:text-white',
           'komc:hover:bg-sky-950 komc:hover:text-white',
           'komc:active:bg-sky-950 komc:active:text-white',
@@ -206,7 +206,7 @@ const classes = cva(
       {
         outline: 'solid',
         variant: 'sky-blue',
-        className: cn(
+        className: clsx(
           'komc:bg-sky-450 komc:text-white',
           'komc:hover:bg-sky-650 komc:hover:text-white',
           'komc:active:bg-sky-650 komc:active:text-white',
@@ -216,7 +216,7 @@ const classes = cva(
       {
         outline: 'solid',
         variant: 'indigo',
-        className: cn(
+        className: clsx(
           'komc:bg-indigo-600 komc:text-white',
           'komc:hover:bg-indigo-700 komc:hover:text-white',
           'komc:active:bg-indigo-700 komc:active:text-white',
@@ -227,7 +227,7 @@ const classes = cva(
       {
         outline: 'clear',
         variant: 'sky',
-        className: cn(
+        className: clsx(
           'komc:bg-transparent komc:text-[#1890FF]',
           'komc:hover:bg-transparent komc:hover:text-[#1890FF] komc:hover:underline',
           'komc:active:bg-transparent komc:active:text-[#1890FF] komc:active:underline',
@@ -237,7 +237,7 @@ const classes = cva(
       {
         outline: 'clear',
         variant: 'gray',
-        className: cn(
+        className: clsx(
           'komc:bg-transparent komc:text-gray-800',
           'komc:hover:bg-transparent komc:hover:text-gray-800 komc:hover:underline',
           'komc:active:bg-transparent komc:active:text-gray-800 komc:active:underline',
@@ -259,14 +259,14 @@ const classes = cva(
 interface VariantMap {
   line: 'blue' | 'duo' | 'white' | 'gray' | 'neutral' | 'sky' | 'sky-blue';
   solid:
-  | 'white'
-  | 'gray'
-  | 'blue'
-  | 'night'
-  | 'black'
-  | 'sky'
-  | 'sky-blue'
-  | 'indigo';
+    | 'white'
+    | 'gray'
+    | 'blue'
+    | 'night'
+    | 'black'
+    | 'sky'
+    | 'sky-blue'
+    | 'indigo';
   clear: 'sky' | 'gray';
 }
 

@@ -5,10 +5,24 @@
   "editor.detectIndentation": false,
   "files.autoSave": "onFocusChange",
   "files.associations": {
-    "**/index.css": "tailwindcss"
+    "**/index.css": "tailwindcss",
+    "**/editor.css": "tailwindcss",
+    "**/admin.css": "tailwindcss"
   },
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "always"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "tailwindCSS.classFunctions": ["cva", "clsx", "twMerge", "cn"]
 }

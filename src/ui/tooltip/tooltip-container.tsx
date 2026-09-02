@@ -1,6 +1,6 @@
 import { forwardRef, HTMLAttributes, useRef, useState } from 'react';
 import TooltipTrigger from './tooltip-trigger';
-import { useOutsideClick } from '../../hooks/common';
+import { useOutsideClick } from '../../hooks/use-outside-click';
 import TooltipContent from './tooltip-content';
 import clsx from 'clsx';
 import TooltipPortal from './tooltip-portal';

@@ -1,5 +1,5 @@
 import React from 'react';
-import { cn } from '../../util/common';
+import clsx from 'clsx';
 import { useCarousel } from './carousel-context';
 
 export default function CarouselViewport({
@@ -13,7 +13,7 @@ export default function CarouselViewport({
     <div
       ref={carouselRef}
       data-komc
-      className={cn('komc:h-full komc:overflow-hidden', className)}
+      className={clsx('komc:h-full komc:overflow-hidden', className)}
       {...props}
     >
       {children}

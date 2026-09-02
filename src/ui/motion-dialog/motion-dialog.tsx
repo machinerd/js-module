@@ -5,7 +5,7 @@ import { useDialogStack } from '../../hooks/use-dialog-stack';
 import { motion, AnimatePresence, type Variants } from 'motion/react';
 import { createPortal } from 'react-dom';
 import { cva } from 'class-variance-authority';
-import { cn } from '../../util/common';
+import clsx from 'clsx';
 
 type HeaderPadding = 'none' | 'sm' | 'md' | 'lg';
 type HeaderBorder = 'none' | 'default';
@@ -215,7 +215,6 @@ const MotionDialog = forwardRef<HTMLDivElement, MotionDialogProps>(
         {isOpen && (
           <motion.div
             data-komc
-            data-komc-dialog=""
             className="komc:fixed komc:inset-0 komc:flex komc:items-center komc:justify-center komc:p-4"
             style={{ zIndex }}
             variants={backdropVariants}
@@ -243,11 +242,16 @@ const MotionDialog = forwardRef<HTMLDivElement, MotionDialogProps>(
             <motion.div
               ref={ref}
               id={contentId}
-              className={cn(
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby={
+                typeof title === 'string' ? `${contentId}-title` : undefined
+              }
+              className={clsx(
                 'komc:relative komc:bg-white komc:rounded-lg komc:shadow-xl komc:pointer-events-auto',
                 size === 'full'
                   ? 'komc:w-full komc:h-full'
-                  : cn(sizeClasses[size], 'komc:w-full'),
+                  : clsx(sizeClasses[size], 'komc:w-full'),
                 className,
               )}
               variants={variants}
@@ -269,7 +273,10 @@ const MotionDialog = forwardRef<HTMLDivElement, MotionDialogProps>(
                 >
                   {title &&
                     (typeof title === 'string' ? (
-                      <h2 className="komc:text-lg komc:font-semibold komc:text-gray-900">
+                      <h2
+                        id={`${contentId}-title`}
+                        className="komc:text-lg komc:font-semibold komc:text-gray-900"
+                      >
                         {title}
                       </h2>
                     ) : (
@@ -277,6 +284,7 @@ const MotionDialog = forwardRef<HTMLDivElement, MotionDialogProps>(
                     ))}
                   {showCloseButton && (
                     <motion.button
+                      type="button"
                       onClick={onClose}
                       className="komc:p-1 komc:rounded-full komc:hover:bg-gray-100 komc:transition-colors"
                       aria-label="Close dialog"
@@ -302,11 +310,10 @@ const MotionDialog = forwardRef<HTMLDivElement, MotionDialogProps>(
               )}
 
               <motion.div
-                className={cn(
+                className={clsx(
                   'komc:@container/dialog-content',
                   'komc:p-6',
-                  isScrollableContent &&
-                    'komc:overflow-y-auto komc:h-(--dialog-content-height)',
+                  isScrollableContent && 'komc:overflow-y-auto komc:h-[60vh]',
                 )}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
