@@ -7,7 +7,7 @@ export interface UseScrollTopProps {
   behavior?: ScrollBehavior;
 }
 
-export default function useScrollTop({
+export function useScrollTop({
   enabled = true,
   behavior = 'smooth',
 }: UseScrollTopProps = {}) {

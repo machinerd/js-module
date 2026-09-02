@@ -1,6 +1,6 @@
 {
   "name": "@machinerd/js-module",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "type": "module",
   "description": "",
   "main": "dist/index.mjs",
@@ -12,7 +12,7 @@
     "build": "tsdown && pnpm build:css",
     "build:pack": "pnpm build && pnpm pack",
     "build:tsc": "pnpm tsc",
-    "build:css": "pnpm dlx @tailwindcss/cli -i src/styles/index.css -o dist/styles/index.css",
+    "build:css": "pnpm dlx @tailwindcss/cli -i src/styles/index.css -o dist/styles/index.css && cp src/styles/editor.css dist/styles/editor.css",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "prepublishOnly": "pnpm build",
@@ -20,7 +20,8 @@
   },
   "sideEffects": [
     "**/*.css",
-    "./dist/styles/index.css"
+    "./dist/styles/index.css",
+    "./dist/styles/editor.css"
   ],
   "exports": {
     ".": {
@@ -39,6 +40,10 @@
       "import": "./dist/util/date.mjs",
       "require": "./dist/util/date.cjs"
     },
+    "./util/fetcher": {
+      "import": "./dist/util/fetcher.mjs",
+      "require": "./dist/util/fetcher.cjs"
+    },
     "./util/file": {
       "import": "./dist/util/file.mjs",
       "require": "./dist/util/file.cjs"
@@ -55,6 +60,14 @@
       "import": "./dist/util/phone.mjs",
       "require": "./dist/util/phone.cjs"
     },
+    "./util/editor": {
+      "import": "./dist/util/editor.mjs",
+      "require": "./dist/util/editor.cjs"
+    },
+    "./editor": {
+      "import": "./dist/editor/index.mjs",
+      "require": "./dist/editor/index.cjs"
+    },
     "./ui/common": {
       "import": "./dist/ui/index.mjs",
       "require": "./dist/ui/index.cjs"
@@ -67,6 +80,22 @@
       "import": "./dist/ui/dialog/index.mjs",
       "require": "./dist/ui/dialog/index.cjs"
     },
+    "./ui/motion-dialog": {
+      "import": "./dist/ui/motion-dialog/index.mjs",
+      "require": "./dist/ui/motion-dialog/index.cjs"
+    },
+    "./ui/dnd": {
+      "import": "./dist/ui/dnd/index.mjs",
+      "require": "./dist/ui/dnd/index.cjs"
+    },
+    "./ui/dropdown": {
+      "import": "./dist/ui/dropdown/index.mjs",
+      "require": "./dist/ui/dropdown/index.cjs"
+    },
+    "./ui/preserve-focus-button": {
+      "import": "./dist/ui/preserve-focus-button/index.mjs",
+      "require": "./dist/ui/preserve-focus-button/index.cjs"
+    },
     "./ui/image": {
       "import": "./dist/ui/image/index.mjs",
       "require": "./dist/ui/image/index.cjs"
@@ -75,30 +104,50 @@
       "import": "./dist/ui/sheet/index.mjs",
       "require": "./dist/ui/sheet/index.cjs"
     },
+    "./ui/switch": {
+      "import": "./dist/ui/switch/index.mjs",
+      "require": "./dist/ui/switch/index.cjs"
+    },
     "./ui/tooltip": {
       "import": "./dist/ui/tooltip/index.mjs",
       "require": "./dist/ui/tooltip/index.cjs"
     },
-    "./hooks": {
-      "import": "./dist/hooks/index.mjs",
-      "require": "./dist/hooks/index.cjs"
+    "./hooks/common": {
+      "import": "./dist/hooks/common/index.mjs",
+      "require": "./dist/hooks/common/index.cjs"
     },
-    "./providers": {
-      "import": "./dist/providers/index.mjs",
-      "require": "./dist/providers/index.cjs"
+    "./hooks/use-snackbar": {
+      "import": "./dist/hooks/use-snackbar.mjs",
+      "require": "./dist/hooks/use-snackbar.cjs"
     },
-    "./styles/index.css": "./dist/styles/index.css"
+    "./providers/api-client": {
+      "import": "./dist/providers/api-client/index.mjs",
+      "require": "./dist/providers/api-client/index.cjs"
+    },
+    "./providers/noti-stack": {
+      "import": "./dist/providers/noti-stack/index.mjs",
+      "require": "./dist/providers/noti-stack/index.cjs"
+    },
+    "./styles/index.css": "./dist/styles/index.css",
+    "./styles/editor.css": "./dist/styles/editor.css"
   },
   "keywords": [],
   "author": "KOMACHINE",
   "license": "MIT",
   "packageManager": "pnpm@10.25.0",
   "devDependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/modifiers": "^9.0.0",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "@eslint/js": "^9.39.5",
+    "@floating-ui/react": "^0.27.16",
     "@storybook/addon-docs": "^10.3.5",
-    "@storybook/react-vite": "^10.2.3",
+    "@storybook/react-vite": "^10.5.10",
     "@tailwindcss/postcss": "^4.1.18",
-    "@typed/node": "^6.7.0",
+    "@tiptap/core": "^3.2.0",
+    "@tiptap/pm": "^3.2.0",
+    "@tiptap/react": "^3.2.0",
     "@types/google-libphonenumber": "^7.4.30",
     "@types/js-cookie": "^3.0.6",
     "@types/lodash-es": "^4.17.12",
@@ -114,59 +163,81 @@
     "eslint-plugin-prettier": "^5.5.6",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "motion": "^12.43.0",
+    "motion": "^13.1.1",
+    "notistack": "^3.0.0",
     "postcss": "^8.5.6",
     "prettier": "^3.9.6",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-hook-form": "^7.84.0",
-    "react-select": "^5.10.2",
-    "react-select-async-paginate": "^0.7.11",
-    "storybook": "^10.2.3",
+    "storybook": "^10.5.10",
     "tailwindcss": "^4.1.18",
     "tsdown": "0.17.0-beta.5",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.65.0"
   },
   "dependencies": {
-    "@radix-ui/react-slot": "^1.2.4",
+    "@radix-ui/react-slot": "^1.3.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "dayjs": "^1.11.19",
-    "google-libphonenumber": "^3.2.43",
-    "js-cookie": "^3.0.5",
-    "lodash-es": "^4.17.21",
-    "nanoid": "^5.1.6",
-    "query-string": "^9.3.1",
-    "slug": "^11.0.1"
+    "dayjs": "^1.11.23",
+    "google-libphonenumber": "^3.2.46",
+    "js-cookie": "^3.0.8",
+    "lodash-es": "^4.18.1",
+    "nanoid": "^6.0.1",
+    "query-string": "^9.5.0",
+    "slug": "^12.0.1"
   },
   "peerDependencies": {
+    "@dnd-kit/core": "^6.0.0",
+    "@dnd-kit/modifiers": "^9.0.0",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.0.0",
+    "@floating-ui/react": "^0.27.0",
+    "@tiptap/core": "^3.2.0",
+    "@tiptap/pm": "^3.2.0",
+    "@tiptap/react": "^3.2.0",
     "embla-carousel": "^8.0.0",
     "embla-carousel-react": "^8.0.0",
-    "motion": "^12.0.0",
+    "notistack": "^3.0.0",
+    "motion": "^13.0.0",
     "react": "^18.3.1 || ^19.0.0",
-    "react-dom": "^18.3.1 || ^19.0.0",
-    "react-hook-form": "^7.0.0",
-    "react-select": "^5.0.0",
-    "react-select-async-paginate": "^0.7.0"
+    "react-dom": "^18.3.1 || ^19.0.0"
   },
   "peerDependenciesMeta": {
+    "@dnd-kit/core": {
+      "optional": true
+    },
+    "@dnd-kit/modifiers": {
+      "optional": true
+    },
+    "@dnd-kit/sortable": {
+      "optional": true
+    },
+    "@dnd-kit/utilities": {
+      "optional": true
+    },
+    "@floating-ui/react": {
+      "optional": true
+    },
     "embla-carousel": {
       "optional": true
     },
     "embla-carousel-react": {
       "optional": true
     },
+    "notistack": {
+      "optional": true
+    },
     "motion": {
       "optional": true
     },
-    "react-hook-form": {
+    "@tiptap/core": {
       "optional": true
     },
-    "react-select": {
+    "@tiptap/pm": {
       "optional": true
     },
-    "react-select-async-paginate": {
+    "@tiptap/react": {
       "optional": true
     }
   }

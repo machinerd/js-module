@@ -10,7 +10,7 @@ import React, {
   useState,
 } from 'react';
 import { isExternalSrc, isSrcSetCompatible, parsePath } from '../util/file';
-import { useApiClient } from '../providers';
+import { useApiClient } from '../providers/api-client';
 
 export const SUBSETS = [
   12, 120, 240, 300, 406, 512, 612, 768, 960, 1024, 1280, 1440, 1560, 1920,
@@ -45,7 +45,7 @@ export type UseSubsetImageProps = BaseProps &
       }
   );
 
-export default function useSubsetImage({
+export function useSubsetImage({
   ref,
   src,
   forceLoad = false,
@@ -194,7 +194,6 @@ export default function useSubsetImage({
     return () => img.removeEventListener('load', handleLoad);
   }, [isError, fallbackStep, handleError]);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { fill: _, ...imageProps } = rest;
 
   return {

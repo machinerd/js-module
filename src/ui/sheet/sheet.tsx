@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import clsx from 'clsx';
-import { useDelayUnmount } from '../../hooks';
+import { useDelayUnmount } from '../../hooks/common';
 import { cva } from 'class-variance-authority';
+import { useDialogStack } from '../../hooks/use-dialog-stack';
 
 const positionClasses = cva(
   clsx(
@@ -127,6 +128,8 @@ export default function Sheet({
   const shouldRender = useDelayUnmount(isOpen, 300);
   const [isAnimating, setIsAnimating] = useState(false);
 
+  useDialogStack(isOpen, onClose);
+
   useEffect(() => {
     if (isOpen && shouldRender) {
       const timer = setTimeout(() => setIsAnimating(true), 10);
@@ -136,39 +139,17 @@ export default function Sheet({
     }
   }, [isOpen, shouldRender]);
 
-  const handleEscapeKey = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose();
-      }
-    },
-    [onClose],
-  );
-
   const handleBackdropClick = useCallback(() => {
     if (closeOnBackdropClick) {
       onClose();
     }
   }, [closeOnBackdropClick, onClose]);
 
-  useEffect(() => {
-    if (isOpen) {
-      document.addEventListener('keydown', handleEscapeKey);
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleEscapeKey);
-      document.body.style.overflow = 'unset';
-    };
-  }, [isOpen, handleEscapeKey]);
-
   if (!shouldRender) return null;
 
   return (
     <div
+      data-komc
       className="komc:fixed komc:inset-0 komc:flex komc:justify-center komc:items-center"
       style={{ zIndex }}
     >

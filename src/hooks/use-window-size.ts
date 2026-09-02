@@ -3,7 +3,7 @@
 import { throttle } from 'lodash-es';
 import { useEffect, useState } from 'react';
 
-export default function useWindowSize(defaultWidth = 1280) {
+export function useWindowSize(defaultWidth = 1280) {
   const [windowSize, setWindoSize] = useState(defaultWidth);
 
   useEffect(() => {

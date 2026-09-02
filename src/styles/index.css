@@ -1,7 +1,7 @@
 @layer theme, base, components, utilities;
 
-@import "tailwindcss/theme.css" layer(theme) prefix(komc);
-@import "tailwindcss/utilities.css" layer(utilities) prefix(komc);
+@import 'tailwindcss/theme.css' layer(theme) prefix(komc);
+@import 'tailwindcss/utilities.css' layer(utilities) prefix(komc);
 
 @theme {
   --color-gray-50: #fafafa;
@@ -29,6 +29,10 @@
     border: 0 solid;
     background-color: transparent;
     box-sizing: border-box;
+  }
+
+  [data-komc][data-komc-dialog] {
+    --dialog-content-height: 60vh;
   }
 
   button[data-komc] {

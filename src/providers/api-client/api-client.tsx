@@ -1,16 +1,22 @@
-import { createContext, useContext } from 'react';
-import ApiClient, { ApiConfig } from '../../';
+'use client';
+
+import { createContext, useContext, useMemo } from 'react';
+import ApiClient, { ApiConfig } from '../..';
 
 const ApiClientContext = createContext<ApiClient | null>(null);
 
-export default function ApiClientProvider({
+export function ApiClientProvider({
   children,
   config,
 }: {
   children: React.ReactNode;
   config: ApiConfig;
 }) {
-  const apiClient = new ApiClient(config);
+  const { apiEndpoint, cdnEndpoint } = config;
+  const apiClient = useMemo(
+    () => new ApiClient({ apiEndpoint, cdnEndpoint }),
+    [apiEndpoint, cdnEndpoint],
+  );
 
   return (
     <ApiClientContext.Provider value={apiClient}>

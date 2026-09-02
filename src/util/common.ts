@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { intersection } from 'lodash-es';
 import qs from 'query-string';
 import slug from 'slug';
@@ -237,7 +238,6 @@ export const withoutProperty = <T, K extends keyof T>(
   obj: T,
   property: K,
 ): Omit<T, K> => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { [property]: _, ...rest } = obj;
   return rest;
 };
@@ -332,3 +332,89 @@ export const sleep = (ms: number) =>
 
 export const cn = (...classes: Array<string | false | null | undefined>) =>
   classes.filter(Boolean).join(' ');
+
+export const sortI18nByPriority = <T>(
+  data: T,
+  fields: string,
+  priorityLocale: string[],
+): T => {
+  if (!data || typeof data !== 'object') {
+    return data;
+  }
+
+  const fieldPaths = fields.split('.');
+
+  const processValue = (value: any, paths: string[]): any => {
+    if (paths.length === 0) {
+      if (Array.isArray(value)) {
+        return [...value].sort((a, b) => {
+          const aLocale = a.locale;
+          const bLocale = b.locale;
+
+          if (!aLocale || !bLocale) {
+            return 0;
+          }
+
+          const aIndex = priorityLocale.indexOf(aLocale);
+          const bIndex = priorityLocale.indexOf(bLocale);
+
+          if (aIndex === -1 && bIndex === -1) {
+            return 0;
+          }
+          if (aIndex === -1) {
+            return 1;
+          }
+          if (bIndex === -1) {
+            return -1;
+          }
+
+          return aIndex - bIndex;
+        });
+      }
+      return value;
+    }
+
+    if (Array.isArray(value)) {
+      return value.map((item) => processValue(item, paths));
+    }
+
+    if (typeof value === 'object' && value !== null) {
+      const [currentPath, ...restPaths] = paths;
+      const currentValue = (value as Record<string, any>)[currentPath];
+
+      if (currentValue !== undefined) {
+        return {
+          ...value,
+          [currentPath]: processValue(currentValue, restPaths),
+        };
+      }
+    }
+
+    return value;
+  };
+
+  return processValue(data, fieldPaths) as T;
+};
+
+interface ImageInfo {
+  originalWidth: number;
+  originalHeight: number;
+  originalName: string;
+}
+
+export const getImageInfo = async (file: File) => {
+  return new Promise<ImageInfo>((resolve, reject) => {
+    const image = new Image();
+    image.src = URL.createObjectURL(file);
+    image.onload = () => {
+      resolve({
+        originalWidth: image.naturalWidth,
+        originalHeight: image.naturalHeight,
+        originalName: file.name,
+      });
+    };
+    image.onerror = (error) => {
+      reject(error);
+    };
+  });
+};

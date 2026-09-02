@@ -259,14 +259,14 @@ const classes = cva(
 interface VariantMap {
   line: 'blue' | 'duo' | 'white' | 'gray' | 'neutral' | 'sky' | 'sky-blue';
   solid:
-    | 'white'
-    | 'gray'
-    | 'blue'
-    | 'night'
-    | 'black'
-    | 'sky'
-    | 'sky-blue'
-    | 'indigo';
+  | 'white'
+  | 'gray'
+  | 'blue'
+  | 'night'
+  | 'black'
+  | 'sky'
+  | 'sky-blue'
+  | 'indigo';
   clear: 'sky' | 'gray';
 }
 
@@ -305,6 +305,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <Comp
         ref={ref}
         {...rest}
+        data-komc
         type={type}
         id={id}
         className={classes({

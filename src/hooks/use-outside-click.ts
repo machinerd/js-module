@@ -13,10 +13,7 @@ export interface UseOutsideClickProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function useOutsideClick({
-  ref,
-  setOpen,
-}: UseOutsideClickProps) {
+export function useOutsideClick({ ref, setOpen }: UseOutsideClickProps) {
   const handleOutsideClick = useCallback(
     (e: MouseEvent | TouchEvent) => {
       if (!ref.current?.contains(e.target as Node)) {

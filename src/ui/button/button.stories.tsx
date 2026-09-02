@@ -121,7 +121,7 @@ export const VariantsGallery: Story = {
     <div className="komc:flex komc:flex-col komc:gap-6">
       <section>
         <h4 className="komc:mb-2 komc:font-semibold">outline: line</h4>
-        <div className="komc:grid komc:grid-cols-2 md:komc:grid-cols-4 lg:komc:grid-cols-5 komc:gap-3 komc:w-full">
+        <div className="komc:grid komc:grid-cols-2 komc:md:grid-cols-4 komc:lg:grid-cols-5 komc:gap-3 komc:w-full">
           {variantLine.map((v) => (
             <Button key={v} {...args} outline="line" variant={v}>
               {v}
@@ -131,7 +131,7 @@ export const VariantsGallery: Story = {
       </section>
       <section>
         <h4 className="komc:mb-2 komc:font-semibold">outline: solid</h4>
-        <div className="komc:grid komc:grid-cols-2 md:komc:grid-cols-4 komc:gap-3 komc:w-full">
+        <div className="komc:grid komc:grid-cols-2 komc:md:grid-cols-4 komc:gap-3 komc:w-full">
           {variantSolid.map((v) => (
             <Button key={v} {...args} outline="solid" variant={v}>
               {v}

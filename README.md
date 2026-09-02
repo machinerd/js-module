@@ -22,6 +22,12 @@ yarn add @machinerd/js-module
 import '@machinerd/js-module/styles/index.css';
 ```
 
+에디터(Tiptap)를 쓸 때만 아래를 추가로 넣습니다.
+
+```js
+import '@machinerd/js-module/styles/editor.css';
+```
+
 ---
 
 ## API 클라이언트 (`@machinerd/js-module`)

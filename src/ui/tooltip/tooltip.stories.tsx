@@ -45,7 +45,7 @@ export const Playground: Story = {
         <Tooltip {...tooltipProps}>
           <button
             type="button"
-            className="komc:px-4 komc:py-2 komc:bg-white komc:rounded-lg komc:border komc:border-neutral-200 komc:shadow-sm hover:komc:bg-neutral-50"
+            className="komc:px-4 komc:py-2 komc:bg-white komc:rounded-lg komc:border komc:border-neutral-200 komc:shadow-sm komc:hover:bg-neutral-50"
           >
             {children}
           </button>
@@ -94,7 +94,7 @@ export const AfterSlideUpAnimation: Story = {
           >
             <button
               type="button"
-              className="komc:px-4 komc:py-2 komc:bg-white komc:rounded-lg komc:border komc:border-neutral-200 komc:shadow-sm hover:komc:bg-neutral-50"
+              className="komc:px-4 komc:py-2 komc:bg-white komc:rounded-lg komc:border komc:border-neutral-200 komc:shadow-sm komc:hover:bg-neutral-50"
             >
               호버하여 툴팁
             </button>
@@ -140,7 +140,7 @@ export const LongScrollPage: Story = {
             >
               <button
                 type="button"
-                className="komc:px-4 komc:py-2 komc:bg-white komc:rounded-lg komc:border komc:border-neutral-200 komc:shadow-sm hover:komc:bg-neutral-50"
+                className="komc:px-4 komc:py-2 komc:bg-white komc:rounded-lg komc:border komc:border-neutral-200 komc:shadow-sm komc:hover:bg-neutral-50"
               >
                 블록 {i + 1} · 호버
               </button>
@@ -156,7 +156,7 @@ export const PlacementGrid: Story = {
   name: '배치 미리보기',
   parameters: { controls: { disable: true } },
   render: () => (
-    <div className="komc:grid komc:grid-cols-2 sm:komc:grid-cols-3 md:komc:grid-cols-4 komc:gap-6 komc:p-6 komc:bg-neutral-50 komc:rounded-xl komc:min-h-96 komc:items-center komc:justify-items-center">
+    <div className="komc:grid komc:grid-cols-2 komc:sm:grid-cols-3 komc:md:grid-cols-4 komc:gap-6 komc:p-6 komc:bg-neutral-50 komc:rounded-xl komc:min-h-96 komc:items-center komc:justify-items-center">
       {PLACEMENTS.map((placement) => (
         <div
           key={placement}
