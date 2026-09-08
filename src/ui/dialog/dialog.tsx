@@ -6,7 +6,7 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { useDelayUnmount } from '../../hooks/common';
+import { useDelayUnmount } from '../../hooks/use-delay-unmount';
 import { useDialogStack } from '../../hooks/use-dialog-stack';
 
 const classes = cva(

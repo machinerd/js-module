@@ -1,5 +1,5 @@
 import React from 'react';
-import { cn } from '../../util/common';
+import clsx from 'clsx';
 import { useCarousel } from './carousel-context';
 
 export default function CarouselItem({
@@ -11,7 +11,9 @@ export default function CarouselItem({
   return (
     <div
       data-komc
-      className={cn(
+      role="group"
+      aria-roledescription="slide"
+      className={clsx(
         'komc:min-w-0 komc:shrink-0 komc:grow-0 komc:basis-full',
         orientation === 'horizontal' ? 'komc:pl-4' : 'komc:pt-4',
         className,

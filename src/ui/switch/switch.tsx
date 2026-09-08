@@ -9,6 +9,7 @@ export interface SwitchProps {
   placement?: LabelPlacement;
   checked?: boolean;
   disabled?: boolean;
+  'aria-label'?: string;
   onChange?(checked: boolean): void;
 }
 
@@ -41,7 +42,14 @@ const classes = cva(clsx('komc:inline-flex komc:items-center'), {
 
 export const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
   (
-    { label, placement = 'end', checked = false, disabled = false, onChange },
+    {
+      label,
+      placement = 'end',
+      checked = false,
+      disabled = false,
+      onChange,
+      'aria-label': ariaLabel,
+    },
     ref,
   ) => {
     const switchId = useId();
@@ -70,6 +78,7 @@ export const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
           disabled={disabled}
           className="komc:flex komc:items-center komc:rounded-full komc:transition komc:w-10 komc:h-6 komc:cursor-pointer komc:disabled:cursor-default"
           aria-checked={checked}
+          aria-label={ariaLabel ?? label}
           onClick={handleChecked}
         >
           <span className="komc:size-5 komc:rounded-full komc:bg-white komc:transition komc:shadow-xs" />

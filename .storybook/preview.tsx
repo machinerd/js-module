@@ -1,4 +1,6 @@
 import '../src/styles/index.css';
+import '../src/styles/admin.css';
+import '../src/styles/editor.css';
 import type { Preview } from '@storybook/react-vite';
 import type { ReactElement } from 'react';
 

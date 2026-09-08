@@ -1,9 +1,9 @@
 /* eslint-disable no-nested-ternary */
 import { cva, VariantProps } from 'class-variance-authority';
 import { HTMLAttributes } from 'react';
-import { cn } from '../../util/common';
+import clsx from 'clsx';
 
-const classes = cva(cn('komc:w-full komc:animate-pulse komc:bg-gray-200'), {
+const classes = cva(clsx('komc:w-full komc:animate-pulse komc:bg-gray-200'), {
   variants: {
     size: {
       xs: 'komc:h-4',

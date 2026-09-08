@@ -1,0 +1,225 @@
+@layer theme, base, components, utilities;
+
+@import 'tailwindcss/theme.css' layer(theme) prefix(komc);
+@import 'tailwindcss/utilities.css' layer(utilities) prefix(komc);
+
+@theme inline {
+  --default-ring-width: 3px;
+  --default-ring-color: theme(--color-indigo-200);
+
+  --shadow-aside: var(--komc-shadow-aside);
+  --shadow-card: var(--komc-shadow-card);
+  --shadow-field: var(--komc-shadow-field);
+
+  --color-brand-black-01: var(--komc-color-brand-black-01);
+  --color-brand-blue-01: var(--komc-color-brand-blue-01);
+  --color-brand-red-01: var(--komc-color-brand-red-01);
+
+  --color-gray-50: var(--komc-color-gray-50);
+  --color-gray-100: var(--komc-color-gray-100);
+  --color-gray-200: var(--komc-color-gray-200);
+  --color-gray-300: var(--komc-color-gray-300);
+  --color-gray-400: var(--komc-color-gray-400);
+  --color-gray-500: var(--komc-color-gray-500);
+  --color-gray-600: var(--komc-color-gray-600);
+  --color-gray-700: var(--komc-color-gray-700);
+  --color-gray-800: var(--komc-color-gray-800);
+  --color-gray-900: var(--komc-color-gray-900);
+  --color-gray-950: var(--komc-color-gray-950);
+
+  --color-sky-50: var(--komc-color-sky-50);
+  --color-sky-100: var(--komc-color-sky-100);
+  --color-sky-200: var(--komc-color-sky-200);
+  --color-sky-300: var(--komc-color-sky-300);
+  --color-sky-400: var(--komc-color-sky-400);
+  --color-sky-500: var(--komc-color-sky-500);
+  --color-sky-600: var(--komc-color-sky-600);
+  --color-sky-700: var(--komc-color-sky-700);
+  --color-sky-800: var(--komc-color-sky-800);
+  --color-sky-900: var(--komc-color-sky-900);
+  --color-sky-950: var(--komc-color-sky-950);
+
+  --color-neutral-50: var(--komc-color-neutral-50);
+  --color-neutral-100: var(--komc-color-neutral-100);
+  --color-neutral-200: var(--komc-color-neutral-200);
+  --color-neutral-300: var(--komc-color-neutral-300);
+  --color-neutral-400: var(--komc-color-neutral-400);
+  --color-neutral-500: var(--komc-color-neutral-500);
+  --color-neutral-600: var(--komc-color-neutral-600);
+  --color-neutral-700: var(--komc-color-neutral-700);
+  --color-neutral-800: var(--komc-color-neutral-800);
+  --color-neutral-900: var(--komc-color-neutral-900);
+  --color-neutral-950: var(--komc-color-neutral-950);
+
+  --color-night-50: var(--komc-color-night-50);
+  --color-night-100: var(--komc-color-night-100);
+  --color-night-200: var(--komc-color-night-200);
+  --color-night-300: var(--komc-color-night-300);
+  --color-night-400: var(--komc-color-night-400);
+  --color-night-500: var(--komc-color-night-500);
+  --color-night-600: var(--komc-color-night-600);
+  --color-night-700: var(--komc-color-night-700);
+  --color-night-800: var(--komc-color-night-800);
+  --color-night-900: var(--komc-color-night-900);
+  --color-night-950: var(--komc-color-night-950);
+
+  --color-forest-50: var(--komc-color-forest-50);
+  --color-forest-100: var(--komc-color-forest-100);
+  --color-forest-200: var(--komc-color-forest-200);
+  --color-forest-300: var(--komc-color-forest-300);
+  --color-forest-400: var(--komc-color-forest-400);
+  --color-forest-500: var(--komc-color-forest-500);
+  --color-forest-600: var(--komc-color-forest-600);
+  --color-forest-700: var(--komc-color-forest-700);
+  --color-forest-800: var(--komc-color-forest-800);
+  --color-forest-900: var(--komc-color-forest-900);
+  --color-forest-950: var(--komc-color-forest-950);
+
+  --color-green-500: var(--komc-color-green-500);
+  --color-green-600: var(--komc-color-green-600);
+
+  --color-blue-01: var(--komc-color-blue-01);
+  --color-blue-50: var(--komc-color-blue-50);
+  --color-blue-100: var(--komc-color-blue-100);
+  --color-blue-200: var(--komc-color-blue-200);
+  --color-blue-300: var(--komc-color-blue-300);
+  --color-blue-400: var(--komc-color-blue-400);
+  --color-blue-500: var(--komc-color-blue-500);
+  --color-blue-600: var(--komc-color-blue-600);
+  --color-blue-700: var(--komc-color-blue-700);
+  --color-blue-800: var(--komc-color-blue-800);
+  --color-blue-900: var(--komc-color-blue-900);
+  --color-blue-950: var(--komc-color-blue-950);
+}
+
+@layer base {
+  [data-komc] {
+    --komc-shadow-aside: 0 0 4px 0 rgba(0, 0, 0, 0.25);
+    --komc-shadow-card: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+    --komc-shadow-field: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+
+    --komc-color-brand-black-01: #202224;
+    --komc-color-brand-blue-01: #2a5dbd;
+    --komc-color-brand-red-01: #ff4638;
+
+    --komc-color-gray-50: #fafafa;
+    --komc-color-gray-100: #f8f8f9;
+    --komc-color-gray-200: #f5f5f5;
+    --komc-color-gray-300: #f1f3f5;
+    --komc-color-gray-400: #eeeeee;
+    --komc-color-gray-500: #e5e5e5;
+    --komc-color-gray-600: #dddddd;
+    --komc-color-gray-700: #cccccc;
+    --komc-color-gray-800: #808080;
+    --komc-color-gray-900: #606060;
+    --komc-color-gray-950: #404040;
+
+    --komc-color-sky-50: #f6fafe;
+    --komc-color-sky-100: #d2e7f8;
+    --komc-color-sky-200: #bcdaf5;
+    --komc-color-sky-300: #8ffcee;
+    --komc-color-sky-400: #63aae8;
+    --komc-color-sky-500: #3892e2;
+    --komc-color-sky-600: #2078c8;
+    --komc-color-sky-700: #195d9c;
+    --komc-color-sky-800: #0f4c81;
+    --komc-color-sky-900: #0e3559;
+    --komc-color-sky-950: #061b2c;
+
+    --komc-color-neutral-50: #f2f2f3;
+    --komc-color-neutral-100: #e5e5e6;
+    --komc-color-neutral-200: #cacacd;
+    --komc-color-neutral-300: #b0b0b4;
+    --komc-color-neutral-400: #96969c;
+    --komc-color-neutral-500: #7c7c83;
+    --komc-color-neutral-600: #636369;
+    --komc-color-neutral-700: #4a4a4e;
+    --komc-color-neutral-800: #313134;
+    --komc-color-neutral-900: #1d1d1f;
+    --komc-color-neutral-950: #000000;
+
+    --komc-color-night-50: #f7f9fd;
+    --komc-color-night-100: #eaf0fa;
+    --komc-color-night-200: #d6e1f5;
+    --komc-color-night-300: #c1d1ef;
+    --komc-color-night-400: #97b3e5;
+    --komc-color-night-500: #6e94da;
+    --komc-color-night-600: #4576d0;
+    --komc-color-night-700: #2a5dbd;
+    --komc-color-night-800: #22488e;
+    --komc-color-night-900: #183366;
+    --komc-color-night-950: #0f1f3d;
+
+    --komc-color-forest-50: #f5fffc;
+    --komc-color-forest-100: #e6fff7;
+    --komc-color-forest-200: #b5fee8;
+    --komc-color-forest-300: #86fed9;
+    --komc-color-forest-400: #47ffc4;
+    --komc-color-forest-500: #2ae4a2;
+    --komc-color-forest-600: #24cb90;
+    --komc-color-forest-700: #1eb27e;
+    --komc-color-forest-800: #137f5a;
+    --komc-color-forest-900: #074c36;
+    --komc-color-forest-950: #033324;
+
+    --komc-color-green-500: #10b981;
+    --komc-color-green-600: #059669;
+
+    --komc-color-blue-01: #fbfbfd;
+    --komc-color-blue-50: #f5f7fe;
+    --komc-color-blue-100: #e6ebfe;
+    --komc-color-blue-200: #ccd7fc;
+    --komc-color-blue-300: #b3c3fb;
+    --komc-color-blue-400: #809bf9;
+    --komc-color-blue-500: #4770ff;
+    --komc-color-blue-600: #1c4bf7;
+    --komc-color-blue-700: #0331de;
+    --komc-color-blue-800: #0226ad;
+    --komc-color-blue-900: #011b7b;
+    --komc-color-blue-950: #01104a;
+  }
+
+  [data-komc],
+  [data-komc] :is(*, ::after, ::before, ::backdrop, ::file-selector-button) {
+    border-color: var(--komc-color-gray-200, currentcolor);
+  }
+
+  [data-komc] button {
+    cursor: pointer;
+  }
+}
+
+@layer utilities {
+  [data-komc] .prose {
+    color: var(--komc-color-neutral-900);
+  }
+
+  [data-komc] .komc-no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  [data-komc] .komc-no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@utility form-field {
+  @apply komc:border-neutral-300;
+  @apply komc:shadow-field;
+  @apply komc:transition-all komc:duration-200 komc:ease-in-out;
+  @apply komc:outline-none;
+
+  &:focus,
+  &.komc-active {
+    @apply komc:border-blue-500 komc:ring-4;
+  }
+
+  &.komc-error {
+    @apply komc:border-red-400;
+  }
+
+  &.komc-error.komc-active {
+    @apply komc:ring-4 komc:ring-red-200;
+  }
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { cn } from '../../util/common';
+import clsx from 'clsx';
 import { useCarousel } from './carousel-context';
 
 export default function CarouselWrapper({
@@ -11,7 +11,7 @@ export default function CarouselWrapper({
   return (
     <div
       data-komc
-      className={cn(
+      className={clsx(
         'komc:flex komc:h-full',
         orientation === 'horizontal'
           ? 'komc:-ml-4'

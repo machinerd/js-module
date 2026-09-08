@@ -1,22 +1,22 @@
 import { HTMLAttributes, useMemo } from 'react';
 import { cva } from 'class-variance-authority';
 import { TooltipPlacement } from './tooltip-container';
-import { cn } from '../../util/common';
+import clsx from 'clsx';
 
 const classes = cva(
-  cn(
+  clsx(
     'komc:absolute komc:w-2 komc:h-2 komc:bg-inherit',
     'komc:transition-opacity komc:duration-300',
   ),
   {
     variants: {
       placement: {
-        top: cn('komc:top-full komc:-mt-1 komc:left-1/2'),
-        bottom: cn('komc:bottom-full komc:-mb-1 komc:left-1/2'),
-        'top-start': cn('komc:top-full komc:-mt-1 komc:left-5'),
-        'top-end': cn('komc:top-full komc:-mt-1 komc:right-5'),
-        'bottom-start': cn('komc:bottom-full komc:-mb-1 komc:left-5'),
-        'bottom-end': cn('komc:bottom-full komc:-mb-1 komc:right-5'),
+        top: clsx('komc:top-full komc:-mt-1 komc:left-1/2'),
+        bottom: clsx('komc:bottom-full komc:-mb-1 komc:left-1/2'),
+        'top-start': clsx('komc:top-full komc:-mt-1 komc:left-5'),
+        'top-end': clsx('komc:top-full komc:-mt-1 komc:right-5'),
+        'bottom-start': clsx('komc:bottom-full komc:-mb-1 komc:left-5'),
+        'bottom-end': clsx('komc:bottom-full komc:-mb-1 komc:right-5'),
       },
     },
     defaultVariants: {

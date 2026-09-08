@@ -1,9 +1,9 @@
 import { forwardRef } from 'react';
-import { cn } from '../../util/common';
+import clsx from 'clsx';
 import { cva, VariantProps } from 'class-variance-authority';
 
 const classes = cva(
-  cn(
+  clsx(
     'komc:flex komc:items-center komc:w-full komc:px-2',
     'komc:[&>input]:outline-none komc:[&>input]:w-full',
     'komc:[&>input]:focus:ring-0 komc:[&>input]:focus:ring-offset-0',

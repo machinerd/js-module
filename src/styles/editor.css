@@ -1,0 +1,312 @@
+@layer theme, base, components, utilities;
+
+@import 'tailwindcss/theme.css' layer(theme) prefix(komc);
+@import 'tailwindcss/utilities.css' layer(utilities) prefix(komc);
+
+@plugin '@tailwindcss/typography';
+
+@layer components {
+  .tiptap,
+  .editor-wrapper {
+    --komc-color-gray-50: #fafafa;
+    --komc-color-gray-100: #f8f8f9;
+    --komc-color-gray-400: #eeeeee;
+    --komc-color-gray-600: #dddddd;
+    --komc-color-gray-700: #cccccc;
+    --komc-color-neutral-900: #1d1d1f;
+    --komc-color-blue-100: #e6ebfe;
+    --komc-color-blue-500: #4770ff;
+  }
+
+  .tiptap {
+    @apply komc:prose komc:prose-base komc:relative komc:max-w-none komc:outline-none;
+    color: var(--komc-color-neutral-900);
+
+    & :first-child {
+      margin-top: 0;
+    }
+
+    & :last-child {
+      margin-bottom: 0;
+    }
+
+    &.resize-cursor {
+      cursor: col-resize;
+    }
+
+    & :where(strong) {
+      color: inherit;
+    }
+
+    & [data-align='left'] {
+      text-align: left;
+    }
+
+    & [data-align='center'] {
+      text-align: center;
+    }
+
+    & [data-align='right'] {
+      text-align: right;
+    }
+
+    &.resize-cursor:has(table .selectedCell) {
+      cursor: inherit;
+    }
+
+    & table:has(.selectedCell) .column-resize-handle {
+      display: none;
+    }
+
+    & table {
+      max-width: 100%;
+      position: relative;
+
+      & td,
+      & th {
+        border: 1px solid var(--komc-color-gray-600);
+        box-sizing: border-box;
+        min-width: 1em;
+        padding: 6px 8px;
+        position: relative;
+        vertical-align: top;
+
+        & > * {
+          margin-top: 0;
+          margin-bottom: 0;
+        }
+      }
+
+      & th {
+        background-color: var(--komc-color-gray-100);
+        font-weight: 700;
+        text-align: left;
+      }
+
+      & th.komc-active-cell,
+      & td.komc-active-cell {
+        outline: 1.5px solid #08f;
+        outline-offset: -1px;
+        border-radius: 3px;
+      }
+
+      & th.selectedCell.komc-active-cell,
+      & td.selectedCell.komc-active-cell {
+        outline: none;
+        border-radius: 0;
+      }
+    }
+
+    & .komc-table-col-control {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 20px;
+      height: 20px;
+      padding: 0;
+      border: 1px solid var(--komc-color-gray-700);
+      border-radius: 4px;
+      background: white;
+      top: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+      cursor: pointer;
+      position: absolute;
+      z-index: 10;
+
+      &:hover {
+        background-color: var(--komc-color-gray-100);
+      }
+    }
+
+    & .komc-table-row-control {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 20px;
+      height: 20px;
+      padding: 0;
+      border: 1px solid var(--komc-color-gray-700);
+      border-radius: 4px;
+      background: white;
+      top: 50%;
+      left: -24px;
+      transform: translateY(-50%);
+      cursor: pointer;
+      position: absolute;
+      font-weight: 500;
+      z-index: 10;
+
+      &:hover {
+        background-color: var(--komc-color-gray-100);
+      }
+    }
+
+    & .column-resize-handle {
+      position: absolute;
+      top: 0;
+      right: -1px;
+      bottom: -2px;
+      width: 4px;
+      background-color: #08f;
+      pointer-events: none;
+      animation: komc-column-resize-handle-fade-in 200ms ease-out;
+    }
+
+    & .column-resize-handle.resize-handle-stable {
+      animation: none;
+      opacity: 1;
+    }
+
+    & .details {
+      display: flex;
+      gap: 0.25em;
+      margin: 1.25em 0;
+
+      &:first-child {
+        margin-top: 0;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      & summary {
+        list-style: none;
+      }
+
+      & > button {
+        display: flex;
+        cursor: pointer;
+        justify-content: center;
+        align-items: center;
+        background: transparent;
+        width: 2.25em;
+        height: 2.25em;
+        font-size: 0.625em;
+        margin-top: 0.25em;
+        border-radius: 4px;
+
+        &:hover {
+          background-color: var(--komc-color-gray-50);
+        }
+
+        &::before {
+          content: '\25B6';
+          transition: transform 0.15s ease;
+        }
+      }
+
+      &.is-open > button::before {
+        transform: rotate(90deg);
+      }
+
+      & > div {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+        width: 100%;
+      }
+    }
+
+    & .node-imageUploader {
+      margin-block: 1rem;
+    }
+
+    & .editor-title {
+      font-size: theme(--text-lg) !important;
+      font-weight: 500;
+      margin-bottom: 24px;
+      padding-bottom: calc(theme(--spacing) * 2) !important;
+      border-bottom: 2px solid var(--komc-color-blue-100);
+
+      & + p {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+
+      & + * + img {
+        margin-top: 0 !important;
+      }
+    }
+
+    & * + .editor-title {
+      margin-top: 36px;
+    }
+
+    @media (width >= theme(--breakpoint-xl)) {
+      & .editor-title {
+        font-size: theme(--text-xl) !important;
+        padding-bottom: calc(theme(--spacing) * 3) !important;
+      }
+    }
+
+    & [data-drag-handle] {
+      @apply komc:cursor-grab komc:active:cursor-grabbing;
+    }
+
+    & .komc-node-frame {
+      @apply komc:relative komc:after:pointer-events-none;
+      @apply komc:after:absolute komc:after:-inset-1.5 komc:after:z-1 komc:after:content-[""];
+      @apply komc:after:bg-[#2383E2]/14 komc:after:opacity-0;
+      @apply komc:after:transition-opacity komc:after:duration-200 komc:after:ease-in-out;
+
+      &:hover {
+        @apply komc:z-1;
+      }
+
+      & > :first-child {
+        @apply komc:opacity-100 komc:outline-0 komc:-outline-offset-1 komc:outline-gray-700;
+        @apply komc:transition-opacity komc:duration-200 komc:ease-in-out;
+      }
+
+      &:hover > :first-child {
+        @apply komc:opacity-70 komc:outline-3;
+      }
+    }
+
+    & .ProseMirror-selectednode .komc-node-frame::after {
+      @apply komc:opacity-100;
+    }
+
+    & .ProseMirror-selectednode .komc-node-frame > :first-child {
+      @apply komc:outline-none;
+    }
+
+    &:focus-within .selectedCell::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--komc-color-gray-400);
+      opacity: 0.9;
+      pointer-events: none;
+      z-index: 2;
+      box-shadow: 0 0 0 1px var(--komc-color-blue-500);
+    }
+  }
+
+  .column-resize-handle-ghost {
+    position: absolute;
+    background-color: #08f;
+    pointer-events: none;
+    animation: komc-column-resize-handle-fade-out 200ms ease-out forwards;
+  }
+}
+
+@keyframes komc-column-resize-handle-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes komc-column-resize-handle-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
