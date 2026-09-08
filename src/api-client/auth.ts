@@ -39,7 +39,6 @@ export class Auth {
     if (!res.ok) {
       throw new Error('인증에러');
     }
-    return await res.json();
   }
 
   async me() {
@@ -56,26 +55,24 @@ export class Auth {
     return await res.json();
   }
 
-  async hasPermission(obj: string, act: string, exact = false, silent = false) {
+  async hasPermission(obj: string, act: string) {
     if (this.ctx.getToken() === undefined) {
-      if (!silent) {
-        throw new Error('로그인 필요');
-      }
-      return;
+      throw new Error('로그인 필요');
     }
-    let url = `${this.ctx.apiEndpoint}/has-permission?obj=${obj}&act=${act}`;
-    if (exact) {
-      url = `${url}&exact=true`;
-    }
+    const url = `${this.ctx.apiEndpoint}/has-permission`;
     const res = await fetch(url, {
-      headers: { Authorization: this.ctx.getBearer() },
+      headers: {
+        Authorization: this.ctx.getBearer(),
+        'x-rbac-obj': obj,
+        'x-rbac-act': act,
+      },
+      credentials: 'include',
     });
+
     if (!res.ok) {
-      if (!silent) {
-        throw new Error('인증에러');
-      }
-      return;
+      throw new Error('인증에러');
     }
-    return await res.json();
+    const data = await res.json();
+    return data;
   }
 }
