@@ -143,26 +143,13 @@ const DropzoneFieldLinkContainer = ({
   objectFit = 'contain',
   size = 'lg',
   originalWidth,
+  fileIcon,
   linkIcon,
   ...restProps
-}: Pick<
-  DropzoneFieldProps,
-  | 'alt'
-  | 'objectFit'
-  | 'size'
-  | 'originalWidth'
-  | 'fill'
-  | 'width'
-  | 'height'
-  | 'sizes'
-  | 'fallbackSrc'
-  | 'linkIcon'
-> & {
-  src: string;
-}) => {
+}: DropzoneFieldProps) => {
   return (
     <a
-      href={src}
+      href={src || ''}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={alt || 'Open image'}
@@ -170,8 +157,8 @@ const DropzoneFieldLinkContainer = ({
     >
       <div className={imageClasses({ objectFit, size })}>
         <BaseImage
-          {...(restProps as ComponentProps<typeof BaseImage>)}
-          src={src}
+          {...(restProps as unknown as ComponentProps<typeof BaseImage>)}
+          src={src || ''}
           alt={alt}
           originalWidth={originalWidth || 600}
           className="komc:w-full komc:h-full"
