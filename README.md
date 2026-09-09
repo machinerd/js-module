@@ -111,7 +111,7 @@ new Loader().mediaset({
 | `motion` | `^13.0.0` | 아니오 | `ui/motion-dialog`, `ui/radius-handler` |
 | `notistack` | `^3.0.0` | 아니오 | `hooks/use-snackbar`, `providers/noti-stack` |
 | `react-dropzone` | `>=14.0.0 <21.0.0` | 아니오 | `ui/admin/dropzone-field` |
-| `react-hook-form` | `^7.0.0` | 아니오 | `ui/admin/with-extra-field` |
+| `react-hook-form` | `^7.0.0` | 아니오 | `ui/admin/with-extra-field`, `hooks/use-form-util` |
 | `react-select` | `^5.0.0` | 아니오 | `ui/admin/select-field`, `ui/admin/source-field`, `ui/admin/sns-field`, `ui/admin/async-select-field`, `ui/admin/country-select` |
 | `react-select-async-paginate` | `^0.7.0` | 아니오 | `ui/admin/async-select-field`, `ui/admin/country-select` |
 | `@tailwindcss/typography` | `^0.5.0` | 아니오 | `styles/editor.css` |
