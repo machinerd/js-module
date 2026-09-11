@@ -18,21 +18,56 @@ const rowClasses = clsx(
 const slotClasses =
   'komc:flex komc:justify-center komc:items-center komc:w-5 komc:h-5 komc:aspect-square komc:[&_svg]:w-3.5 komc:[&_svg]:h-4 komc:[&_svg]:text-neutral-500';
 
+/**
+ * Props of one input in {@link SeriesField}: `TextField` props for
+ * `variant="prefix-text"` (without `variant`). `prefix` is required.
+ */
 export type SeriesTextFieldProps = Omit<
   Extract<TextFieldProps, { variant: 'prefix-text' }>,
   'variant'
 >;
 
 export interface SeriesFieldProps {
+  /** Sortable id. Must match the item's id in the surrounding `DndWrapper`. */
   dragId: string;
+  /** Called when the delete button is clicked. */
   onDelete: () => void;
+  /** Drag handle content, e.g. `<FontAwesomeIcon icon={faGripVertical} />`. */
   handle: ReactNode;
+  /** Delete button content, e.g. `<FontAwesomeIcon icon={faTrash} />`. */
   action: ReactNode;
+  /**
+   * Inputs shown side by side, each with a `prefix` label (e.g. one per
+   * language). Default to `size="xs"` without shadow; override per item.
+   */
   items: SeriesTextFieldProps[];
 }
 
 type SortableListeners = ReturnType<typeof useSortable>['listeners'];
 
+/**
+ * Sortable row of prefixed text inputs (e.g. a series title per language)
+ * with a drag handle and delete button. Has no label.
+ *
+ * Must be rendered inside `DndWrapper` (or a dnd-kit `SortableContext`).
+ *
+ * @example
+ * <DndWrapper items={fields} move={move}>
+ *   {fields.map((field, index) => (
+ *     <SeriesField
+ *       key={field.id}
+ *       dragId={field.id}
+ *       handle={<FontAwesomeIcon icon={faGripVertical} />}
+ *       action={<FontAwesomeIcon icon={faTrash} />}
+ *       onDelete={() => remove(index)}
+ *       items={[
+ *         { prefix: 'KO', ...register(`series.${index}.titleKo`) },
+ *         { prefix: 'EN', ...register(`series.${index}.titleEn`) },
+ *       ]}
+ *     />
+ *   ))}
+ * </DndWrapper>
+ */
 export const SeriesField = ({ dragId, ...props }: SeriesFieldProps) => {
   return (
     <DndItem
@@ -49,10 +84,16 @@ export const SeriesField = ({ dragId, ...props }: SeriesFieldProps) => {
 };
 
 export interface SeriesFieldItemProps extends Omit<SeriesFieldProps, 'dragId'> {
+  /** dnd-kit attributes spread onto the drag handle. */
   attributes: DraggableAttributes;
+  /** dnd-kit listeners spread onto the drag handle. */
   listeners?: SortableListeners;
 }
 
+/**
+ * Row UI of {@link SeriesField} without the sortable wrapper.
+ * Use it when you wire dnd-kit yourself.
+ */
 export const SeriesFieldItem = ({
   items,
   attributes,

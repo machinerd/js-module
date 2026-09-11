@@ -25,16 +25,38 @@ import {
 import clsx from 'clsx';
 import { useDialogStack } from '../../hooks/use-dialog-stack';
 
+/**
+ * Anything with `getBoundingClientRect()` — a DOM element or a virtual
+ * element such as `{ getBoundingClientRect: () => rect }`.
+ */
 export type DropdownReference = VirtualElement;
 
 interface DropdownContextValue {
+  /** Whether the dropdown is open. */
   open: boolean;
+  /** Open or close the dropdown. */
   setOpen: (open: boolean) => void;
+  /** Close the dropdown. */
   close: () => void;
 }
 
 const DropdownContext = createContext<DropdownContextValue | null>(null);
 
+/**
+ * Reads the nearest `Dropdown`'s open state from inside its content,
+ * e.g. to close the menu after an item is picked.
+ *
+ * Outside a `Dropdown`, returns `open: false` and no-op functions
+ * (does not throw).
+ *
+ * @example
+ * const MenuItem = ({ onSelect }: { onSelect: () => void }) => {
+ *   const { close } = useDropdown();
+ *   return (
+ *     <button onClick={() => { onSelect(); close(); }}>Duplicate</button>
+ *   );
+ * };
+ */
 export function useDropdown() {
   const context = useContext(DropdownContext);
 
@@ -50,21 +72,98 @@ export function useDropdown() {
 }
 
 export interface DropdownProps {
+  /**
+   * Element that toggles the dropdown on click. Wrapped in an inline
+   * `<span>` used as the anchor.
+   *
+   * Omit it to open programmatically with `open` + `reference`.
+   */
   trigger?: ReactNode;
+  /**
+   * Position anchor used instead of the trigger — a DOM element or a
+   * virtual element (`{ getBoundingClientRect }`), e.g. a caret or
+   * click position. Without `trigger`, control the dropdown with `open`.
+   */
   reference?: DropdownReference | null;
+  /** Menu content. Call {@link useDropdown} inside it to close the menu. */
   children: ReactNode;
+  /**
+   * Preferred placement. Flips and shifts automatically to stay in view.
+   * @default 'bottom-start'
+   */
   placement?: Placement;
+  /** Clipping boundary used for flip/shift/size. Defaults to the viewport. */
   boundary?: Element | null;
+  /**
+   * Gap between anchor and menu, in px.
+   * @default 8
+   */
   offset?: number;
+  /** Max menu width in px. Unlimited if omitted. */
   maxWidth?: number;
+  /**
+   * Max menu height in px. Content scrolls beyond it.
+   * @default 300
+   */
   maxHeight?: number;
+  /** Class name for the floating menu container. */
   className?: string;
+  /**
+   * Controlled open state. When omitted, the dropdown manages its own state
+   * (opened by clicking `trigger`).
+   */
   open?: boolean;
+  /**
+   * Called whenever the dropdown wants to open or close (trigger click,
+   * outside click, Escape, `close()`). Required to update `open`
+   * when controlled.
+   */
   onOpenChange?: (open: boolean) => void;
+  /**
+   * Prevent pointer-down inside the menu from moving focus, so e.g. an
+   * input or editor keeps focus while an item is clicked.
+   * @default true
+   */
   preserveFocus?: boolean;
+  /**
+   * `z-index` of the menu layer.
+   * @default 99999
+   */
   zIndex?: number;
 }
 
+/**
+ * Floating menu rendered in a portal and positioned with Floating UI.
+ * Closes on outside click and Escape, and locks body scroll while open.
+ *
+ * Use it either with a `trigger` (uncontrolled or controlled) or with a
+ * `reference` plus controlled `open`.
+ *
+ * @example
+ * // Trigger button
+ * <Dropdown trigger={<Button size="sm">Menu</Button>}>
+ *   <MenuItems />
+ * </Dropdown>
+ *
+ * @example
+ * // Open at a custom position
+ * const [open, setOpen] = useState(false);
+ * const [rect, setRect] = useState<DOMRect | null>(null);
+ *
+ * <button
+ *   onClick={(e) => {
+ *     setRect(e.currentTarget.getBoundingClientRect());
+ *     setOpen(true);
+ *   }}
+ * />
+ * <Dropdown
+ *   open={open}
+ *   onOpenChange={setOpen}
+ *   reference={rect ? { getBoundingClientRect: () => rect } : null}
+ * >
+ *   <MenuItems />
+ * </Dropdown>
+ */
 export default function Dropdown({
   trigger,
   reference,

@@ -1,11 +1,22 @@
 import clsx from 'clsx';
 import { HTMLAttributes } from 'react';
 
+/**
+ * Text whose width does not change when its font weight changes.
+ * Reserves the width of the bold version, so switching to bold on hover or
+ * selection (e.g. tabs, menu items) causes no layout shift.
+ *
+ * @example
+ * <button className="hover:font-bold aria-selected:font-bold">
+ *   <StableText>Settings</StableText>
+ * </button>
+ */
 export default function StableText({
   children,
   className,
   ...props
 }: Omit<HTMLAttributes<HTMLSpanElement>, 'children'> & {
+  /** Text to render. Only strings and numbers are supported. */
   children: string | number;
 }) {
   return (

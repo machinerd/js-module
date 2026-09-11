@@ -15,8 +15,11 @@ import { BaseImage } from '../../image';
 import { Switch, type LabelPlacement } from '../../switch';
 import { Label } from '../label';
 
+/** Language option for the {@link DropzoneLogo} language tabs. */
 export interface DropzoneLanguage {
+  /** Language code, matched against `viewLanguages` (e.g. `'ko'`). */
   value: string;
+  /** Tab text. */
   label: string;
 }
 
@@ -96,14 +99,47 @@ interface BasePropsMultipleTrue
         'src' | 'alt' | 'onDrop' | 'onSelect'
       >
     > {
+  /**
+   * Uploaded file path or URL. When set, a preview linking to the file is
+   * shown instead of the drop area.
+   */
   src?: string | null;
+  /** Alt text of the preview image. */
   alt?: string;
+  /**
+   * Accept several files. `onDrop` receives `File[]`.
+   * @default true
+   */
   multiple?: true;
+  /**
+   * Main text of the drop area. Hidden when `size="logo"`.
+   * @default 'Select files'
+   */
   placeholder?: string;
+  /**
+   * Secondary text of the drop area. Hidden when `size="logo"`.
+   * @default '(or drop files here)'
+   */
   subPlaceholder?: string;
+  /** Font Awesome icon in the empty drop area (e.g. `faFile`). */
   fileIcon: IconProp;
+  /** Font Awesome icon shown when hovering the preview (e.g. `faLink`). */
   linkIcon: IconProp;
+  /** Called with the dropped or selected files. */
   onDrop: (files: File[]) => void;
+  /**
+   * How the preview image fits its box.
+   * @default 'contain'
+   */
+  objectFit?: VariantProps<typeof imageClasses>['objectFit'];
+  /**
+   * Box size. `logo` 120×40px (texts hidden) · `sm` 100px · `md` 120px ·
+   * `lg` 160px · `xl` 200px tall, full width.
+   * @default 'lg'
+   */
+  size?: VariantProps<typeof imageClasses>['size'];
+  /** Currently has no effect. */
+  isDragActive?: VariantProps<typeof imageClasses>['isDragActive'];
 }
 
 interface BasePropsMultipleFalse
@@ -115,18 +151,71 @@ interface BasePropsMultipleFalse
         'src' | 'alt' | 'onDrop' | 'onSelect'
       >
     > {
+  /**
+   * Uploaded file path or URL. When set, a preview linking to the file is
+   * shown instead of the drop area.
+   */
   src?: string | null;
+  /** Alt text of the preview image. */
   alt?: string;
+  /** Accept a single file. `onDrop` receives one `File`. */
   multiple: false;
+  /**
+   * Main text of the drop area. Hidden when `size="logo"`.
+   * @default 'Select files'
+   */
   placeholder?: string;
+  /**
+   * Secondary text of the drop area. Hidden when `size="logo"`.
+   * @default '(or drop files here)'
+   */
   subPlaceholder?: string;
+  /** Font Awesome icon in the empty drop area (e.g. `faFile`). */
   fileIcon: IconProp;
+  /** Font Awesome icon shown when hovering the preview (e.g. `faLink`). */
   linkIcon: IconProp;
+  /** Called with the first dropped or selected file. */
   onDrop: (file: File) => void;
+  /**
+   * How the preview image fits its box.
+   * @default 'contain'
+   */
+  objectFit?: VariantProps<typeof imageClasses>['objectFit'];
+  /**
+   * Box size. `logo` 120×40px (texts hidden) · `sm` 100px · `md` 120px ·
+   * `lg` 160px · `xl` 200px tall, full width.
+   * @default 'lg'
+   */
+  size?: VariantProps<typeof imageClasses>['size'];
+  /** Currently has no effect. */
+  isDragActive?: VariantProps<typeof imageClasses>['isDragActive'];
 }
 
+/**
+ * Props for {@link DropzoneField}. `multiple` decides the `onDrop` signature.
+ *
+ * Remaining `BaseImage` props (`originalWidth`, `folder`, ...) configure the
+ * preview; `originalWidth` defaults to 600.
+ */
 export type DropzoneFieldProps = BasePropsMultipleTrue | BasePropsMultipleFalse;
 
+/**
+ * File drop area without a label or frame. Shows a clickable/droppable area
+ * when `src` is empty, and an image preview linking to `src` otherwise.
+ *
+ * Usually used through {@link Dropzone} or {@link DropzoneLogo}.
+ * The preview requires `ApiClientProvider`.
+ *
+ * @example
+ * <DropzoneField
+ *   multiple={false}
+ *   src={thumbnailUrl}
+ *   size="md"
+ *   fileIcon={faFile}
+ *   linkIcon={faLink}
+ *   onDrop={(file) => upload(file)}
+ * />
+ */
 export const DropzoneField = (props: DropzoneFieldProps) => {
   const { src = '', ...rest } = props;
 
@@ -145,6 +234,11 @@ const DropzoneFieldLinkContainer = ({
   originalWidth,
   fileIcon,
   linkIcon,
+  multiple,
+  isDragActive,
+  placeholder,
+  subPlaceholder,
+  onDrop,
   ...restProps
 }: DropzoneFieldProps) => {
   return (
@@ -224,34 +318,91 @@ const DropzoneFieldInputContainer = ({
 };
 
 type DropzoneLogoBaseProps = DropzoneFieldProps & {
+  /** Label shown above the field. See `LabelProps`. */
   label?: ComponentProps<typeof Label>;
+  /**
+   * Always `logo` (120×40px).
+   * @default 'logo'
+   */
   size?: 'logo';
+  /**
+   * Initially highlighted language tab (option or its `value`).
+   * Only read on mount.
+   */
   selectedLanguage?: DropzoneLanguage | string;
+  /**
+   * `value`s of the `options` to show as tabs.
+   * @default ['ko', 'en']
+   */
   viewLanguages?: string[];
+  /**
+   * Language tabs. Shown only when `onSelect` and `onUpdate` or `onDelete`
+   * are set.
+   * @default []
+   */
   options?: DropzoneLanguage[];
+  /** Label of a switch next to the logo. The switch shows only when set. */
   valueLabel?: string;
+  /** Position of `valueLabel` relative to the switch. */
   valueLabelPlacement?: LabelPlacement;
+  /** Switch state. Controlled: update it from `onChecked`. */
   checked?: boolean;
+  /** Called when a language tab is clicked. */
   onSelect?: (language: DropzoneLanguage) => void;
+  /** Called when the switch is toggled. */
   onChecked?: (checked: boolean) => void;
+  /** Shows a delete button and is called when it is clicked. */
   onDelete?: () => void;
+  /** Icon/content of the replace button, e.g. `<FontAwesomeIcon icon={faPen} />`. */
   update?: ReactNode;
+  /** Icon/content of the delete button, e.g. `<FontAwesomeIcon icon={faTrash} />`. */
   remove?: ReactNode;
 };
 
 type DropzoneLogoPropsWithUpdate = DropzoneLogoBaseProps & {
+  /** Unique id for the hidden file input. Required with `onUpdate`. */
   id: string;
+  /** Shows a replace button and is called with the newly chosen file. */
   onUpdate: (file: File) => void;
 };
 
 type DropzoneLogoPropsWithoutUpdate = DropzoneLogoBaseProps & {
+  /** Unique id for the hidden file input. Required with `onUpdate`. */
   id?: string;
   onUpdate?: never;
 };
 
+/** Props for {@link DropzoneLogo}. `id` is required when `onUpdate` is set. */
 export type DropzoneLogoProps =
   DropzoneLogoPropsWithUpdate | DropzoneLogoPropsWithoutUpdate;
 
+/**
+ * Framed logo uploader: a small {@link DropzoneField} with optional switch,
+ * language tabs, replace and delete buttons.
+ *
+ * The preview requires `ApiClientProvider`.
+ *
+ * @example
+ * <DropzoneLogo
+ *   id="logo-ko"
+ *   label={{ text: 'Logo' }}
+ *   multiple={false}
+ *   src={logo?.path}
+ *   fileIcon={faFile}
+ *   linkIcon={faLink}
+ *   onDrop={upload}
+ *   onUpdate={upload}
+ *   onDelete={removeLogo}
+ *   update={<FontAwesomeIcon icon={faPen} />}
+ *   remove={<FontAwesomeIcon icon={faTrash} />}
+ *   options={[
+ *     { value: 'ko', label: 'Korean' },
+ *     { value: 'en', label: 'English' },
+ *   ]}
+ *   selectedLanguage="ko"
+ *   onSelect={(language) => setLanguage(language.value)}
+ * />
+ */
 export const DropzoneLogo = ({
   label,
   id,
@@ -353,6 +504,10 @@ export const DropzoneLogo = ({
   );
 };
 
+/**
+ * Icon button that opens a file picker. Re-selecting the same file still
+ * fires `onUpdate`.
+ */
 export const UpdateButton = ({
   id,
   onUpdate,
@@ -381,6 +536,7 @@ export const UpdateButton = ({
   );
 };
 
+/** Small icon button for delete actions. */
 export const DeleteButton = ({
   onDelete,
   children,
@@ -400,11 +556,45 @@ export const DeleteButton = ({
   );
 };
 
+/** Props for {@link Dropzone}. `multiple` decides the `onDrop` signature. */
 export type DropzoneProps = DropzoneFieldProps & {
+  /** Label shown above the field. See `LabelProps`. */
   label?: ComponentProps<typeof Label>;
+  /**
+   * Box height. `sm` 100px · `md` 120px · `lg` 160px · `xl` 200px.
+   * @default 'lg'
+   */
   size?: 'sm' | 'md' | 'lg' | 'xl';
 };
 
+/**
+ * Framed file drop area with an optional {@link Label}. Shows a preview
+ * linking to `src` once a file is uploaded.
+ *
+ * The preview requires `ApiClientProvider`.
+ *
+ * @example
+ * // Multiple files (default)
+ * <Dropzone
+ *   label={{ text: 'Attachments' }}
+ *   fileIcon={faFile}
+ *   linkIcon={faLink}
+ *   onDrop={(files) => files.forEach(upload)}
+ * />
+ *
+ * @example
+ * // Single image with preview
+ * <Dropzone
+ *   label={{ text: 'Cover', required: true }}
+ *   multiple={false}
+ *   src={cover?.path}
+ *   originalWidth={cover?.width}
+ *   objectFit="cover"
+ *   fileIcon={faImage}
+ *   linkIcon={faLink}
+ *   onDrop={(file) => uploadCover(file)}
+ * />
+ */
 export const Dropzone = ({ label, ...field }: DropzoneProps) => {
   return (
     <Label {...label}>

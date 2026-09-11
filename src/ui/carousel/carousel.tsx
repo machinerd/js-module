@@ -15,12 +15,50 @@ import clsx from 'clsx';
 
 export interface CarouselProps
   extends ComponentProps<'div'>, CarouselContextProps {
+  /**
+   * Scroll direction. Also sets arrow-key navigation
+   * (left/right or up/down) and slide spacing.
+   * @default 'horizontal'
+   */
   orientation?: 'horizontal' | 'vertical';
+  /**
+   * Embla options such as `loop`, `align`, `slidesToScroll`.
+   * `axis` is ignored — use `orientation` instead.
+   */
   options?: CarouselContextProps['options'];
+  /**
+   * Receives the Embla API once it is ready, for controlling the carousel
+   * from outside (e.g. `api.scrollTo(2)`).
+   */
   setApi?: CarouselContextProps['setApi'];
+  /** Embla plugins, e.g. `[Autoplay({ delay: 3000 })]`. */
   plugins?: CarouselContextProps['plugins'];
 }
 
+/**
+ * Root of an Embla-based carousel. Provides state to the `Carousel*` parts
+ * and {@link useCarousel}, and handles arrow-key navigation when focused.
+ *
+ * Structure: `Carousel` > `CarouselViewport` > `CarouselWrapper` >
+ * `CarouselItem`. Navigation parts (`CarouselPrevious`, `CarouselNext`,
+ * `CarouselDots`, `CarouselDot`) can go anywhere inside `Carousel`.
+ *
+ * @example
+ * <Carousel options={{ loop: true, align: 'start' }}>
+ *   <CarouselViewport>
+ *     <CarouselWrapper>
+ *       {slides.map((slide) => (
+ *         <CarouselItem key={slide.id}>{slide.content}</CarouselItem>
+ *       ))}
+ *     </CarouselWrapper>
+ *   </CarouselViewport>
+ *   <CarouselPrevious>Prev</CarouselPrevious>
+ *   <CarouselNext>Next</CarouselNext>
+ *   <CarouselDots className="data-[selected=true]:bg-black">
+ *     {(index) => index + 1}
+ *   </CarouselDots>
+ * </Carousel>
+ */
 export default function Carousel({
   orientation = 'horizontal',
   options,

@@ -105,16 +105,72 @@ type Direction = 'top' | 'bottom' | 'left' | 'right';
 type Size = 'full' | 'half' | 'auto';
 
 export interface SheetProps {
+  /** Whether the sheet is shown. Controlled by the parent. */
   isOpen: boolean;
+  /**
+   * Called on backdrop click (if enabled) or Escape.
+   * Set `isOpen` to `false` here.
+   */
   onClose: () => void;
+  /**
+   * Screen edge the sheet slides in from.
+   * @default 'bottom'
+   */
   direction?: Direction;
+  /**
+   * Size along the slide axis (height for top/bottom, width for left/right).
+   * - `full`: 100%
+   * - `half`: 50% of the viewport
+   * - `auto`: fits content, up to 90% of the viewport
+   *
+   * For a fixed size, use `auto` with `className` (e.g. `w-[320px]`).
+   * @default 'full'
+   */
   size?: Size;
+  /** Sheet content. */
   children: React.ReactNode;
+  /** Class name for the sliding panel (white background by default). */
   className?: string;
+  /**
+   * Close when the dimmed backdrop is clicked.
+   * @default true
+   */
   closeOnBackdropClick?: boolean;
+  /**
+   * `z-index` of the overlay.
+   * @default 1001
+   */
   zIndex?: number;
 }
 
+/**
+ * Panel that slides in from a screen edge over a dimmed backdrop
+ * (bottom sheet, side drawer, ...).
+ *
+ * - Closes on Escape (only the top-most open sheet/dialog) and locks body
+ *   scroll while open.
+ * - Stays mounted for 300ms after closing to finish the exit animation.
+ * - Rendered in place, not in a portal.
+ *
+ * @example
+ * const [open, setOpen] = useState(false);
+ *
+ * <Sheet isOpen={open} onClose={() => setOpen(false)} size="half">
+ *   <FilterForm onApply={() => setOpen(false)} />
+ * </Sheet>
+ *
+ * @example
+ * // Right drawer with fixed width
+ * <Sheet
+ *   isOpen={open}
+ *   onClose={() => setOpen(false)}
+ *   direction="right"
+ *   size="auto"
+ *   className="w-[320px]"
+ * >
+ *   <Nav />
+ * </Sheet>
+ */
 export default function Sheet({
   isOpen,
   onClose,

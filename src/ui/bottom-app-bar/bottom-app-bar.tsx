@@ -22,12 +22,51 @@ const classes = cva('komc:grid', {
   },
 });
 
+/**
+ * Props for {@link BottomAppBar}.
+ *
+ * Other HTML attributes (`className`, `style`, ...) go to the outer `<nav>`.
+ *
+ * @template T Item type passed to `render`.
+ */
 export interface BottomAppBarProps<T>
   extends React.HTMLAttributes<HTMLElement>, VariantProps<typeof classes> {
+  /** Items to render. Each item gets an equal-width grid column. */
   items: T[];
+  /**
+   * Renders one item. The result is placed directly inside a `<ul>`,
+   * so return an `<li>` for valid markup.
+   */
   render: (item: T) => React.ReactNode;
+  /**
+   * Minimum bar height.
+   * `xxs` 40px · `xs` 48px · `xs-caption` 50px · `caption` 52px · `sm` 56px ·
+   * `sm-base` 60px · `base` 64px · `base-lg` 68px · `lg` 72px · `auto` none.
+   * @default 'sm-base'
+   */
+  size?: VariantProps<typeof classes>['size'];
 }
 
+/**
+ * Navigation bar fixed to the bottom of the viewport.
+ *
+ * @template T Item type passed to `render`.
+ *
+ * @example
+ * const tabs = [
+ *   { label: 'Home', href: '/' },
+ *   { label: 'Search', href: '/search' },
+ * ];
+ *
+ * <BottomAppBar
+ *   items={tabs}
+ *   render={(tab) => (
+ *     <li>
+ *       <a href={tab.href}>{tab.label}</a>
+ *     </li>
+ *   )}
+ * />
+ */
 export default function BottomAppBar<T>({
   className,
   items,

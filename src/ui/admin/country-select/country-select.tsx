@@ -18,21 +18,33 @@ import {
 import { AsyncPaginate } from 'react-select-async-paginate';
 import { CountryFlag } from '../../country-flag';
 
+/** Pagination state passed between `loadOptions` calls. */
 export interface Additional {
+  /** 1-based page number. */
   page: number;
+  /** Items per page. */
   pageSize: number;
 }
 
+/** Country option shape expected by {@link CountrySelect}. */
 export interface CountrySelectOption {
+  /** Unique country id. */
   id: number;
+  /** ISO 3166-1 alpha-2 code (e.g. `'KR'`). Used for the flag. */
   alpha2Code?: string | null;
+  /** Calling code without `+` (e.g. `'82'`). */
   callingCode?: string | null;
+  /** Official English name. Last fallback for the option label. */
   nameEn?: string | null;
+  /** Common English name. Used for the label before `nameEn`. */
   nameEnAlias1?: string | null;
+  /** Short English name. Preferred English label. */
   nameEnAlias2?: string | null;
+  /** Korean name. Preferred label when `locale` is `'ko'`. */
   nameKo?: string | null;
 }
 
+/** Preset option for South Korea. Handy as a default value. */
 export const COUNTRY_KR: CountrySelectOption = {
   id: 212,
   alpha2Code: 'KR',
@@ -69,6 +81,10 @@ const useCountrySelectUi = () => {
   return value;
 };
 
+/**
+ * Default `classNames` of {@link CountrySelect}. Spread it when you pass
+ * your own `classNames`, since that prop replaces the defaults.
+ */
 export const defaultCountrySelectClassNames: ClassNamesConfig<
   CountrySelectOption,
   boolean,
@@ -93,6 +109,11 @@ export const defaultCountrySelectClassNames: ClassNamesConfig<
   dropdownIndicator: (base) => clsx(base.className, 'komc:p-0!'),
 };
 
+/**
+ * Menu option: flag, localized name and calling code.
+ * One of the default `components` of {@link CountrySelect}; only works
+ * inside it.
+ */
 export const CountryOption = <Option extends CountrySelectOption>(
   props: OptionProps<Option, boolean, GroupBase<Option>>,
 ) => {
@@ -109,6 +130,11 @@ export const CountryOption = <Option extends CountrySelectOption>(
   );
 };
 
+/**
+ * Clear button using `clearIcon`.
+ * One of the default `components` of {@link CountrySelect}; only works
+ * inside it.
+ */
 export const CountryClearIndicator = <Option extends CountrySelectOption>(
   props: ClearIndicatorProps<Option, boolean, GroupBase<Option>>,
 ) => {
@@ -125,6 +151,11 @@ export const CountryClearIndicator = <Option extends CountrySelectOption>(
   );
 };
 
+/**
+ * Dropdown arrow using `dropdownIcon`.
+ * One of the default `components` of {@link CountrySelect}; only works
+ * inside it.
+ */
 export const CountryDropdownIndicator = <Option extends CountrySelectOption>(
   props: DropdownIndicatorProps<Option, boolean, GroupBase<Option>>,
 ) => {
@@ -141,6 +172,7 @@ export const CountryDropdownIndicator = <Option extends CountrySelectOption>(
   );
 };
 
+/** Divider between the indicators. One of the default `components`. */
 export const CountryIndicatorSeparator = <Option extends CountrySelectOption>(
   props: IndicatorSeparatorProps<Option, boolean, GroupBase<Option>>,
 ) => {
@@ -151,6 +183,10 @@ export const CountryIndicatorSeparator = <Option extends CountrySelectOption>(
   );
 };
 
+/**
+ * Selected value: flag and calling code only.
+ * One of the default `components` of {@link CountrySelect}.
+ */
 export const CountrySingleValue = <Option extends CountrySelectOption>(
   props: SingleValueProps<Option, boolean, GroupBase<Option>>,
 ) => {
@@ -166,6 +202,7 @@ export const CountrySingleValue = <Option extends CountrySelectOption>(
   );
 };
 
+/** Small-text placeholder. One of the default `components`. */
 export const CountryPlaceholder = <Option extends CountrySelectOption>(
   props: PlaceholderProps<Option, boolean, GroupBase<Option>>,
 ) => {
@@ -176,6 +213,7 @@ export const CountryPlaceholder = <Option extends CountrySelectOption>(
   );
 };
 
+/** Flag for a country option, sized for the select. */
 export const CountryFlagElement = (props: CountrySelectOption) => {
   return (
     <div className="komc:shrink-0 komc:h-6">
@@ -193,17 +231,71 @@ const defaultComponents = {
   IndicatorSeparator: CountryIndicatorSeparator,
 };
 
+/**
+ * Props for {@link CountrySelect}. Accepts all `react-select-async-paginate`
+ * props; `loadOptions` is required in practice.
+ *
+ * @template Option Country option type.
+ * @template IsMulti `true` for multi-select (`isMulti`).
+ */
 export interface CountrySelectProps<
   Option extends CountrySelectOption = CountrySelectOption,
   IsMulti extends boolean = false,
 > extends ComponentProps<
   typeof AsyncPaginate<Option, GroupBase<Option>, Additional, IsMulti>
 > {
+  /**
+   * Label language. `'ko'` prefers `nameKo`; anything else uses
+   * `nameEnAlias2` → `nameEnAlias1` → `nameEn`.
+   * @default 'en'
+   */
   locale?: string;
+  /** Font Awesome icon for the clear button (e.g. `faXmark`). */
   clearIcon: IconProp;
+  /** Font Awesome icon for the dropdown arrow (e.g. `faChevronDown`). */
   dropdownIcon: IconProp;
 }
 
+/**
+ * Searchable, paginated country picker showing flags and calling codes.
+ * Clearable and searchable by default; no placeholder unless passed.
+ *
+ * - `loadOptions(search, prevOptions, additional)` must resolve to
+ *   `{ options, hasMore, additional: { page: page + 1, pageSize } }`.
+ *   The first call gets `additional = { page: 1, pageSize: 10 }`; it is
+ *   typed as optional, so give it a default.
+ * - Options have no `value` key, so pass `getOptionValue` (e.g. by `id`)
+ *   for react-select to tell options apart.
+ * - Passing `components` or `classNames` replaces the defaults; spread the
+ *   exported `Country*` components or `defaultCountrySelectClassNames` to
+ *   extend them.
+ *
+ * @template Option Country option type.
+ * @template IsMulti `true` for multi-select (`isMulti`).
+ *
+ * @example
+ * <CountrySelect
+ *   locale="ko"
+ *   clearIcon={faXmark}
+ *   dropdownIcon={faChevronDown}
+ *   loadOptions={async (search, _prev, additional = { page: 1, pageSize: 10 }) => {
+ *     const { page, pageSize } = additional;
+ *     const { list, total } = await api.countries.list({
+ *       filter: { keyword: search },
+ *       page,
+ *       pageSize,
+ *     });
+ *     return {
+ *       options: list,
+ *       hasMore: total > page * pageSize,
+ *       additional: { page: page + 1, pageSize },
+ *     };
+ *   }}
+ *   getOptionValue={(country) => String(country.id)}
+ *   defaultValue={COUNTRY_KR}
+ *   onChange={(country) => setValue('countryId', country?.id)}
+ * />
+ */
 export const CountrySelect = <
   Option extends CountrySelectOption = CountrySelectOption,
   IsMulti extends boolean = false,

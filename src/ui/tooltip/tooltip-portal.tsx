@@ -117,8 +117,6 @@ export default function TooltipPortal({
   useEffect(() => {
     if (!mounted || !open) return;
 
-    console.log('updateLayout');
-
     let cancelled = false;
     let throttleRafId = 0;
     let layoutRafId = 0;

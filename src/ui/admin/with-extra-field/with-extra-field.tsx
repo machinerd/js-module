@@ -19,18 +19,66 @@ import {
 } from 'react-hook-form';
 import { Label } from '../label';
 
+/**
+ * Props added by {@link withExtraField}.
+ *
+ * @template T Form values type.
+ */
 export interface ExtraFieldProps<T extends FieldValues = FieldValues> {
+  /** `control` from `useForm`. */
   control: Control<T>;
+  /**
+   * Form path of the array holding the extra values (e.g. `'aliases'`).
+   * Managed with `useFieldArray`.
+   */
   extraFieldName: Path<T>;
+  /**
+   * Value of a newly added extra field.
+   * @default ''
+   */
   defaultValue?: string;
+  /** Add button content, e.g. `<FontAwesomeIcon icon={faPlus} />`. */
   add: ReactNode;
+  /** Remove button content, e.g. `<FontAwesomeIcon icon={faXmark} />`. */
   remove: ReactNode;
 }
 
 export interface BaseHOCProps {
+  /** Label passed to the main field only. */
   label?: ComponentProps<typeof Label>;
 }
 
+/**
+ * Wraps a field component so users can add and remove extra copies of it,
+ * stored as an array in react-hook-form.
+ *
+ * The returned component renders:
+ * - the main field with all passed props and `ref`;
+ * - one extra field per array item, connected via `Controller`. Extra
+ *   fields only receive `value`/`onChange`/`onBlur`/`name`/`ref`, so other
+ *   props (`label`, `size`, ...) apply to the main field only;
+ * - an add button (top-right) and a remove button per extra field (on hover).
+ *
+ * @template T Form values type.
+ * @template F Props of the wrapped component.
+ *
+ * @example
+ * // Define once, outside components
+ * const ExtraTextField = withExtraField<
+ *   FormValues,
+ *   ComponentProps<typeof TextField>
+ * >(TextField);
+ *
+ * // In the form
+ * <ExtraTextField
+ *   control={control}
+ *   extraFieldName="aliases"
+ *   add={<FontAwesomeIcon icon={faPlus} />}
+ *   remove={<FontAwesomeIcon icon={faXmark} />}
+ *   label={{ text: 'Name' }}
+ *   {...register('name')}
+ * />
+ */
 export function withExtraField<T extends FieldValues, F>(
   Component: ComponentType<F>,
 ) {

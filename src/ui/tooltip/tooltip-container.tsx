@@ -7,16 +7,48 @@ import TooltipPortal from './tooltip-portal';
 
 type SubPlacement = 'start' | 'end';
 export type MainPlacement = 'top' | 'bottom';
+/**
+ * `top`/`bottom` centers the tooltip over/under the trigger.
+ * `-start` puts the arrow near the tooltip's left edge (tooltip extends to
+ * the right); `-end` puts it near the right edge.
+ */
 export type TooltipPlacement =
   MainPlacement | `${MainPlacement}-${SubPlacement}`;
 
+/**
+ * Props for `Tooltip`. Only `className` is used from the HTML attributes;
+ * the rest are ignored.
+ */
 export interface TooltipContainerProps extends HTMLAttributes<HTMLDivElement> {
+  /** Trigger element. Hover, focus or click opens the tooltip. */
   children: React.ReactNode;
+  /** Tooltip text. Plain text only. */
   content: string;
+  /**
+   * Preferred side. Flips between top and bottom when there is not enough
+   * space.
+   * @default 'top'
+   */
   placement?: TooltipPlacement;
+  /**
+   * Open on first render.
+   * @default false
+   */
   defaultOpen?: boolean;
+  /** Class name for the tooltip bubble (not the trigger). */
+  className?: string;
 }
 
+/**
+ * Text tooltip shown on hover, focus or click of `children`, rendered in a
+ * portal and kept in the viewport on scroll/resize. Closes on mouse leave,
+ * blur or outside click.
+ *
+ * @example
+ * <Tooltip content="Copied to clipboard" placement="bottom">
+ *   <button type="button">Copy</button>
+ * </Tooltip>
+ */
 const TooltipContainer = forwardRef<HTMLDivElement, TooltipContainerProps>(
   ({
     children,

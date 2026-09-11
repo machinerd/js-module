@@ -270,18 +270,91 @@ interface VariantMap {
   clear: 'sky' | 'gray';
 }
 
-type BaseProps = Omit<VariantProps<typeof classes>, 'outline' | 'variant'>;
+type BaseProps = Omit<VariantProps<typeof classes>, 'outline' | 'variant'> & {
+  /**
+   * Height. `xxs` 30px · `xs` 32px · `sm` 36px · `md` 40px · `lg` 44px ·
+   * `xl` 48px · `2xl` 52px · `3xl` 56px · `4xl` 60px.
+   * @default 'md'
+   */
+  size?: VariantProps<typeof classes>['size'];
+  /**
+   * Drop shadow.
+   * @default 'none'
+   */
+  shadow?: VariantProps<typeof classes>['shadow'];
+  /**
+   * Horizontal padding. `none` 0 · `xs` 2px · `sm` 4px · `md` 6px ·
+   * `lg` 8px · `xl` 12px · `2xl` 16px · `3xl` 20px · `4xl` 24px.
+   * @default '2xl'
+   */
+  px?: VariantProps<typeof classes>['px'];
+  /**
+   * Border radius.
+   * @default 'sm'
+   */
+  rounded?: VariantProps<typeof classes>['rounded'];
+};
 
+/**
+ * Props for {@link Button}. Accepts all native `<button>` attributes.
+ *
+ * `variant` options depend on `outline`:
+ * - `line` (default): `blue` · `duo` · `white` · `gray` · `neutral` · `sky` · `sky-blue`
+ * - `solid`: `white` · `gray` · `blue` · `night` · `black` · `sky` · `sky-blue` · `indigo`
+ * - `clear`: `sky` · `gray`
+ */
 export type ButtonProps = ComponentProps<'button'> &
   BaseProps &
   (
-    | { outline?: 'line'; variant?: VariantMap['line'] }
-    | { outline: 'solid'; variant?: VariantMap['solid'] }
-    | { outline: 'clear'; variant?: VariantMap['clear'] }
+    | {
+        /**
+         * Border style. Narrows the allowed `variant` values.
+         * `line` bordered · `solid` filled · `clear` text-only.
+         * @default 'line'
+         */
+        outline?: 'line';
+        /**
+         * Color scheme for `outline="line"`.
+         * @default 'blue'
+         */
+        variant?: VariantMap['line'];
+      }
+    | {
+        /** Border style. Narrows the allowed `variant` values. */
+        outline: 'solid';
+        /** Color scheme for `outline="solid"`. */
+        variant?: VariantMap['solid'];
+      }
+    | {
+        /** Border style. Narrows the allowed `variant` values. */
+        outline: 'clear';
+        /** Color scheme for `outline="clear"`. */
+        variant?: VariantMap['clear'];
+      }
   ) & {
+    /**
+     * Render the single child element instead of a `<button>`, merging the
+     * button styles and props into it (Radix `Slot`). Use for links.
+     * @default false
+     */
     asChild?: boolean;
   };
 
+/**
+ * Styled button. Full width by default; `type` defaults to `"button"`,
+ * so pass `type="submit"` explicitly inside forms.
+ *
+ * @example
+ * <Button outline="solid" variant="blue" size="lg" onClick={save}>
+ *   Save
+ * </Button>
+ *
+ * @example
+ * // Render as a link
+ * <Button asChild outline="clear" variant="sky">
+ *   <a href="/docs">Docs</a>
+ * </Button>
+ */
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {

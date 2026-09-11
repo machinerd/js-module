@@ -2,6 +2,15 @@ import React from 'react';
 import { useCarousel } from './carousel-context';
 import clsx from 'clsx';
 
+/**
+ * Button that scrolls to the previous snap. Disabled automatically when there
+ * is no previous snap. Passing `onClick` or `disabled` replaces that behavior.
+ *
+ * Must be rendered inside `<Carousel>`.
+ *
+ * @example
+ * <CarouselPrevious className="w-auto">Prev</CarouselPrevious>
+ */
 export default function CarouselPrevious({
   children,
   className,

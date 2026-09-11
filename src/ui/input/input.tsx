@@ -48,6 +48,10 @@ const classes = cva(
   },
 );
 
+/**
+ * Props for {@link Input}. Native input attributes go to the `<input>`;
+ * `className` goes to the wrapper.
+ */
 export interface InputProps
   extends
     Omit<
@@ -55,14 +59,50 @@ export interface InputProps
       'prefix' | 'surffix' | 'size'
     >,
     VariantProps<typeof classes> {
+  /**
+   * Height. `xs` 30px · `sm` 32px · `base` 36px · `md` 40px · `lg` 44px ·
+   * `xl` 48px · `2xl` 52px · `3xl` 56px.
+   * @default 'lg'
+   */
   size?: VariantProps<typeof classes>['size'];
+  /**
+   * Gap between `prefix`, input and `surffix`.
+   * `none` 0 · `xs` 4px · `sm` 8px · `md` 12px · `lg` 16px · `xl` 20px.
+   * @default 'xl'
+   */
   gap?: VariantProps<typeof classes>['gap'];
+  /**
+   * Border style of the wrapper.
+   * @default 'line'
+   */
   outline?: VariantProps<typeof classes>['outline'];
+  /**
+   * Border radius of the wrapper.
+   * @default 'lg'
+   */
   rounded?: VariantProps<typeof classes>['rounded'];
+  /** Content before the input, e.g. an icon. */
   prefix?: React.ReactNode;
+  /**
+   * Content after the input, e.g. a unit or clear button.
+   * Note the spelling: `surffix`, not `suffix`.
+   */
   surffix?: React.ReactNode;
 }
 
+/**
+ * Text input with a bordered wrapper and optional leading/trailing content.
+ * `ref` points to the `<input>`; `type` defaults to `"text"`.
+ *
+ * @example
+ * <Input
+ *   placeholder="Search"
+ *   prefix={<SearchIcon />}
+ *   surffix={<kbd>⌘K</kbd>}
+ *   value={keyword}
+ *   onChange={(e) => setKeyword(e.target.value)}
+ * />
+ */
 const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {

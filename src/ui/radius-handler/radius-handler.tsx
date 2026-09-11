@@ -7,12 +7,36 @@ import clsx from 'clsx';
 const TRACK_SIZE = 12;
 
 export interface RadiusHandlerProps {
+  /**
+   * Minimum value.
+   * @default 0
+   */
   min?: number;
+  /**
+   * Maximum value. A `value` above it is clamped and reported via
+   * `onChange`.
+   * @default 100
+   */
   max?: number;
+  /**
+   * Current value. Sets the thumb position and the tooltip text, so update
+   * it from `onChange`.
+   * @default 0
+   */
   value?: number;
+  /** Called with the new integer value while dragging. */
   onChange?: (value: number) => void;
 }
 
+/**
+ * Horizontal slider for a percentage-like value (e.g. border radius).
+ * Shows a `{value}%` tooltip while dragging.
+ *
+ * @example
+ * const [radius, setRadius] = useState(0);
+ *
+ * <RadiusHandler value={radius} onChange={setRadius} max={50} />
+ */
 export default function RadiusHandler({
   min = 0,
   max = 100,
@@ -81,15 +105,16 @@ export default function RadiusHandler({
 
   return (
     <div
-      className="flex items-center w-full h-7 bg-neutral-50 rounded-md px-1 shadow-sm"
+      data-komc
+      className="komc:flex komc:items-center komc:w-full komc:h-7 komc:bg-neutral-50 komc:rounded-md komc:px-1 komc:shadow-sm"
       onDragStart={(e) => e.preventDefault()}
     >
       <div
         ref={trackRef}
-        className="flex w-full h-2 bg-white rounded-full relative select-none touch-none"
+        className="komc:flex komc:w-full komc:h-2 komc:bg-white komc:rounded-full komc:relative komc:select-none komc:touch-none"
       >
         <motion.div
-          className="flex shrink-0 aspect-square top-0 left-0 z-2 absolute select-none touch-none"
+          className="komc:flex komc:shrink-0 komc:aspect-square komc:top-0 komc:left-0 komc:z-2 komc:absolute komc:select-none komc:touch-none"
           style={{ x, width: `${TRACK_SIZE}px`, height: `${TRACK_SIZE}px` }}
           drag="x"
           dragElastic={0}
@@ -101,8 +126,8 @@ export default function RadiusHandler({
         >
           <div
             className={clsx(
-              'w-full h-full bg-orange-500 rounded-full absolute -top-0.5 left-0 cursor-grab',
-              isDragging && 'cursor-grabbing',
+              'komc:w-full komc:h-full komc:bg-orange-500 komc:rounded-full komc:absolute komc:-top-0.5 komc:left-0 komc:cursor-grab',
+              isDragging && 'komc:cursor-grabbing',
             )}
           >
             <RadiusSliderTooltip isDragging={isDragging} value={value} />
@@ -123,14 +148,14 @@ const RadiusSliderTooltip = ({
   return (
     <div
       className={clsx(
-        'flex w-fit bg-white text-xs rounded-md px-2 relative',
-        'absolute bottom-full left-1/2 -translate-x-1/2 -translate-y-1 drop-shadow-md',
-        isDragging ? 'visible' : 'invisible',
+        'komc:flex komc:w-fit komc:bg-white komc:text-xs komc:rounded-md komc:px-2',
+        'komc:absolute komc:bottom-full komc:left-1/2 komc:-translate-x-1/2 komc:-translate-y-1 komc:drop-shadow-md',
+        isDragging ? 'komc:visible' : 'komc:invisible',
       )}
     >
       {`${value}%`}
       <div
-        className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0"
+        className="komc:absolute komc:top-full komc:left-1/2 komc:-translate-x-1/2 komc:w-0 komc:h-0"
         style={{
           borderLeft: '4px solid transparent',
           borderRight: '4px solid transparent',

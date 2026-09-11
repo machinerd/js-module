@@ -6,6 +6,7 @@ import { omit } from 'lodash-es';
 import { type ComponentProps, forwardRef } from 'react';
 import { Label, type LabelProps } from '../label';
 
+/** Background tint of the file link in `variant="file"`. */
 export type TextFieldFileVariantColor = 'green' | 'blue' | 'red';
 
 const inputClasses = cva(
@@ -124,49 +125,111 @@ interface BaseProps
   extends
     Omit<ComponentProps<'input'>, 'size' | 'ref' | 'color'>,
     VariantProps<typeof classes> {
+  /**
+   * Label shown above the field. `label.id` becomes the input's `id`,
+   * linking the two. See `LabelProps`.
+   */
   label?: Omit<LabelProps, 'children'>;
+  /**
+   * Disable the input and gray out the field.
+   * @default false
+   */
   disabled?: boolean;
+  /** Font Awesome icon shown at the right end when `type="date"`. */
   dateIcon?: IconProp;
   handleDateClear?: never;
+  /**
+   * Field height and font size. `xs` 34px · `sm` 36px · `md` 38px ·
+   * `lg` 46px.
+   * @default 'md'
+   */
+  size?: VariantProps<typeof classes>['size'];
+  /**
+   * Show the error border style.
+   * @default false
+   */
+  invalid?: VariantProps<typeof classes>['invalid'];
+  /**
+   * Show the field shadow.
+   * @default true
+   */
+  shadow?: VariantProps<typeof classes>['shadow'];
 }
 
 interface DefaultProps extends BaseProps {
+  /** Plain text input. */
   variant?: 'default';
 }
 
 interface SearchProps extends BaseProps {
+  /** Input with a search icon on the left. */
   variant: 'search';
+  /** Font Awesome icon shown before the input (e.g. `faMagnifyingGlass`). */
   searchIcon: IconProp;
 }
 
 interface FileProps extends BaseProps {
+  /** Input with a link to a file on the left. */
   variant: 'file';
+  /** File URL opened in a new tab by the link. */
   path: string;
+  /**
+   * Link background tint.
+   * @default 'green'
+   */
   color?: TextFieldFileVariantColor;
+  /** Font Awesome icon of the file link (e.g. `faFile`). */
   fileIcon: IconProp;
 }
 
 interface PrefixTextProps extends BaseProps {
+  /** Input with fixed text on the left (e.g. `https://`). */
   variant: 'prefix-text';
+  /** Text shown before the input. */
   prefix: string;
   id?: string;
 }
 
 interface SuffixTextProps extends BaseProps {
+  /** Input with fixed text on the right (e.g. a unit). */
   variant: 'suffix-text';
+  /** Text shown after the input. */
   suffix: string;
   id?: string;
 }
 
 interface SuffixDateProps extends Omit<BaseProps, 'handleDateClear'> {
+  /**
+   * Input overlaid with a display text (e.g. a formatted date) and a clear
+   * button.
+   */
   variant: 'select-date';
+  /** Called when the clear button is clicked. */
   handleDateClear: () => void;
+  /** Font Awesome icon of the clear button (e.g. `faXmark`). */
   clearIcon: IconProp;
+  /**
+   * Text shown over the input. The clear button appears only when this is
+   * not empty.
+   */
   inputlabel?: string;
   min?: string | number;
   max?: string | number;
 }
 
+/**
+ * Props for {@link TextField}. `variant` decides which extra props are
+ * required:
+ * - `default`: none
+ * - `search`: `searchIcon`
+ * - `file`: `path`, `fileIcon`
+ * - `prefix-text`: `prefix`
+ * - `suffix-text`: `suffix`
+ * - `select-date`: `handleDateClear`, `clearIcon`
+ *
+ * Native input attributes (`value`, `onChange`, `name`, ...) go to the
+ * `<input>`; `className` goes to the field wrapper.
+ */
 export type TextFieldProps =
   | DefaultProps
   | FileProps
@@ -188,6 +251,38 @@ const fieldOnlyKeys = [
   'onKeyDown',
 ] as const;
 
+/**
+ * Admin text input with an optional {@link Label} and decorations chosen by
+ * `variant`.
+ *
+ * - `ref` points to the `<input>`, so `register()` from react-hook-form
+ *   can be spread directly.
+ * - Pressing Enter does not submit the surrounding form.
+ *
+ * @example
+ * <TextField
+ *   label={{ id: 'title', text: 'Title', required: true }}
+ *   size="lg"
+ *   {...register('title')}
+ * />
+ *
+ * @example
+ * <TextField
+ *   variant="prefix-text"
+ *   prefix="https://"
+ *   placeholder="example.com"
+ *   {...register('domain')}
+ * />
+ *
+ * @example
+ * <TextField
+ *   variant="search"
+ *   searchIcon={faMagnifyingGlass}
+ *   placeholder="Search"
+ *   value={keyword}
+ *   onChange={(e) => setKeyword(e.target.value)}
+ * />
+ */
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(
   (
     {

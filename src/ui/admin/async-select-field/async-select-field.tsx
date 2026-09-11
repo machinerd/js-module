@@ -19,11 +19,23 @@ import {
   valueContainerClasses,
 } from '../select-field';
 
+/** Pagination state passed between `loadOptions` calls. */
 export interface AdditionalType {
+  /** 1-based page number. */
   page: number;
+  /** Items per page. */
   pageSize: number;
 }
 
+/**
+ * Props for {@link AsyncSelectField}. Accepts `react-select` props
+ * (`placeholder`, `getOptionLabel`, `isClearable`, ...) except `value`,
+ * `onChange` and `loadOptions`, which are managed internally.
+ *
+ * @template Option Option type returned by `fetcher`.
+ * @template IsMulti `true` for multi-select (`isMulti`).
+ * @template Input Input type `fetcher` receives.
+ */
 export interface AsyncSelectFieldProps<
   Option = unknown,
   IsMulti extends boolean = false,
@@ -33,15 +45,60 @@ export interface AsyncSelectFieldProps<
     StateManagerProps<Option, IsMulti, GroupBase<Option>>,
     VariantProps<typeof valueContainerClasses>,
     VariantProps<typeof controlClasses> {
+  /** Label shown above the select. See `LabelProps`. */
   label?: ComponentProps<typeof Label>;
+  /**
+   * Loads one page of options. Called on open, on search and when scrolling
+   * to the end of the menu.
+   *
+   * Receives `{ filter: { keyword }, page, pageSize }` (`page` starts at 1,
+   * `pageSize` is 10) and must resolve to `{ list, total }`. More pages are
+   * requested while `total > page * pageSize`.
+   */
   fetcher: (input: Input) => Promise<{ list: Option[]; total: number }>;
+  /**
+   * Initial selection. Re-applied whenever it changes to a truthy value,
+   * so it can be set after async data loads.
+   */
   defaultValue?: OnChangeValue<Option, IsMulti>;
+  /** Called with the new selection. */
   onChange?: (
     newValue: OnChangeValue<Option, IsMulti>,
     actionMeta: ActionMeta<Option>,
   ) => void;
+  /**
+   * Vertical padding of the value area. `none` 0 · `sm` 8px · `md` 10px ·
+   * `lg` 11px.
+   * @default 'md'
+   */
+  size?: VariantProps<typeof valueContainerClasses>['size'];
+  /**
+   * Border radius of the control.
+   * @default 'lg'
+   */
+  rounded?: VariantProps<typeof controlClasses>['rounded'];
 }
 
+/**
+ * Select that searches and pages options from the server
+ * (`react-select-async-paginate`), with an optional {@link Label}.
+ *
+ * The selection is kept in internal state: set the initial value with
+ * `defaultValue` and read changes from `onChange`. A `value` prop is ignored.
+ *
+ * @template Option Option type returned by `fetcher`.
+ * @template IsMulti `true` for multi-select (`isMulti`).
+ *
+ * @example
+ * <AsyncSelectField<User>
+ *   label={{ text: 'Author' }}
+ *   fetcher={(input) => api.users.list(input)} // → { list, total }
+ *   getOptionLabel={(user) => user.name}
+ *   getOptionValue={(user) => String(user.id)}
+ *   defaultValue={post.author}
+ *   onChange={(user) => setValue('authorId', user?.id)}
+ * />
+ */
 export const AsyncSelectField = <
   Option = unknown,
   IsMulti extends boolean = false,
