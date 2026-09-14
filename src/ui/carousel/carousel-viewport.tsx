@@ -2,6 +2,11 @@ import React from 'react';
 import clsx from 'clsx';
 import { useCarousel } from './carousel-context';
 
+/**
+ * Clipping area Embla attaches to. Wrap `CarouselWrapper` with it.
+ *
+ * Must be rendered inside `<Carousel>`.
+ */
 export default function CarouselViewport({
   children,
   className,

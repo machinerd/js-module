@@ -2,14 +2,30 @@ import clsx from 'clsx';
 import React, { useId } from 'react';
 import { cva } from 'class-variance-authority';
 
+/** Where the label sits relative to the switch. */
 export type LabelPlacement = 'end' | 'start' | 'top' | 'bottom';
 
 export interface SwitchProps {
+  /** Visible label. Clicking it toggles the switch. */
   label?: string;
+  /**
+   * Label position relative to the switch.
+   * @default 'end'
+   */
   placement?: LabelPlacement;
+  /**
+   * On/off state. Controlled: update it from `onChange`.
+   * @default false
+   */
   checked?: boolean;
+  /**
+   * Disable interaction and dim the switch.
+   * @default false
+   */
   disabled?: boolean;
+  /** Accessible name when there is no visible `label`. Defaults to `label`. */
   'aria-label'?: string;
+  /** Called with the next state when toggled. */
   onChange?(checked: boolean): void;
 }
 
@@ -40,6 +56,15 @@ const classes = cva(clsx('komc:inline-flex komc:items-center'), {
   },
 });
 
+/**
+ * Accessible on/off toggle (`role="switch"`). Controlled — it never changes
+ * `checked` by itself. `ref` points to the `<button>`.
+ *
+ * @example
+ * const [enabled, setEnabled] = useState(false);
+ *
+ * <Switch label="Notifications" checked={enabled} onChange={setEnabled} />
+ */
 export const Switch = React.forwardRef<HTMLButtonElement, SwitchProps>(
   (
     {

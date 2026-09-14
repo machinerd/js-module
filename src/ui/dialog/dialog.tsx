@@ -35,15 +35,66 @@ const classes = cva(
   },
 );
 
+/**
+ * Props for {@link Dialog}. Other HTML attributes (`className`,
+ * `aria-labelledby`, ...) go to the dialog panel.
+ */
 export interface DialogProps
   extends HTMLAttributes<HTMLDivElement>, VariantProps<typeof classes> {
+  /**
+   * Close when the dimmed backdrop is clicked.
+   * @default true
+   */
   closeOnBackdropClick?: boolean;
+  /** Whether the dialog is shown. Controlled by the parent. */
   isOpen: boolean;
+  /**
+   * `z-index` of the fixed overlay.
+   * @default 10000
+   */
   zIndex?: number;
+  /**
+   * Called on backdrop click (if enabled) or Escape.
+   * Set `isOpen` to `false` here.
+   */
   onClose: () => void;
+  /** Dialog content. */
   children: ReactNode;
+  /**
+   * Panel padding. `none` 0 · `sm` 8px · `md` 16px · `lg` 24px.
+   * @default 'sm'
+   */
+  padding?: VariantProps<typeof classes>['padding'];
+  /**
+   * Panel max width. `sm` 384px · `md` 448px · `lg` 512px · `xl` 576px ·
+   * `2xl` 672px · `full` 100%.
+   * @default 'md'
+   */
+  maxWidth?: VariantProps<typeof classes>['maxWidth'];
 }
 
+/**
+ * Centered modal dialog with a dimmed backdrop and fade/scale transition.
+ *
+ * - Closes on Escape (only the top-most open dialog) and locks body scroll
+ *   while open.
+ * - Stays mounted for 300ms after closing to finish the exit animation.
+ * - Rendered in place, not in a portal. The panel has no background color;
+ *   add one via `className` or in `children`.
+ *
+ * @example
+ * const [open, setOpen] = useState(false);
+ *
+ * <Dialog
+ *   isOpen={open}
+ *   onClose={() => setOpen(false)}
+ *   padding="lg"
+ *   className="bg-white rounded-xl"
+ * >
+ *   <h2>Delete item?</h2>
+ *   <Button onClick={() => setOpen(false)}>Cancel</Button>
+ * </Dialog>
+ */
 export default function Dialog({
   closeOnBackdropClick = true,
   isOpen,

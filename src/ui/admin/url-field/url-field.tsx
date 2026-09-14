@@ -21,8 +21,33 @@ const checkInvalid = (
   return value === '' || value === 'undefined' || strictUrlRegex.test(value);
 };
 
+/**
+ * Props for {@link UrlField}. Same as `TextFieldProps`; `type` is always
+ * `"url"`.
+ *
+ * `label.helpText` (default `'Invalid URL'`) and `label.helpTextColor`
+ * (default `'error'`) are shown only while the value is invalid.
+ */
 export type UrlFieldProps = TextFieldProps;
 
+/**
+ * `TextField` that checks the URL format as you type and shows an error
+ * style and help text while invalid. Only `http://` and `https://` URLs with
+ * a domain are valid; an empty value counts as valid.
+ *
+ * The check is visual only — it does not block form submission; add your
+ * own validation rules for that.
+ *
+ * - `size` defaults to `'lg'`; `placeholder` to `'https://example.com'`.
+ * - Only callback refs are forwarded (e.g. from `register()`);
+ *   `useRef` objects are not attached.
+ *
+ * @example
+ * <UrlField
+ *   label={{ id: 'homepage', text: 'Homepage' }}
+ *   {...register('homepage')}
+ * />
+ */
 export const UrlField = forwardRef<HTMLInputElement, UrlFieldProps>(
   ({ label = {}, size = 'lg', ...props }, ref) => {
     const inputRef = useRef<HTMLInputElement | null>(null);

@@ -11,8 +11,11 @@ import { Label, type LabelProps } from '../label';
 import { SelectField } from '../select-field';
 import { TextField } from '../text-field';
 
+/** Language option of {@link SourceField}. */
 export interface SourceLanguage {
+  /** Display name. */
   label: string;
+  /** Language code (e.g. `'ko'`). */
   value: string;
 }
 
@@ -38,20 +41,41 @@ const classes = cva(
 const slotClasses =
   'komc:flex komc:justify-center komc:items-center komc:w-5 komc:h-5 komc:aspect-square komc:[&_svg]:w-3.5 komc:[&_svg]:h-4 komc:[&_svg]:text-neutral-500';
 
+/**
+ * Props for {@link SourceField}. Native input attributes (`value`,
+ * `onChange`, `name`, ...) go to the URL input.
+ */
 export interface SourceFieldProps extends Omit<
   ComponentProps<'input'>,
   'onSelect' | 'defaultValue'
 > {
+  /**
+   * Label shown above the row. `label.id` becomes the input's `id`.
+   * See `LabelProps`.
+   */
   label?: Omit<LabelProps, 'children'>;
+  /** Sortable id. Must match the item's id in the surrounding `DndWrapper`. */
   dragId: string;
+  /**
+   * Disable the select, input and delete button.
+   * @default false
+   */
   disabled?: boolean;
+  /** Language options of the select. */
   options: SourceLanguage[];
+  /** Initially selected language. Only read on mount. */
   defaultValue?: SourceLanguage | null;
+  /** Initial URL input value (uncontrolled). */
   inputDefaultValue?: ComponentProps<'input'>['defaultValue'];
+  /** Where the language menu opens. Defaults to react-select's `'bottom'`. */
   menuPlacement?: MenuPlacement;
+  /** Called when the delete button is clicked. */
   onDelete: () => void;
+  /** Drag handle content, e.g. `<FontAwesomeIcon icon={faGripVertical} />`. */
   handle: ReactNode;
+  /** Delete button content, e.g. `<FontAwesomeIcon icon={faTrash} />`. */
   action: ReactNode;
+  /** Called when a language is picked. */
   onSelect?: (
     newValue: SourceLanguage | null,
     actionMeta: ActionMeta<SourceLanguage>,
@@ -60,6 +84,32 @@ export interface SourceFieldProps extends Omit<
 
 type SortableListeners = ReturnType<typeof useSortable>['listeners'];
 
+/**
+ * Sortable row for a source link: drag handle, language select
+ * (not searchable), URL input and delete button.
+ *
+ * Must be rendered inside `DndWrapper` (or a dnd-kit `SortableContext`).
+ * `ref` points to the URL input; `placeholder` defaults to `'URL'`.
+ *
+ * @example
+ * <DndWrapper items={fields} move={move}>
+ *   {fields.map((field, index) => (
+ *     <SourceField
+ *       key={field.id}
+ *       dragId={field.id}
+ *       options={languages}
+ *       defaultValue={languages.find((l) => l.value === field.language)}
+ *       onSelect={(language) =>
+ *         setValue(`sources.${index}.language`, language?.value)
+ *       }
+ *       handle={<FontAwesomeIcon icon={faGripVertical} />}
+ *       action={<FontAwesomeIcon icon={faTrash} />}
+ *       onDelete={() => remove(index)}
+ *       {...register(`sources.${index}.url`)}
+ *     />
+ *   ))}
+ * </DndWrapper>
+ */
 export const SourceField = forwardRef<HTMLInputElement, SourceFieldProps>(
   ({ label, dragId, ...props }, ref) => {
     return (
@@ -82,10 +132,16 @@ export const SourceField = forwardRef<HTMLInputElement, SourceFieldProps>(
 );
 
 export interface SourceFieldItemProps extends Omit<SourceFieldProps, 'dragId'> {
+  /** dnd-kit attributes spread onto the drag handle. */
   attributes: DraggableAttributes;
+  /** dnd-kit listeners spread onto the drag handle. */
   listeners?: SortableListeners;
 }
 
+/**
+ * Row UI of {@link SourceField} without the sortable wrapper and label.
+ * Use it when you wire dnd-kit yourself.
+ */
 export const SourceFieldItem = forwardRef<
   HTMLInputElement,
   SourceFieldItemProps

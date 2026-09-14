@@ -12,29 +12,92 @@ type HeaderBorder = 'none' | 'default';
 type CloseButtonPosition = 'none' | 'fixed';
 
 interface HeaderStyles {
+  /**
+   * Header padding. `none` · `sm` 8px · `md` 16px · `lg` 24px.
+   * @default 'lg'
+   */
   padding?: HeaderPadding;
+  /**
+   * Bottom border under the header.
+   * @default 'default'
+   */
   border?: HeaderBorder;
+  /**
+   * `fixed` pins the close button to the panel's top-right corner;
+   * `none` keeps it in the header flow.
+   */
   closeButtonPosition: CloseButtonPosition;
 }
 
 type CustomAnimation = 'scale' | 'slide' | 'fade' | 'slide-up';
 
 export interface MotionDialogProps {
+  /** Whether the dialog is shown. Controlled by the parent. */
   isOpen: boolean;
+  /**
+   * Called on close button click, backdrop click (if enabled) or Escape.
+   * Set `isOpen` to `false` here.
+   */
   onClose: () => void;
+  /** Body content. Rendered with 24px padding. */
   children: React.ReactNode;
+  /**
+   * Header title. A string is rendered as an `<h2>` and linked via
+   * `aria-labelledby`; a node is rendered as-is.
+   */
   title?: string | React.ReactNode;
+  /** Footer content, shown below a divider. */
   footer?: React.ReactNode;
+  /**
+   * Panel max width. `sm` 448px · `md` 512px · `lg` 672px · `xl` 896px ·
+   * `2xl` 1152px · `full` fills the screen.
+   * @default 'md'
+   */
   size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'full';
+  /**
+   * Built-in enter/exit animation. Ignored when `customAnimation` is set.
+   * @default 'scale'
+   */
   animation?: CustomAnimation;
+  /**
+   * Show the × button in the header.
+   * @default true
+   */
   showCloseButton?: boolean;
+  /**
+   * Close when the backdrop is clicked.
+   * @default true
+   */
   closeOnBackdropClick?: boolean;
+  /** Class name for the dialog panel. */
   className?: string;
+  /**
+   * Show the dimmed backdrop. When `false`, backdrop clicks cannot close
+   * the dialog.
+   * @default true
+   */
   showBackdrop?: boolean;
+  /**
+   * Give the body a fixed 60vh height with vertical scrolling.
+   * @default false
+   */
   isScrollableContent?: boolean;
+  /**
+   * `z-index` of the overlay.
+   * @default 10000
+   */
   zIndex?: number;
+  /**
+   * Motion variants replacing `animation`. Must define `hidden`, `visible`
+   * and `exit` keys.
+   */
   customAnimation?: Variants;
+  /**
+   * Header style options (not a class name, despite the name).
+   * When passed, `closeButtonPosition` is required.
+   */
   headerClassName?: HeaderStyles;
+  /** Called after the exit animation finishes. */
   onExitComplete?: () => void;
 }
 
@@ -167,6 +230,26 @@ const dialogHeader = cva('komc:flex komc:items-center komc:justify-between', {
   },
 });
 
+/**
+ * Animated modal (motion) with optional header, footer and close button,
+ * rendered in a portal on `document.body`.
+ *
+ * Closes on Escape (only the top-most open dialog) and locks body scroll
+ * while open. `ref` points to the dialog panel.
+ *
+ * @example
+ * const [open, setOpen] = useState(false);
+ *
+ * <MotionDialog
+ *   isOpen={open}
+ *   onClose={() => setOpen(false)}
+ *   title="Edit profile"
+ *   size="lg"
+ *   footer={<Button onClick={save}>Save</Button>}
+ * >
+ *   <ProfileForm />
+ * </MotionDialog>
+ */
 const MotionDialog = forwardRef<HTMLDivElement, MotionDialogProps>(
   (
     {

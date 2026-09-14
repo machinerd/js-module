@@ -11,6 +11,7 @@ import { Label, type LabelProps } from '../label';
 import { SelectField } from '../select-field';
 import { TextField } from '../text-field';
 
+/** Symbols identifying SNS sites. Match them against `SnsSiteOption.value`. */
 export const SnsSite = {
   Other: Symbol('sns-site.other'),
   Naver: Symbol('sns-site.naver'),
@@ -28,12 +29,20 @@ export const SnsSite = {
 
 export type SnsSite = (typeof SnsSite)[keyof typeof SnsSite];
 
+/** SNS site option of {@link SnsField}. */
 export interface SnsSiteOption {
+  /** Display name. */
   label: string;
+  /** Numeric site code. Also used as the option's select value. */
   site: number;
+  /** Matching {@link SnsSite} symbol. */
   value?: symbol;
 }
 
+/**
+ * Default SNS options (Korean labels). `site` codes go from 0 (Other)
+ * in steps of 10.
+ */
 export const SITE_OPTIONS: SnsSiteOption[] = [
   { label: '기타', site: 0, value: SnsSite.Other },
   { label: '네이버', site: 10, value: SnsSite.Naver },
@@ -71,19 +80,48 @@ const classes = cva(
 const slotClasses =
   'komc:flex komc:justify-center komc:items-center komc:w-5 komc:h-5 komc:aspect-square komc:[&_svg]:w-3.5 komc:[&_svg]:h-4 komc:[&_svg]:text-neutral-500';
 
+/**
+ * Props for {@link SnsField}. Native input attributes (`value`, `onChange`,
+ * `name`, ...) go to the URL input.
+ */
 export interface SnsFieldProps extends Omit<
   ComponentProps<'input'>,
   'onSelect'
 > {
+  /**
+   * Label shown above the row. `label.id` becomes the input's `id`.
+   * See `LabelProps`.
+   */
   label?: Omit<LabelProps, 'children'>;
+  /** Sortable id. Must match the item's id in the surrounding `DndWrapper`. */
   dragId: string;
+  /**
+   * Disable the select, input and delete button.
+   * @default false
+   */
   disabled?: boolean;
+  /**
+   * Initially selected site: an option, its `SnsSite` symbol, or its
+   * numeric `site` code. Only read on mount.
+   */
   selectedSns: SnsSiteOption | symbol | number;
+  /**
+   * Site options.
+   * @default SITE_OPTIONS
+   */
   options?: SnsSiteOption[];
+  /**
+   * Where the site menu opens.
+   * @default 'top'
+   */
   menuPlacement?: MenuPlacement;
+  /** Called when the delete button is clicked. */
   onDelete: () => void;
+  /** Drag handle content, e.g. `<FontAwesomeIcon icon={faGripVertical} />`. */
   handle: ReactNode;
+  /** Delete button content, e.g. `<FontAwesomeIcon icon={faTrash} />`. */
   action: ReactNode;
+  /** Called when a site is picked. */
   onSelect?: (
     newValue: SnsSiteOption | null,
     actionMeta: ActionMeta<SnsSiteOption>,
@@ -105,6 +143,31 @@ const resolveSelectedSns = (
   return selectedSns;
 };
 
+/**
+ * Sortable row for an SNS link: drag handle, site select, URL input and
+ * delete button.
+ *
+ * Must be rendered inside `DndWrapper` (or a dnd-kit `SortableContext`).
+ * `ref` points to the URL input; `placeholder` defaults to `'URL'`.
+ *
+ * @example
+ * <DndWrapper items={fields} move={move}>
+ *   {fields.map((field, index) => (
+ *     <SnsField
+ *       key={field.id}
+ *       dragId={field.id}
+ *       selectedSns={field.site}
+ *       onSelect={(option) =>
+ *         option && setValue(`sns.${index}.site`, option.site)
+ *       }
+ *       handle={<FontAwesomeIcon icon={faGripVertical} />}
+ *       action={<FontAwesomeIcon icon={faTrash} />}
+ *       onDelete={() => remove(index)}
+ *       {...register(`sns.${index}.url`)}
+ *     />
+ *   ))}
+ * </DndWrapper>
+ */
 export const SnsField = forwardRef<HTMLInputElement, SnsFieldProps>(
   ({ label, dragId, ...props }, ref) => {
     return (
@@ -127,10 +190,16 @@ export const SnsField = forwardRef<HTMLInputElement, SnsFieldProps>(
 );
 
 export interface SnsFieldItemProps extends Omit<SnsFieldProps, 'dragId'> {
+  /** dnd-kit attributes spread onto the drag handle. */
   attributes: DraggableAttributes;
+  /** dnd-kit listeners spread onto the drag handle. */
   listeners?: SortableListeners;
 }
 
+/**
+ * Row UI of {@link SnsField} without the sortable wrapper and label.
+ * Use it when you wire dnd-kit yourself.
+ */
 export const SnsFieldItem = forwardRef<HTMLInputElement, SnsFieldItemProps>(
   (
     {

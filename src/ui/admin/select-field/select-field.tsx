@@ -40,14 +40,40 @@ export const valueContainerClasses = cva(
   },
 );
 
+/**
+ * Props for {@link SelectField}. Accepts all `react-select` props
+ * (`options`, `value`, `onChange`, `getOptionLabel`, ...).
+ *
+ * @template T Option type.
+ * @template F `true` for multi-select (`isMulti`).
+ */
 export interface SelectFieldProps<T, F extends boolean = false>
   extends
     ComponentProps<typeof Select<T, F>>,
     VariantProps<typeof valueContainerClasses>,
     VariantProps<typeof controlClasses> {
+  /** Label shown above the select. See `LabelProps`. */
   label?: Omit<LabelProps, 'children'>;
+  /**
+   * Vertical padding of the value area. `none` 0 · `sm` 8px · `md` 10px ·
+   * `lg` 11px.
+   * @default 'md'
+   */
+  size?: VariantProps<typeof valueContainerClasses>['size'];
+  /**
+   * Border radius of the control.
+   * @default 'lg'
+   */
+  rounded?: VariantProps<typeof controlClasses>['rounded'];
 }
 
+/**
+ * Builds the `react-select` `classNames` used by the admin select fields.
+ * Use it to style a custom `react-select` the same way.
+ *
+ * @template T Option type.
+ * @template F `true` for multi-select.
+ */
 export const baseClassNames = <T, F extends boolean = false>({
   size,
   rounded,
@@ -78,6 +104,46 @@ export const baseClassNames = <T, F extends boolean = false>({
   };
 };
 
+/**
+ * `react-select` styled for admin forms, with an optional {@link Label}.
+ *
+ * Passing `classNames` replaces the built-in styles entirely.
+ * Options without `label`/`value` keys need `getOptionLabel` and
+ * `getOptionValue`.
+ *
+ * @template T Option type.
+ * @template F `true` for multi-select (`isMulti`).
+ *
+ * @example
+ * const options = [
+ *   { label: 'Korean', value: 'ko' },
+ *   { label: 'English', value: 'en' },
+ * ];
+ *
+ * <SelectField
+ *   label={{ text: 'Language', required: true }}
+ *   options={options}
+ *   value={language}
+ *   onChange={setLanguage}
+ * />
+ *
+ * @example
+ * // With react-hook-form
+ * <Controller
+ *   control={control}
+ *   name="category"
+ *   render={({ field }) => (
+ *     <SelectField
+ *       value={field.value}
+ *       onChange={field.onChange}
+ *       onBlur={field.onBlur}
+ *       options={categories}
+ *       getOptionLabel={(c) => c.name}
+ *       getOptionValue={(c) => String(c.id)}
+ *     />
+ *   )}
+ * />
+ */
 export const SelectField = <T, F extends boolean = false>({
   label,
   size = 'md',

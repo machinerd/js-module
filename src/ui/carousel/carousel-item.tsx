@@ -2,6 +2,13 @@ import React from 'react';
 import clsx from 'clsx';
 import { useCarousel } from './carousel-context';
 
+/**
+ * A single slide. Takes the full viewport width (or height) by default;
+ * override the flex basis via `className` to show several at once
+ * (e.g. `basis-1/2`).
+ *
+ * Must be rendered inside `CarouselWrapper`.
+ */
 export default function CarouselItem({
   className,
   ...props

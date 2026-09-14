@@ -20,8 +20,32 @@ const checkInvalid = (
   return value === '' || value === 'undefined' || emailRegex.test(value);
 };
 
+/**
+ * Props for {@link EmailField}. Same as `TextFieldProps`; `type` is always
+ * `"email"`.
+ *
+ * `label.helpText` (default `'Invalid Email'`) and `label.helpTextColor`
+ * (default `'error'`) are shown only while the value is invalid.
+ */
 export type EmailFieldProps = TextFieldProps;
 
+/**
+ * `TextField` that checks the email format as you type and shows an error
+ * style and help text while invalid. An empty value counts as valid.
+ *
+ * The check is visual only — it does not block form submission; add your
+ * own validation rules for that.
+ *
+ * - `size` defaults to `'lg'`; `placeholder` to `'example@exaple.com'`.
+ * - Only callback refs are forwarded (e.g. from `register()`);
+ *   `useRef` objects are not attached.
+ *
+ * @example
+ * <EmailField
+ *   label={{ id: 'email', text: 'Email', required: true }}
+ *   {...register('email')}
+ * />
+ */
 export const EmailField = forwardRef<HTMLInputElement, EmailFieldProps>(
   ({ label = {}, size = 'lg', ...props }, ref) => {
     const inputRef = useRef<HTMLInputElement | null>(null);

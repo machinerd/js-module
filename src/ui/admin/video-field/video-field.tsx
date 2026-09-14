@@ -31,17 +31,53 @@ const classes = cva(
 const slotClasses =
   'komc:flex komc:justify-center komc:items-center komc:w-5 komc:h-5 komc:aspect-square komc:[&_svg]:w-3.5 komc:[&_svg]:h-4 komc:[&_svg]:text-neutral-500';
 
+/**
+ * Props for {@link VideoField}. Native input attributes (`value`,
+ * `onChange`, `name`, ...) go to the URL input.
+ */
 export interface VideoFieldProps extends ComponentProps<'input'> {
+  /**
+   * Label shown above the row. `label.id` becomes the input's `id`.
+   * See `LabelProps`.
+   */
   label?: Omit<LabelProps, 'children'>;
+  /** Sortable id. Must match the item's id in the surrounding `DndWrapper`. */
   dragId: string;
+  /**
+   * Disable the input and delete button.
+   * @default false
+   */
   disabled?: boolean;
+  /** Called when the delete button is clicked. */
   onDelete: () => void;
+  /** Drag handle content, e.g. `<FontAwesomeIcon icon={faGripVertical} />`. */
   handle: ReactNode;
+  /** Delete button content, e.g. `<FontAwesomeIcon icon={faTrash} />`. */
   action: ReactNode;
 }
 
 type SortableListeners = ReturnType<typeof useSortable>['listeners'];
 
+/**
+ * Sortable row for a video URL: drag handle, URL input and delete button.
+ *
+ * Must be rendered inside `DndWrapper` (or a dnd-kit `SortableContext`).
+ * `ref` points to the input; `placeholder` defaults to `'URL'`.
+ *
+ * @example
+ * <DndWrapper items={fields} move={move}>
+ *   {fields.map((field, index) => (
+ *     <VideoField
+ *       key={field.id}
+ *       dragId={field.id}
+ *       handle={<FontAwesomeIcon icon={faGripVertical} />}
+ *       action={<FontAwesomeIcon icon={faTrash} />}
+ *       onDelete={() => remove(index)}
+ *       {...register(`videos.${index}.url`)}
+ *     />
+ *   ))}
+ * </DndWrapper>
+ */
 export const VideoField = forwardRef<HTMLInputElement, VideoFieldProps>(
   ({ label, dragId, ...props }, ref) => {
     return (
@@ -64,10 +100,16 @@ export const VideoField = forwardRef<HTMLInputElement, VideoFieldProps>(
 );
 
 export interface VideoFieldItemProps extends Omit<VideoFieldProps, 'dragId'> {
+  /** dnd-kit attributes spread onto the drag handle. */
   attributes: DraggableAttributes;
+  /** dnd-kit listeners spread onto the drag handle. */
   listeners?: SortableListeners;
 }
 
+/**
+ * Row UI of {@link VideoField} without the sortable wrapper and label.
+ * Use it when you wire dnd-kit yourself.
+ */
 export const VideoFieldItem = forwardRef<HTMLInputElement, VideoFieldItemProps>(
   (
     {

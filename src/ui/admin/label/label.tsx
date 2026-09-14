@@ -48,20 +48,84 @@ const helpClasses = cva(
   },
 );
 
+/**
+ * Props for {@link Label}. Field components accept these as their `label`
+ * prop, e.g. `<TextField label={{ text: 'Name', required: true }} />`.
+ */
 export interface LabelProps
   extends VariantProps<typeof classes>, VariantProps<typeof helpClasses> {
+  /**
+   * Label text. When empty, only `children` is rendered — no label,
+   * help text or actions.
+   */
   text?: string;
+  /** Extra controls shown after the text, separated by a divider. */
   actions?: ReactNode | null;
+  /**
+   * Initial visibility of `children` when `collapse` is set.
+   * Note: `true` means the content is **shown**, `false` hidden.
+   * @default true
+   */
   defaultCollapsed?: boolean;
+  /** Small hint shown next to the label text. */
   helpText?: string;
+  /** Font Awesome icon shown before `helpText`. */
   helpTextPrefixIcon?: IconProp | null;
+  /**
+   * Makes the content collapsible and returns the toggle button icon.
+   * Receives `true` while the content is shown.
+   *
+   * @example
+   * collapse={(shown) => (shown ? faChevronUp : faChevronDown)}
+   */
   collapse?: (collapsed: boolean) => IconProp;
+  /** Class name for the outer container. */
   className?: string;
+  /** `htmlFor` of the `<label>`. Falls back to `id`. */
   htmlFor?: string;
+  /**
+   * Id of the field this label describes. Field components use it as
+   * the input's `id`, so the label is linked automatically.
+   */
   id?: string;
+  /** The field. */
   children?: ReactNode;
+  /**
+   * Append a red `*` to the label text.
+   * @default false
+   */
+  required?: VariantProps<typeof classes>['required'];
+  /**
+   * Vertical gap between label and field. `sm` 10px · `md` 12px ·
+   * `lg` 16px · `xl` 18px.
+   * @default 'sm'
+   */
+  gap?: VariantProps<typeof classes>['gap'];
+  /**
+   * `helpText` color: `default` gray · `primary` blue · `warning` yellow ·
+   * `error` red.
+   * @default 'default'
+   */
+  helpTextColor?: VariantProps<typeof helpClasses>['helpTextColor'];
 }
 
+/**
+ * Form label with optional required mark, help text, action slot and
+ * collapsible content. Renders just `children` when `text` is empty.
+ *
+ * Usually used through a field's `label` prop rather than directly.
+ *
+ * @example
+ * <Label
+ *   id="title"
+ *   text="Title"
+ *   required
+ *   helpText="Up to 50 characters"
+ *   helpTextPrefixIcon={faCircleInfo}
+ * >
+ *   <input id="title" />
+ * </Label>
+ */
 export const Label = ({
   htmlFor,
   id,

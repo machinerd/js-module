@@ -46,14 +46,59 @@ const classes = cva(
   },
 );
 
+/**
+ * Props for {@link TextareaField}. Native textarea attributes (`value`,
+ * `onChange`, `rows`, ...) and `className` go to the `<textarea>`.
+ */
 export interface TextareaFieldProps
   extends
     Omit<ComponentProps<'textarea'>, 'size' | 'ref' | 'color'>,
     VariantProps<typeof classes> {
+  /**
+   * Label shown above the field. `label.id` becomes the textarea's `id`,
+   * linking the two. See `LabelProps`.
+   */
   label?: Omit<LabelProps, 'children'>;
+  /** Reserved; `'default'` is the only style. */
   variant?: 'default';
+  /**
+   * Minimum height and horizontal padding. `xs` 32px · `sm` 34px ·
+   * `md` 38px · `lg` 46px.
+   * @default 'lg'
+   */
+  size?: VariantProps<typeof classes>['size'];
+  /**
+   * Show the error border style.
+   * @default false
+   */
+  invalid?: VariantProps<typeof classes>['invalid'];
+  /**
+   * Show the field shadow.
+   * @default true
+   */
+  shadow?: VariantProps<typeof classes>['shadow'];
+  /**
+   * `auto` lets the user drag to resize; `none` disables it.
+   * @default 'auto'
+   */
+  resize?: VariantProps<typeof classes>['resize'];
 }
 
+/**
+ * Admin textarea that grows with its content, with an optional
+ * {@link Label}. Starts at one row and resizes on input and whenever
+ * `value`/`defaultValue` changes.
+ *
+ * `ref` points to the `<textarea>` (object and callback refs).
+ *
+ * @example
+ * <TextareaField
+ *   label={{ id: 'summary', text: 'Summary' }}
+ *   resize="none"
+ *   placeholder="Write a short summary"
+ *   {...register('summary')}
+ * />
+ */
 export const TextareaField = forwardRef<
   HTMLTextAreaElement,
   TextareaFieldProps
