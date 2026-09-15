@@ -1,4 +1,4 @@
-import type { AnyExtension, Extensions } from '@tiptap/core';
+import type { AnyExtension, Extensions, Node } from '@tiptap/core';
 import { TextStyleKit } from '@tiptap/extension-text-style';
 import Details, {
   DetailsContent,
@@ -11,6 +11,10 @@ import { TableControls } from './extensions/table-controls';
 import { TableResize } from './extensions/table-resize';
 import { BasicImage } from './nodes/basic-image';
 import { CustomHeading } from './nodes/custom-heading';
+import type {
+  NodeViewPlugin,
+  PluginNodeOptions,
+} from './nodes/node-view-context';
 import { SubsetImage } from './nodes/subset-image';
 import { Table, TableCell, TableHeader, TableRow } from './nodes/table';
 import { TabContent, Tabs, TabTitle } from './nodes/tabs';
@@ -25,6 +29,21 @@ const applyConfig = <
   extension: E,
   options?: Config<E>,
 ) => (options ? extension.configure(options) : extension);
+
+const isPluginNode = (ext: AnyExtension): ext is Node<PluginNodeOptions> => {
+  if (ext.type !== 'node') {
+    return false;
+  }
+
+  const options: unknown = ext.options;
+
+  if (typeof options !== 'object' || options === null) {
+    return false;
+  }
+
+  const { plugins, frame } = options as Partial<PluginNodeOptions>;
+  return Array.isArray(plugins) && typeof frame === 'boolean';
+};
 
 export interface TextSetOptions {
   textStyleKit?: Config<typeof TextStyleKit>;
@@ -62,6 +81,8 @@ type LoaderSet = 'text' | 'media' | 'table' | 'layout';
 export class Loader {
   #extensions: Extensions = [];
   #sets = new Set<LoaderSet>();
+  #plugins = new Map<string, NodeViewPlugin[]>();
+  #frames = new Map<string, boolean>();
 
   textset(options: TextSetOptions = {}) {
     if (this.#sets.has('text')) {
@@ -180,7 +201,51 @@ export class Loader {
     return this;
   }
 
+  plugins(nodeName: string, plugins: NodeViewPlugin[]) {
+    const prev = this.#plugins.get(nodeName) ?? [];
+    this.#plugins.set(nodeName, [...prev, ...plugins]);
+    return this;
+  }
+
+  frame(nodeName: string, enabled: boolean) {
+    this.#frames.set(nodeName, enabled);
+    return this;
+  }
+
   init(): Extensions {
-    return [...this.#extensions];
+    if (process.env.NODE_ENV !== 'production') {
+      this.#warnUnknownNodes();
+    }
+
+    return this.#extensions.map((ext) => {
+      const plugins = this.#plugins.get(ext.name);
+      const frame = this.#frames.get(ext.name);
+
+      if ((!plugins && frame === undefined) || !isPluginNode(ext)) {
+        return ext;
+      }
+
+      const current = ext.options;
+
+      return ext.configure({
+        plugins: [...current.plugins, ...(plugins ?? [])],
+        frame: frame ?? current.frame,
+      });
+    });
+  }
+
+  #warnUnknownNodes() {
+    const pluginNodeNames = new Set(
+      this.#extensions.filter(isPluginNode).map((ext) => ext.name),
+    );
+    const targets = new Set([...this.#plugins.keys(), ...this.#frames.keys()]);
+
+    for (const name of targets) {
+      if (!pluginNodeNames.has(name)) {
+        console.warn(
+          `[Loader] "${name}" is not a registered PluginNode. Check the node name or whether that set is loaded.`,
+        );
+      }
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@machinerd/js-module",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "type": "module",
   "description": "",
   "main": "dist/index.mjs",
@@ -174,7 +174,7 @@
     "@tiptap/suggestion": "^3.0.0",
     "embla-carousel": "^8.0.0",
     "embla-carousel-react": "^8.0.0",
-    "motion": "^13.0.0",
+    "motion": "^12.0.0 || ^13.0.0",
     "notistack": "^3.0.0",
     "react": "^18.3.1 || ^19.0.0",
     "react-dom": "^18.3.1 || ^19.0.0",

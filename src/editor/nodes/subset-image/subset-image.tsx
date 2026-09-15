@@ -1,18 +1,18 @@
 'use client';
 
-import { mergeAttributes, Node, type NodeViewProps } from '@tiptap/react';
+import { mergeAttributes, type NodeViewProps } from '@tiptap/react';
 import { cva } from 'class-variance-authority';
 import { useMemo } from 'react';
 import { Image } from '../../../ui/image';
 import { imageNodeViewRenderer } from '../../../util/editor';
 import {
+  createPluginNodeView,
+  PluginNode,
   PluginNodeView,
-  withNodeViewChrome,
-  type NodeViewPlugin,
+  useNodeViewEditable,
 } from '../node-view-context';
-import { NodeResizerPlugin } from '../node-resize';
-import { nodeSize, type NodeSizePluginOptions } from '../node-size';
 import type { AlignType } from '../../extensions/align';
+import clsx from 'clsx';
 
 export const SUBSET_IMAGE = {
   name: 'imageNode',
@@ -30,12 +30,6 @@ export interface SubsetImageAttrs {
   imageRadius: number;
   originalWidth: number;
 }
-
-export const imageNodePlugins = (
-  size?: NodeSizePluginOptions,
-): NodeViewPlugin[] => [nodeSize(size), NodeResizerPlugin];
-
-export const IMAGE_NODE_PLUGINS: NodeViewPlugin[] = imageNodePlugins();
 
 const classes = cva('', {
   variants: {
@@ -60,6 +54,7 @@ export const SubsetImageNodeView = ({ node }: NodeViewProps) => {
     imageRadius = 0,
     originalWidth = 1280,
   } = node.attrs;
+  const isEditable = useNodeViewEditable();
   const numericWidth = useMemo(() => Number(width), [width]);
   const numericHeight = useMemo(() => Number(height), [height]);
   const numericOriginalWidth = useMemo(
@@ -74,9 +69,12 @@ export const SubsetImageNodeView = ({ node }: NodeViewProps) => {
       style={{ width: `min(${numericWidth}px, 100%)` }}
     >
       <div
-        className="komc:h-full komc:w-full komc:overflow-hidden"
+        className={clsx(
+          'komc:h-full komc:w-full komc:overflow-hidden',
+          isEditable ? 'komc:cursor-grab' : 'komc:cursor-default',
+        )}
         style={{ borderRadius: `${numericImageRadius}%` }}
-        data-drag-handle="true"
+        data-drag-handle={isEditable ? 'true' : undefined}
       >
         <Image
           src={src}
@@ -92,31 +90,11 @@ export const SubsetImageNodeView = ({ node }: NodeViewProps) => {
   );
 };
 
-export const subsetImageNodeView = (
-  plugins: NodeViewPlugin[] = [],
-  size?: NodeSizePluginOptions,
-) =>
-  imageNodeViewRenderer(
-    withNodeViewChrome(SubsetImageNodeView, [
-      ...imageNodePlugins(size),
-      ...plugins,
-    ]),
-  );
-
-export const SubsetImage = Node.create<{
-  plugins: NodeViewPlugin[];
-  size?: NodeSizePluginOptions;
-}>({
+export const SubsetImage = PluginNode.extend({
   name: SUBSET_IMAGE.name,
   group: 'block',
   atom: true,
   draggable: true,
-  addOptions() {
-    return {
-      plugins: [],
-      size: {},
-    };
-  },
   parseHTML() {
     return [{ tag: SUBSET_IMAGE.tag }];
   },
@@ -135,6 +113,10 @@ export const SubsetImage = Node.create<{
     };
   },
   addNodeView() {
-    return subsetImageNodeView(this.options.plugins, this.options.size);
+    return createPluginNodeView(
+      SubsetImageNodeView,
+      this.options,
+      imageNodeViewRenderer,
+    );
   },
 });
