@@ -11,6 +11,23 @@ export interface UploadValues {
 export class Media {
   constructor(protected readonly ctx: ApiClientContext) {}
 
+  cdnTemp(path: string) {
+    if (!path) return '';
+    return `${this.ctx.cdnEndpoint.replace(/\/$/, '')}/temp/${path}`;
+  }
+
+  isHostedImage(src: string) {
+    try {
+      const url = new URL(src);
+      return (
+        url.origin === new URL(this.ctx.cdnEndpoint).origin &&
+        /^\/(temp|media|static)\//.test(url.pathname)
+      );
+    } catch {
+      return false;
+    }
+  }
+
   cdnMedia(path: string, size?: number) {
     if (!path) {
       return '';
@@ -54,14 +71,18 @@ export class Media {
     return this.cdnMedia(path);
   }
 
-  getUploadPresignURL(param: {
-    contentType: string;
-    length: number;
-    key: string;
-    disposition?: string;
-  }) {
+  getUploadPresignURL(
+    param: {
+      contentType: string;
+      length: number;
+      key: string;
+      disposition?: string;
+    },
+    signal?: AbortSignal,
+  ) {
     const queryString = qs.stringify(param);
     return fetch(`${this.ctx.apiEndpoint}/upload/presign?${queryString}`, {
+      signal,
       credentials: 'include',
       headers: { Authorization: this.ctx.getBearer() },
     });
