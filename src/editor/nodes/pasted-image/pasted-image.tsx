@@ -162,11 +162,7 @@ export const PastedImage = Node.create<PastedImageOptions>({
       const tr = currentView.state.tr;
 
       if (job?.result) {
-        const typeName =
-          job.original.type.name === 'nextImage'
-            ? SUBSET_IMAGE.name
-            : job.original.type.name;
-        const type = currentView.state.schema.nodes[typeName];
+        const type = currentView.state.schema.nodes[SUBSET_IMAGE.name];
 
         tr.setNodeMarkup(
           pos,
